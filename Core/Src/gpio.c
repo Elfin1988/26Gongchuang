@@ -52,7 +52,8 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, X_STEP_Pin|X_DIR_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(GPIOD, MOTOR_DIR_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, STORAGE_2430_DIR_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, FRICTION_3650_DIR_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PAPin PAPin */
   GPIO_InitStruct.Pin = X_STEP_Pin|X_DIR_Pin;
@@ -61,22 +62,37 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PDPin PDPin */
-  GPIO_InitStruct.Pin = MOTOR_DIR_Pin;
+  /*Configure GPIO pin : FRICTION_3650_DIR_Pin */
+  GPIO_InitStruct.Pin = FRICTION_3650_DIR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : MOTOR_FG_Pin */
-  GPIO_InitStruct.Pin = MOTOR_FG_Pin;
+  /*Configure GPIO pin : STORAGE_2430_DIR_Pin */
+  GPIO_InitStruct.Pin = STORAGE_2430_DIR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : FRICTION_3650_FG_Pin */
+  GPIO_InitStruct.Pin = FRICTION_3650_FG_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(MOTOR_FG_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(FRICTION_3650_FG_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : STORAGE_2430_FG_Pin */
+  GPIO_InitStruct.Pin = STORAGE_2430_FG_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(STORAGE_2430_FG_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI4_IRQn, 2, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 2, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 }
 
