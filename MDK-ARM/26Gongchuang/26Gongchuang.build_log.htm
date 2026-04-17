@@ -28,10 +28,17 @@ Project File Date:  03/03/2026
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'H:\MDK\ARM\ARMCC\Bin'
 Build target '26Gongchuang'
 compiling main.c...
+../Core/Src/main.c(527): warning:  #177-D: function "Stepper_UartControlPlaceholder"  was declared but never referenced
+  static void Stepper_UartControlPlaceholder(uint8_t rx_byte)
+../Core/Src/main.c(578): warning:  #177-D: function "Friction3650A_UartControlPlaceholder"  was declared but never referenced
+  static void Friction3650A_UartControlPlaceholder(uint8_t rx_byte)
+../Core/Src/main.c(623): warning:  #177-D: function "Friction3650BMotor_UartControlPlaceholder"  was declared but never referenced
+  static void Friction3650BMotor_UartControlPlaceholder(uint8_t rx_byte)
+../Core/Src/main.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=16506 RO-data=822 RW-data=44 ZI-data=1892  
+Program Size: Code=19734 RO-data=838 RW-data=68 ZI-data=2076  
 FromELF: creating hex file...
-"26Gongchuang\26Gongchuang.axf" - 0 Error(s), 0 Warning(s).
+"26Gongchuang\26Gongchuang.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -54,7 +61,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.4.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:09
+Build Time Elapsed:  00:00:08
 </pre>
 </body>
 </html>

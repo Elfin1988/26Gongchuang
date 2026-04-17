@@ -1,4 +1,4 @@
-/* USER CODE BEGIN Header */
+﻿/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file           : main.c
@@ -26,7 +26,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,45 +41,82 @@ typedef enum
 
 typedef enum
 {
-  PWM_MOTOR_CMD_NONE = 0,
-  PWM_MOTOR_CMD_FWD_LOW,
-  PWM_MOTOR_CMD_FWD_HIGH,
-  PWM_MOTOR_CMD_REV_LOW,
-  PWM_MOTOR_CMD_REV_HIGH
-} PwmMotorCommand_t;
+  FRICTION_3650_A_CMD_NONE = 0,
+  FRICTION_3650_A_CMD_FWD_LOW,
+  FRICTION_3650_A_CMD_FWD_HIGH,
+  FRICTION_3650_A_CMD_REV_LOW,
+  FRICTION_3650_A_CMD_REV_HIGH
+} Friction3650ACommand_t;
 
 typedef enum
 {
-  STORAGE_MOTOR_CMD_NONE = 0,
-  STORAGE_MOTOR_CMD_FWD_LOW,
-  STORAGE_MOTOR_CMD_FWD_HIGH,
-  STORAGE_MOTOR_CMD_REV_LOW,
-  STORAGE_MOTOR_CMD_REV_HIGH
-} StorageMotorCommand_t;
+  FRICTION_3650_B_MOTOR_CMD_NONE = 0,
+  FRICTION_3650_B_MOTOR_CMD_FWD_LOW,
+  FRICTION_3650_B_MOTOR_CMD_FWD_HIGH,
+  FRICTION_3650_B_MOTOR_CMD_REV_LOW,
+  FRICTION_3650_B_MOTOR_CMD_REV_HIGH
+} Friction3650BMotorCommand_t;
 
+typedef enum
+{
+  BELT_DRIVE_CMD_NONE = 0,
+  BELT_DRIVE_CMD_STOP,
+  BELT_DRIVE_CMD_REV_LOW,
+  BELT_DRIVE_CMD_REV_HIGH
+} BeltDriveCommand_t;
+
+typedef enum
+{
+  MECANUM_WHEEL_A = 0,
+  MECANUM_WHEEL_B,
+  MECANUM_WHEEL_C,
+  MECANUM_WHEEL_D
+} MecanumWheel_t;
+
+typedef enum
+{
+  MECANUM_STOP = 0,
+  MECANUM_FORWARD,
+  MECANUM_REVERSE
+} MecanumDirection_t;
+
+typedef enum
+{
+  MECANUM_DEMO_STAGE_FORWARD = 0,
+  MECANUM_DEMO_STAGE_STOP_AFTER_FORWARD,
+  MECANUM_DEMO_STAGE_REVERSE,
+  MECANUM_DEMO_STAGE_STOP_AFTER_REVERSE
+} MecanumDemoStage_t;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-/* 3650 编码电机参数。 */
-#define FRICTION_3650_FG_PULSES_PER_REV      6U
-#define FRICTION_3650_PWM_TIMER_PERIOD       999U
-#define FRICTION_3650_PWM_DUTY_LOW_PERCENT   30U
-#define FRICTION_3650_PWM_DUTY_HIGH_PERCENT  60U
-#define FRICTION_3650_DIR_DEFAULT            GPIO_PIN_SET
-#define FRICTION_3650_RPM_REPORT_PERIOD_MS   1000U
-#define FRICTION_3650_PWM_SWITCH_PERIOD_MS   3000U
-/* 以下参数只给“未启用”的上位机控制占位函数使用。 */
-#define STEPPER_UART_LOW_RPS         3U
-#define STEPPER_UART_HIGH_RPS        6U
-/* 2430 编码电机参数。 */
-#define STORAGE_2430_FG_PULSES_PER_REV      6U
-#define STORAGE_2430_PWM_TIMER_PERIOD       999U
-#define STORAGE_2430_DUTY_LOW_PERCENT       30U
-#define STORAGE_2430_DUTY_HIGH_PERCENT      60U
-#define STORAGE_2430_DIR_DEFAULT            GPIO_PIN_SET
-#define STORAGE_2430_RPM_REPORT_PERIOD_MS   1000U
+/* 3650-A motor control constants */
+#define FRICTION_3650_A_FG_PULSES_PER_REV      6U
+#define FRICTION_3650_A_PWM_TIMER_PERIOD       999U
+#define FRICTION_3650_A_PWM_DUTY_LOW_PERCENT   16U
+#define FRICTION_3650_A_PWM_DUTY_HIGH_PERCENT  30U
+#define FRICTION_3650_A_DIR_DEFAULT            GPIO_PIN_SET
 
+/* 3650-B motor control constants */
+#define FRICTION_3650_B_FG_PULSES_PER_REV       6U
+#define FRICTION_3650_B_PWM_TIMER_PERIOD        999U
+#define FRICTION_3650_B_DUTY_LOW_PERCENT        16U
+#define FRICTION_3650_B_DUTY_HIGH_PERCENT       30U
+#define FRICTION_3650_B_DIR_DEFAULT             GPIO_PIN_SET
+
+/* RPM report period for conveyor control */
+#define BELT_DRIVE_RPM_REPORT_PERIOD_MS      1000U
+
+/* Placeholder speed constants for stepper extension */
+#define STEPPER_UART_LOW_RPS                 3U
+#define STEPPER_UART_HIGH_RPS                6U
+
+/* 麦轮四路 PWM 定时器参数（TIM3，1 MHz 计数，周期 1000） */
+#define MECANUM_PWM_TIMER_PERIOD             999U
+#define MECANUM_DEMO_DUTY_PERCENT            99U
+#define MECANUM_DEMO_RUN_TIME_MS             3000U
+#define MECANUM_DEMO_STOP_TIME_MS            1000U
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -91,164 +127,403 @@ typedef enum
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-static volatile uint32_t friction_3650_fg_pulse_count = 0;
-static uint32_t friction_3650_last_report_tick = 0;
-static uint32_t friction_3650_last_report_pulse_count = 0;
-static uint32_t friction_3650_last_switch_tick = 0;
-static uint32_t friction_3650_rpm = 0;
-static uint32_t friction_3650_pwm_duty_percent = FRICTION_3650_PWM_DUTY_LOW_PERCENT;
-static uint8_t friction_3650_uart_tx_buf[32];
-static volatile uint32_t storage_2430_fg_pulse_count = 0;
-static uint32_t storage_2430_last_report_tick = 0;
-static uint32_t storage_2430_last_report_pulse_count = 0;
-static uint32_t storage_2430_rpm = 0;
-static uint32_t storage_2430_pwm_duty_percent = STORAGE_2430_DUTY_LOW_PERCENT;
-static GPIO_PinState storage_2430_dir_state = STORAGE_2430_DIR_DEFAULT;
-static uint8_t storage_2430_uart_tx_buf[32];
+static volatile uint32_t friction_3650_a_fg_pulse_count = 0;
+static uint32_t friction_3650_a_last_report_pulse_count = 0;
+static uint32_t friction_3650_a_rpm = 0;
+static uint32_t friction_3650_a_pwm_duty_percent = 0U;
+static GPIO_PinState friction_3650_a_dir_state = FRICTION_3650_A_DIR_DEFAULT;
+static uint8_t friction_3650_a_pwm_running = 0U;
 
+static volatile uint32_t friction_3650_b_fg_pulse_count = 0;
+static uint32_t friction_3650_b_last_report_pulse_count = 0;
+static uint32_t friction_3650_b_rpm = 0;
+static uint32_t friction_3650_b_pwm_duty_percent = 0U;
+static GPIO_PinState friction_3650_b_dir_state = FRICTION_3650_B_DIR_DEFAULT;
+static uint8_t friction_3650_b_pwm_running = 0U;
+
+static uint32_t belt_drive_last_report_tick = 0;
+static uint8_t uart1_rx_byte = 0U;
+static uint8_t belt_drive_uart_tx_buf[64];
+static uint32_t mecanum_demo_last_tick = 0U;
+static MecanumDemoStage_t mecanum_demo_stage = MECANUM_DEMO_STAGE_FORWARD;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-static uint32_t Friction3650_GetPwmCompareFromDuty(uint32_t duty_percent);
-static uint32_t Storage2430_GetPwmCompareFromDuty(uint32_t duty_percent);
-static void Friction3650_UpdateTestSpeedIfReady(void);
-static void Friction3650_ReportRpmIfReady(void);
-static void Storage2430_ReportRpmIfReady(void);
+static uint32_t Friction3650A_GetPwmCompareFromDuty(uint32_t duty_percent);
+static uint32_t Friction3650B_GetPwmCompareFromDuty(uint32_t duty_percent);
+static void Friction3650A_StopOutput(void);
+static void Friction3650B_StopOutput(void);
+static void Friction3650A_SetOutput(GPIO_PinState dir, uint32_t duty_percent);
+static void Friction3650B_SetOutput(GPIO_PinState dir, uint32_t duty_percent);
+static void BeltDrive_StartUartReceive(void);
+static void BeltDrive_ApplyCommand(uint8_t rx_byte);
+static void BeltDrive_ReportRpmIfReady(void);
+static uint32_t Mecanum_GetPwmCompareFromDuty(uint32_t duty_percent);
+static void Mecanum_SetWheelOutput(MecanumWheel_t wheel, MecanumDirection_t direction, uint32_t duty_percent);
+static void Mecanum_StopAllWheels(void);
+static void Mecanum_RunDemoInMainLoop(void);
 static void Stepper_UartControlPlaceholder(uint8_t rx_byte);
-static void PwmMotor_UartControlPlaceholder(uint8_t rx_byte);
-static void StorageMotor2430_UartControlPlaceholder(uint8_t rx_byte);
-
+static void Friction3650A_UartControlPlaceholder(uint8_t rx_byte);
+static void Friction3650BMotor_UartControlPlaceholder(uint8_t rx_byte);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-/* 把 3650 电机占空比百分比转换成 TIM2_CH1 的比较值。 */
-static uint32_t Friction3650_GetPwmCompareFromDuty(uint32_t duty_percent)
+/* Convert duty percent to TIM2 CH1 compare value for motor A */
+static uint32_t Friction3650A_GetPwmCompareFromDuty(uint32_t duty_percent)
 {
+  uint32_t inverted_duty_percent;
+
   if (duty_percent >= 100U)
   {
-    return FRICTION_3650_PWM_TIMER_PERIOD;
+    return 0U;
   }
 
-  return ((FRICTION_3650_PWM_TIMER_PERIOD + 1U) * duty_percent) / 100U;
+  inverted_duty_percent = 100U - duty_percent;
+  return ((FRICTION_3650_A_PWM_TIMER_PERIOD + 1U) * inverted_duty_percent) / 100U;
 }
 
-/* 把 2430 电机占空比百分比转换成 TIM3_CH1 的比较值。 */
-static uint32_t Storage2430_GetPwmCompareFromDuty(uint32_t duty_percent)
+/* Convert duty percent to TIM4 CH1 compare value for motor B */
+static uint32_t Friction3650B_GetPwmCompareFromDuty(uint32_t duty_percent)
 {
+  uint32_t inverted_duty_percent;
+
   if (duty_percent >= 100U)
   {
-    return STORAGE_2430_PWM_TIMER_PERIOD;
+    return 0U;
   }
 
-  return ((STORAGE_2430_PWM_TIMER_PERIOD + 1U) * duty_percent) / 100U;
+  inverted_duty_percent = 100U - duty_percent;
+  return ((FRICTION_3650_B_PWM_TIMER_PERIOD + 1U) * inverted_duty_percent) / 100U;
 }
 
-/* 为了测速，主循环里每 3 秒在 3650 电机两档速度之间来回切换。 */
-static void Friction3650_UpdateTestSpeedIfReady(void)
+/* Apply direction and PWM output for 3650-A motor */
+static void Friction3650A_StopOutput(void)
 {
-  uint32_t now_tick = HAL_GetTick();
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0U);
+  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+  friction_3650_a_pwm_duty_percent = 0U;
+  friction_3650_a_pwm_running = 0U;
+}
 
-  if ((now_tick - friction_3650_last_switch_tick) < FRICTION_3650_PWM_SWITCH_PERIOD_MS)
+static void Friction3650A_SetOutput(GPIO_PinState dir, uint32_t duty_percent)
+{
+  friction_3650_a_dir_state = dir;
+  friction_3650_a_pwm_duty_percent = duty_percent;
+  HAL_GPIO_WritePin(FRICTION_3650_A_DIR_GPIO_Port, FRICTION_3650_A_DIR_Pin, friction_3650_a_dir_state);
+
+  if (friction_3650_a_pwm_running == 0U)
+  {
+    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+    friction_3650_a_pwm_running = 1U;
+  }
+
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, Friction3650A_GetPwmCompareFromDuty(friction_3650_a_pwm_duty_percent));
+}
+
+/* Apply direction and PWM output for 3650-B motor */
+static void Friction3650B_StopOutput(void)
+{
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0U);
+  HAL_TIM_PWM_Stop(&htim4, TIM_CHANNEL_1);
+  friction_3650_b_pwm_duty_percent = 0U;
+  friction_3650_b_pwm_running = 0U;
+}
+
+static void Friction3650B_SetOutput(GPIO_PinState dir, uint32_t duty_percent)
+{
+  friction_3650_b_dir_state = dir;
+  friction_3650_b_pwm_duty_percent = duty_percent;
+  HAL_GPIO_WritePin(FRICTION_3650_B_DIR_GPIO_Port, FRICTION_3650_B_DIR_Pin, friction_3650_b_dir_state);
+
+  if (friction_3650_b_pwm_running == 0U)
+  {
+    HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
+    friction_3650_b_pwm_running = 1U;
+  }
+
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, Friction3650B_GetPwmCompareFromDuty(friction_3650_b_pwm_duty_percent));
+}
+
+/* Start non-blocking USART1 RX (1 byte) and keep receiver alive */
+static void BeltDrive_StartUartReceive(void)
+{
+  HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1U);
+
+  if ((status != HAL_OK) && (status != HAL_BUSY))
+  {
+    Error_Handler();
+  }
+}
+
+/*
+ * Conveyor combined command mapping:
+ *   '0' = stop
+ *   '1' = reverse low speed
+ *   '2' = reverse high speed
+ * Direction of motor A and B is coordinated to match conveyor motion.
+ */
+static void BeltDrive_ApplyCommand(uint8_t rx_byte)
+{
+  BeltDriveCommand_t command = BELT_DRIVE_CMD_NONE;
+  uint32_t friction_duty = friction_3650_a_pwm_duty_percent;
+  uint32_t storage_duty = friction_3650_b_pwm_duty_percent;
+  GPIO_PinState friction_dir = friction_3650_a_dir_state;
+  GPIO_PinState storage_dir = friction_3650_b_dir_state;
+
+  switch (rx_byte)
+  {
+    case '0':
+      command = BELT_DRIVE_CMD_STOP;
+      break;
+
+    case '1':
+      command = BELT_DRIVE_CMD_REV_LOW;
+      friction_dir = (FRICTION_3650_A_DIR_DEFAULT == GPIO_PIN_SET) ? GPIO_PIN_RESET : GPIO_PIN_SET;
+      storage_dir = FRICTION_3650_B_DIR_DEFAULT;
+      friction_duty = FRICTION_3650_A_PWM_DUTY_LOW_PERCENT;
+      storage_duty = FRICTION_3650_B_DUTY_LOW_PERCENT;
+      break;
+
+    case '2':
+      command = BELT_DRIVE_CMD_REV_HIGH;
+      friction_dir = (FRICTION_3650_A_DIR_DEFAULT == GPIO_PIN_SET) ? GPIO_PIN_RESET : GPIO_PIN_SET;
+      storage_dir = FRICTION_3650_B_DIR_DEFAULT;
+      friction_duty = FRICTION_3650_A_PWM_DUTY_HIGH_PERCENT;
+      storage_duty = FRICTION_3650_B_DUTY_HIGH_PERCENT;
+      break;
+
+    default:
+      break;
+  }
+
+  if (command == BELT_DRIVE_CMD_NONE)
   {
     return;
   }
 
-  friction_3650_last_switch_tick = now_tick;
-  if (friction_3650_pwm_duty_percent == FRICTION_3650_PWM_DUTY_LOW_PERCENT)
+  if (command == BELT_DRIVE_CMD_STOP)
   {
-    friction_3650_pwm_duty_percent = FRICTION_3650_PWM_DUTY_HIGH_PERCENT;
-  }
-  else
-  {
-    friction_3650_pwm_duty_percent = FRICTION_3650_PWM_DUTY_LOW_PERCENT;
+    Friction3650A_StopOutput();
+    Friction3650B_StopOutput();
+    return;
   }
 
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, Friction3650_GetPwmCompareFromDuty(friction_3650_pwm_duty_percent));
+  Friction3650A_SetOutput(friction_dir, friction_duty);
+  Friction3650B_SetOutput(storage_dir, storage_duty);
 }
 
-/* 每秒统计一次 3650 电机 FG 脉冲，换算成 rpm 后通过 USART1 发送给上位机。 */
-static void Friction3650_ReportRpmIfReady(void)
+/* Periodically compute RPM from FG pulses and report via USART1 */
+static void BeltDrive_ReportRpmIfReady(void)
 {
   uint32_t now_tick = HAL_GetTick();
-  uint32_t elapsed_ms;
-  uint32_t pulse_count_snapshot;
-  uint32_t pulse_delta;
+  uint32_t elapsed_ms = now_tick - belt_drive_last_report_tick;
+  uint32_t friction_pulse_snapshot;
+  uint32_t storage_pulse_snapshot;
+  uint32_t friction_pulse_delta;
+  uint32_t storage_pulse_delta;
   int msg_len;
 
-  elapsed_ms = now_tick - friction_3650_last_report_tick;
-  if (elapsed_ms < FRICTION_3650_RPM_REPORT_PERIOD_MS)
+  if (elapsed_ms < BELT_DRIVE_RPM_REPORT_PERIOD_MS)
   {
     return;
   }
 
   __disable_irq();
-  pulse_count_snapshot = friction_3650_fg_pulse_count;
+  friction_pulse_snapshot = friction_3650_a_fg_pulse_count;
+  storage_pulse_snapshot = friction_3650_b_fg_pulse_count;
   __enable_irq();
 
-  pulse_delta = pulse_count_snapshot - friction_3650_last_report_pulse_count;
-  friction_3650_last_report_pulse_count = pulse_count_snapshot;
-  friction_3650_last_report_tick = now_tick;
+  friction_pulse_delta = friction_pulse_snapshot - friction_3650_a_last_report_pulse_count;
+  storage_pulse_delta = storage_pulse_snapshot - friction_3650_b_last_report_pulse_count;
+  friction_3650_a_last_report_pulse_count = friction_pulse_snapshot;
+  friction_3650_b_last_report_pulse_count = storage_pulse_snapshot;
+  belt_drive_last_report_tick = now_tick;
 
   if (elapsed_ms > 0U)
   {
-    friction_3650_rpm = (pulse_delta * 60000U) / (FRICTION_3650_FG_PULSES_PER_REV * elapsed_ms);
+    friction_3650_a_rpm = (friction_pulse_delta * 60000U) / (FRICTION_3650_A_FG_PULSES_PER_REV * elapsed_ms);
+    friction_3650_b_rpm = (storage_pulse_delta * 60000U) / (FRICTION_3650_B_FG_PULSES_PER_REV * elapsed_ms);
   }
   else
   {
-    friction_3650_rpm = 0U;
+    friction_3650_a_rpm = 0U;
+    friction_3650_b_rpm = 0U;
   }
 
-  msg_len = snprintf((char *)friction_3650_uart_tx_buf, sizeof(friction_3650_uart_tx_buf), "3650_rpm=%lu\r\n", friction_3650_rpm);
+  msg_len = snprintf((char *)belt_drive_uart_tx_buf,
+                     sizeof(belt_drive_uart_tx_buf),
+                     "3650_a_rpm=%lu,3650_b_rpm=%lu\r\n",
+                     friction_3650_a_rpm,
+                     friction_3650_b_rpm);
   if (msg_len > 0)
   {
-    HAL_UART_Transmit(&huart1, friction_3650_uart_tx_buf, (uint16_t)msg_len, 50);
+    HAL_UART_Transmit(&huart1, belt_drive_uart_tx_buf, (uint16_t)msg_len, 50);
   }
 }
 
-/* 未启用：2430 电机测速与上报逻辑，后续需要时再放进主循环。 */
-static void Storage2430_ReportRpmIfReady(void)
+/* 将占空比百分比转换成 TIM3 的比较值 */
+static uint32_t Mecanum_GetPwmCompareFromDuty(uint32_t duty_percent)
 {
-  uint32_t now_tick = HAL_GetTick();
-  uint32_t elapsed_ms;
-  uint32_t pulse_count_snapshot;
-  uint32_t pulse_delta;
-  int msg_len;
+  uint32_t compare_value;
 
-  elapsed_ms = now_tick - storage_2430_last_report_tick;
-  if (elapsed_ms < STORAGE_2430_RPM_REPORT_PERIOD_MS)
+  if (duty_percent >= 100U)
   {
+    return MECANUM_PWM_TIMER_PERIOD;
+  }
+
+  compare_value = ((MECANUM_PWM_TIMER_PERIOD + 1U) * duty_percent) / 100U;
+  if (compare_value > MECANUM_PWM_TIMER_PERIOD)
+  {
+    compare_value = MECANUM_PWM_TIMER_PERIOD;
+  }
+
+  return compare_value;
+}
+
+/*
+ * 麦轮单路控制封装：
+ *   正转  -> IN1=1, IN2=0
+ *   反转  -> IN1=0, IN2=1
+ *   停转  -> IN1=0, IN2=0，同时关闭该路 PWM
+ *
+ * 当前主循环未调用这个函数，先保留给后续底盘控制逻辑使用。
+ */
+static void Mecanum_SetWheelOutput(MecanumWheel_t wheel, MecanumDirection_t direction, uint32_t duty_percent)
+{
+  uint32_t tim_channel = 0U;
+  GPIO_TypeDef *in1_port = GPIOE;
+  GPIO_TypeDef *in2_port = GPIOE;
+  uint16_t in1_pin = 0U;
+  uint16_t in2_pin = 0U;
+
+  switch (wheel)
+  {
+    case MECANUM_WHEEL_A:
+      tim_channel = TIM_CHANNEL_1;
+      in1_pin = AIN1_Pin;
+      in2_pin = AIN2_Pin;
+      break;
+
+    case MECANUM_WHEEL_B:
+      tim_channel = TIM_CHANNEL_2;
+      in1_pin = BIN1_Pin;
+      in2_pin = BIN2_Pin;
+      break;
+
+    case MECANUM_WHEEL_C:
+      tim_channel = TIM_CHANNEL_3;
+      in1_pin = CIN1_Pin;
+      in2_pin = CIN2_Pin;
+      break;
+
+    case MECANUM_WHEEL_D:
+      tim_channel = TIM_CHANNEL_4;
+      in1_pin = DIN1_Pin;
+      in2_pin = DIN2_Pin;
+      break;
+
+    default:
+      return;
+  }
+
+  if ((direction == MECANUM_STOP) || (duty_percent == 0U))
+  {
+    HAL_GPIO_WritePin(in1_port, in1_pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(in2_port, in2_pin, GPIO_PIN_RESET);
+    __HAL_TIM_SET_COMPARE(&htim3, tim_channel, 0U);
+    HAL_TIM_PWM_Stop(&htim3, tim_channel);
     return;
   }
 
-  __disable_irq();
-  pulse_count_snapshot = storage_2430_fg_pulse_count;
-  __enable_irq();
-
-  pulse_delta = pulse_count_snapshot - storage_2430_last_report_pulse_count;
-  storage_2430_last_report_pulse_count = pulse_count_snapshot;
-  storage_2430_last_report_tick = now_tick;
-
-  if (elapsed_ms > 0U)
+  if (direction == MECANUM_FORWARD)
   {
-    storage_2430_rpm = (pulse_delta * 60000U) / (STORAGE_2430_FG_PULSES_PER_REV * elapsed_ms);
+    HAL_GPIO_WritePin(in1_port, in1_pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(in2_port, in2_pin, GPIO_PIN_RESET);
   }
   else
   {
-    storage_2430_rpm = 0U;
+    HAL_GPIO_WritePin(in1_port, in1_pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(in2_port, in2_pin, GPIO_PIN_SET);
   }
 
-  msg_len = snprintf((char *)storage_2430_uart_tx_buf, sizeof(storage_2430_uart_tx_buf), "2430_rpm=%lu\r\n", storage_2430_rpm);
-  if (msg_len > 0)
+  HAL_TIM_PWM_Start(&htim3, tim_channel);
+  __HAL_TIM_SET_COMPARE(&htim3, tim_channel, Mecanum_GetPwmCompareFromDuty(duty_percent));
+}
+
+/* 一键关闭四个麦轮通道，作为底盘待机状态 */
+static void Mecanum_StopAllWheels(void)
+{
+  Mecanum_SetWheelOutput(MECANUM_WHEEL_A, MECANUM_STOP, 0U);
+  Mecanum_SetWheelOutput(MECANUM_WHEEL_B, MECANUM_STOP, 0U);
+  Mecanum_SetWheelOutput(MECANUM_WHEEL_C, MECANUM_STOP, 0U);
+  Mecanum_SetWheelOutput(MECANUM_WHEEL_D, MECANUM_STOP, 0U);
+}
+
+/*
+ * 主循环里的麦轮测试逻辑：
+ * 1. 四个轮子同速正转 3 秒
+ * 2. 全部停转 1 秒
+ * 3. 四个轮子同速反转 3 秒
+ * 4. 全部停转 1 秒
+ * 然后重复，便于直接观察方向和 PWM 是否正常。
+ */
+static void Mecanum_RunDemoInMainLoop(void)
+{
+  uint32_t now_tick = HAL_GetTick();
+  uint32_t elapsed_ms = now_tick - mecanum_demo_last_tick;
+
+  switch (mecanum_demo_stage)
   {
-    HAL_UART_Transmit(&huart1, storage_2430_uart_tx_buf, (uint16_t)msg_len, 50);
+    case MECANUM_DEMO_STAGE_FORWARD:
+      Mecanum_SetWheelOutput(MECANUM_WHEEL_A, MECANUM_FORWARD, MECANUM_DEMO_DUTY_PERCENT);
+      Mecanum_SetWheelOutput(MECANUM_WHEEL_B, MECANUM_FORWARD, MECANUM_DEMO_DUTY_PERCENT);
+      Mecanum_SetWheelOutput(MECANUM_WHEEL_C, MECANUM_FORWARD, MECANUM_DEMO_DUTY_PERCENT);
+      Mecanum_SetWheelOutput(MECANUM_WHEEL_D, MECANUM_FORWARD, MECANUM_DEMO_DUTY_PERCENT);
+      if (elapsed_ms >= MECANUM_DEMO_RUN_TIME_MS)
+      {
+        mecanum_demo_stage = MECANUM_DEMO_STAGE_STOP_AFTER_FORWARD;
+        mecanum_demo_last_tick = now_tick;
+        Mecanum_StopAllWheels();
+      }
+      break;
+
+    case MECANUM_DEMO_STAGE_STOP_AFTER_FORWARD:
+      if (elapsed_ms >= MECANUM_DEMO_STOP_TIME_MS)
+      {
+        mecanum_demo_stage = MECANUM_DEMO_STAGE_REVERSE;
+        mecanum_demo_last_tick = now_tick;
+      }
+      break;
+
+    case MECANUM_DEMO_STAGE_REVERSE:
+      Mecanum_SetWheelOutput(MECANUM_WHEEL_A, MECANUM_REVERSE, MECANUM_DEMO_DUTY_PERCENT);
+      Mecanum_SetWheelOutput(MECANUM_WHEEL_B, MECANUM_REVERSE, MECANUM_DEMO_DUTY_PERCENT);
+      Mecanum_SetWheelOutput(MECANUM_WHEEL_C, MECANUM_REVERSE, MECANUM_DEMO_DUTY_PERCENT);
+      Mecanum_SetWheelOutput(MECANUM_WHEEL_D, MECANUM_REVERSE, MECANUM_DEMO_DUTY_PERCENT);
+      if (elapsed_ms >= MECANUM_DEMO_RUN_TIME_MS)
+      {
+        mecanum_demo_stage = MECANUM_DEMO_STAGE_STOP_AFTER_REVERSE;
+        mecanum_demo_last_tick = now_tick;
+        Mecanum_StopAllWheels();
+      }
+      break;
+
+    case MECANUM_DEMO_STAGE_STOP_AFTER_REVERSE:
+    default:
+      if (elapsed_ms >= MECANUM_DEMO_STOP_TIME_MS)
+      {
+        mecanum_demo_stage = MECANUM_DEMO_STAGE_FORWARD;
+        mecanum_demo_last_tick = now_tick;
+      }
+      break;
   }
 }
 
-/* 未启用：预留给步进电机的上位机串口控制入口，后续收到命令字节后再调用。 */
+/* Stepper command placeholder for future implementation */
 static void Stepper_UartControlPlaceholder(uint8_t rx_byte)
 {
   StepperCommand_t command = STEPPER_CMD_NONE;
@@ -291,109 +566,103 @@ static void Stepper_UartControlPlaceholder(uint8_t rx_byte)
   }
 
   /*
-   * TODO: 这里后续接步进电机控制逻辑。
-   * dir 表示方向，target_rps 表示目标转速档位。
-   * 例如：Stepper_SetDirectionAndSpeed(dir, target_rps);
+   * TODO: Replace this placeholder with real stepper driver calls.
+   * Suggested interface:
+   *   Stepper_SetDirectionAndSpeed(dir, target_rps);
    */
   (void)dir;
   (void)target_rps;
 }
 
-/* 未启用：预留给 PA0/TIM2_CH1 PWM 电机的上位机串口控制入口。 */
-static void PwmMotor_UartControlPlaceholder(uint8_t rx_byte)
+/* 3650-A single motor UART command placeholder */
+static void Friction3650A_UartControlPlaceholder(uint8_t rx_byte)
 {
-  PwmMotorCommand_t command = PWM_MOTOR_CMD_NONE;
-  GPIO_PinState dir = FRICTION_3650_DIR_DEFAULT;
-  uint32_t duty_percent = friction_3650_pwm_duty_percent;
+  Friction3650ACommand_t command = FRICTION_3650_A_CMD_NONE;
+  GPIO_PinState dir = FRICTION_3650_A_DIR_DEFAULT;
+  uint32_t duty_percent = friction_3650_a_pwm_duty_percent;
 
   switch (rx_byte)
   {
     case 'A':
-      command = PWM_MOTOR_CMD_FWD_LOW;
+      command = FRICTION_3650_A_CMD_FWD_LOW;
       dir = GPIO_PIN_SET;
-      duty_percent = FRICTION_3650_PWM_DUTY_LOW_PERCENT;
+      duty_percent = FRICTION_3650_A_PWM_DUTY_LOW_PERCENT;
       break;
 
     case 'B':
-      command = PWM_MOTOR_CMD_FWD_HIGH;
+      command = FRICTION_3650_A_CMD_FWD_HIGH;
       dir = GPIO_PIN_SET;
-      duty_percent = FRICTION_3650_PWM_DUTY_HIGH_PERCENT;
+      duty_percent = FRICTION_3650_A_PWM_DUTY_HIGH_PERCENT;
       break;
 
     case 'C':
-      command = PWM_MOTOR_CMD_REV_LOW;
+      command = FRICTION_3650_A_CMD_REV_LOW;
       dir = GPIO_PIN_RESET;
-      duty_percent = FRICTION_3650_PWM_DUTY_LOW_PERCENT;
+      duty_percent = FRICTION_3650_A_PWM_DUTY_LOW_PERCENT;
       break;
 
     case 'D':
-      command = PWM_MOTOR_CMD_REV_HIGH;
+      command = FRICTION_3650_A_CMD_REV_HIGH;
       dir = GPIO_PIN_RESET;
-      duty_percent = FRICTION_3650_PWM_DUTY_HIGH_PERCENT;
+      duty_percent = FRICTION_3650_A_PWM_DUTY_HIGH_PERCENT;
       break;
 
     default:
       break;
   }
 
-  if (command == PWM_MOTOR_CMD_NONE)
+  if (command == FRICTION_3650_A_CMD_NONE)
   {
     return;
   }
 
-  HAL_GPIO_WritePin(FRICTION_3650_DIR_GPIO_Port, FRICTION_3650_DIR_Pin, dir);
-  friction_3650_pwm_duty_percent = duty_percent;
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, Friction3650_GetPwmCompareFromDuty(friction_3650_pwm_duty_percent));
+  Friction3650A_SetOutput(dir, duty_percent);
 }
 
-/* 未启用：预留给存储模块上 2430 电机的上位机串口控制入口。 */
-static void StorageMotor2430_UartControlPlaceholder(uint8_t rx_byte)
+/* 3650-B single motor UART command placeholder */
+static void Friction3650BMotor_UartControlPlaceholder(uint8_t rx_byte)
 {
-  StorageMotorCommand_t command = STORAGE_MOTOR_CMD_NONE;
-  GPIO_PinState dir = storage_2430_dir_state;
-  uint32_t duty_percent = storage_2430_pwm_duty_percent;
+  Friction3650BMotorCommand_t command = FRICTION_3650_B_MOTOR_CMD_NONE;
+  GPIO_PinState dir = friction_3650_b_dir_state;
+  uint32_t duty_percent = friction_3650_b_pwm_duty_percent;
 
   switch (rx_byte)
   {
     case 'E':
-      command = STORAGE_MOTOR_CMD_FWD_LOW;
+      command = FRICTION_3650_B_MOTOR_CMD_FWD_LOW;
       dir = GPIO_PIN_SET;
-      duty_percent = STORAGE_2430_DUTY_LOW_PERCENT;
+      duty_percent = FRICTION_3650_B_DUTY_LOW_PERCENT;
       break;
 
     case 'F':
-      command = STORAGE_MOTOR_CMD_FWD_HIGH;
+      command = FRICTION_3650_B_MOTOR_CMD_FWD_HIGH;
       dir = GPIO_PIN_SET;
-      duty_percent = STORAGE_2430_DUTY_HIGH_PERCENT;
+      duty_percent = FRICTION_3650_B_DUTY_HIGH_PERCENT;
       break;
 
     case 'G':
-      command = STORAGE_MOTOR_CMD_REV_LOW;
+      command = FRICTION_3650_B_MOTOR_CMD_REV_LOW;
       dir = GPIO_PIN_RESET;
-      duty_percent = STORAGE_2430_DUTY_LOW_PERCENT;
+      duty_percent = FRICTION_3650_B_DUTY_LOW_PERCENT;
       break;
 
     case 'H':
-      command = STORAGE_MOTOR_CMD_REV_HIGH;
+      command = FRICTION_3650_B_MOTOR_CMD_REV_HIGH;
       dir = GPIO_PIN_RESET;
-      duty_percent = STORAGE_2430_DUTY_HIGH_PERCENT;
+      duty_percent = FRICTION_3650_B_DUTY_HIGH_PERCENT;
       break;
 
     default:
       break;
   }
 
-  if (command == STORAGE_MOTOR_CMD_NONE)
+  if (command == FRICTION_3650_B_MOTOR_CMD_NONE)
   {
     return;
   }
 
-  storage_2430_dir_state = dir;
-  storage_2430_pwm_duty_percent = duty_percent;
-  HAL_GPIO_WritePin(STORAGE_2430_DIR_GPIO_Port, STORAGE_2430_DIR_Pin, storage_2430_dir_state);
-  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, Storage2430_GetPwmCompareFromDuty(storage_2430_pwm_duty_percent));
+  Friction3650B_SetOutput(dir, duty_percent);
 }
-
 /* USER CODE END 0 */
 
 /**
@@ -430,17 +699,27 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
+  MX_TIM4_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  friction_3650_last_report_tick = HAL_GetTick();
-  friction_3650_last_switch_tick = HAL_GetTick();
-  storage_2430_last_report_tick = HAL_GetTick();
+  belt_drive_last_report_tick = HAL_GetTick();
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, Friction3650_GetPwmCompareFromDuty(friction_3650_pwm_duty_percent));
-  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, Storage2430_GetPwmCompareFromDuty(storage_2430_pwm_duty_percent));
-  HAL_GPIO_WritePin(FRICTION_3650_DIR_GPIO_Port, FRICTION_3650_DIR_Pin, FRICTION_3650_DIR_DEFAULT);
-  HAL_GPIO_WritePin(STORAGE_2430_DIR_GPIO_Port, STORAGE_2430_DIR_Pin, STORAGE_2430_DIR_DEFAULT);
+  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
+  friction_3650_a_pwm_running = 1U;
+  friction_3650_b_pwm_running = 1U;
+
+  /* 初始化两路 3650 电机为默认方向、0% 占空比 */
+  HAL_GPIO_WritePin(FRICTION_3650_A_DIR_GPIO_Port, FRICTION_3650_A_DIR_Pin, FRICTION_3650_A_DIR_DEFAULT);
+  HAL_GPIO_WritePin(FRICTION_3650_B_DIR_GPIO_Port, FRICTION_3650_B_DIR_Pin, FRICTION_3650_B_DIR_DEFAULT);
+  Friction3650A_StopOutput();
+  Friction3650B_StopOutput();
+
+  /* 麦轮测试逻辑已接入主循环，先从正转阶段开始。 */
+  mecanum_demo_stage = MECANUM_DEMO_STAGE_FORWARD;
+  mecanum_demo_last_tick = HAL_GetTick();
+  Mecanum_StopAllWheels();
+
+  BeltDrive_StartUartReceive();
 
   /* USER CODE END 2 */
 
@@ -451,8 +730,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    Friction3650_UpdateTestSpeedIfReady();
-    Friction3650_ReportRpmIfReady();
+    Mecanum_RunDemoInMainLoop();
+    BeltDrive_ReportRpmIfReady();
   }
   /* USER CODE END 3 */
 }
@@ -519,16 +798,32 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  if (GPIO_Pin == FRICTION_3650_FG_Pin)
+  if (GPIO_Pin == FRICTION_3650_A_FG_Pin)
   {
-    friction_3650_fg_pulse_count++;
+    friction_3650_a_fg_pulse_count++;
   }
-  else if (GPIO_Pin == STORAGE_2430_FG_Pin)
+  else if (GPIO_Pin == FRICTION_3650_B_FG_Pin)
   {
-    storage_2430_fg_pulse_count++;
+    friction_3650_b_fg_pulse_count++;
   }
 }
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == USART1)
+  {
+    BeltDrive_ApplyCommand(uart1_rx_byte);
+    BeltDrive_StartUartReceive();
+  }
+}
+
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == USART1)
+  {
+    BeltDrive_StartUartReceive();
+  }
+}
 /* USER CODE END 4 */
 
  /* MPU Configuration */
@@ -591,3 +886,6 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
+
+

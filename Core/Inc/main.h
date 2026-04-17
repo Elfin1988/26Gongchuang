@@ -1,4 +1,4 @@
-/* USER CODE BEGIN Header */
+﻿/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file           : main.h
@@ -61,18 +61,42 @@ void Error_Handler(void);
 #define X_STEP_GPIO_Port GPIOA
 #define X_DIR_Pin GPIO_PIN_5
 #define X_DIR_GPIO_Port GPIOA
-#define FRICTION_3650_PWM_Pin GPIO_PIN_0
-#define FRICTION_3650_PWM_GPIO_Port GPIOA
-#define FRICTION_3650_DIR_Pin GPIO_PIN_3
-#define FRICTION_3650_DIR_GPIO_Port GPIOD
-#define FRICTION_3650_FG_Pin GPIO_PIN_4
-#define FRICTION_3650_FG_GPIO_Port GPIOD
-#define STORAGE_2430_PWM_Pin GPIO_PIN_6
-#define STORAGE_2430_PWM_GPIO_Port GPIOA
-#define STORAGE_2430_DIR_Pin GPIO_PIN_7
-#define STORAGE_2430_DIR_GPIO_Port GPIOA
-#define STORAGE_2430_FG_Pin GPIO_PIN_8
-#define STORAGE_2430_FG_GPIO_Port GPIOA
+#define FRICTION_3650_A_PWM_Pin GPIO_PIN_0
+#define FRICTION_3650_A_PWM_GPIO_Port GPIOA
+#define PWMA_Pin GPIO_PIN_6
+#define PWMA_GPIO_Port GPIOA
+#define PWMB_Pin GPIO_PIN_7
+#define PWMB_GPIO_Port GPIOA
+#define PWMC_Pin GPIO_PIN_0
+#define PWMC_GPIO_Port GPIOB
+#define PWMD_Pin GPIO_PIN_1
+#define PWMD_GPIO_Port GPIOB
+#define FRICTION_3650_A_DIR_Pin GPIO_PIN_3
+#define FRICTION_3650_A_DIR_GPIO_Port GPIOD
+#define FRICTION_3650_A_FG_Pin GPIO_PIN_4
+#define FRICTION_3650_A_FG_GPIO_Port GPIOD
+#define FRICTION_3650_B_PWM_Pin GPIO_PIN_12
+#define FRICTION_3650_B_PWM_GPIO_Port GPIOD
+#define FRICTION_3650_B_DIR_Pin GPIO_PIN_1
+#define FRICTION_3650_B_DIR_GPIO_Port GPIOD
+#define FRICTION_3650_B_FG_Pin GPIO_PIN_2
+#define FRICTION_3650_B_FG_GPIO_Port GPIOD
+#define AIN1_Pin GPIO_PIN_0
+#define AIN1_GPIO_Port GPIOE
+#define AIN2_Pin GPIO_PIN_1
+#define AIN2_GPIO_Port GPIOE
+#define BIN1_Pin GPIO_PIN_2
+#define BIN1_GPIO_Port GPIOE
+#define BIN2_Pin GPIO_PIN_3
+#define BIN2_GPIO_Port GPIOE
+#define CIN1_Pin GPIO_PIN_4
+#define CIN1_GPIO_Port GPIOE
+#define CIN2_Pin GPIO_PIN_5
+#define CIN2_GPIO_Port GPIOE
+#define DIN1_Pin GPIO_PIN_6
+#define DIN1_GPIO_Port GPIOE
+#define DIN2_Pin GPIO_PIN_7
+#define DIN2_GPIO_Port GPIOE
 
 /* USER CODE BEGIN Private defines */
 
@@ -83,3 +107,5 @@ void Error_Handler(void);
 #endif
 
 #endif /* __MAIN_H */
+
+

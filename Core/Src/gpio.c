@@ -1,4 +1,4 @@
-/* USER CODE BEGIN Header */
+﻿/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    gpio.c
@@ -49,11 +49,12 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOE_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, X_STEP_Pin|X_DIR_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(GPIOA, STORAGE_2430_DIR_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(GPIOD, FRICTION_3650_DIR_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, FRICTION_3650_A_DIR_Pin|FRICTION_3650_B_DIR_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, AIN1_Pin|AIN2_Pin|BIN1_Pin|BIN2_Pin|CIN1_Pin|CIN2_Pin|DIN1_Pin|DIN2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PAPin PAPin */
   GPIO_InitStruct.Pin = X_STEP_Pin|X_DIR_Pin;
@@ -62,40 +63,50 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : FRICTION_3650_DIR_Pin */
-  GPIO_InitStruct.Pin = FRICTION_3650_DIR_Pin;
+  /*Configure GPIO pin : FRICTION_3650_A_DIR_Pin */
+  GPIO_InitStruct.Pin = FRICTION_3650_A_DIR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : STORAGE_2430_DIR_Pin */
-  GPIO_InitStruct.Pin = STORAGE_2430_DIR_Pin;
+  /*Configure GPIO pin : FRICTION_3650_B_DIR_Pin */
+  GPIO_InitStruct.Pin = FRICTION_3650_B_DIR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(FRICTION_3650_B_DIR_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : FRICTION_3650_FG_Pin */
-  GPIO_InitStruct.Pin = FRICTION_3650_FG_Pin;
+  /*Configure GPIO pins : AIN1_Pin AIN2_Pin BIN1_Pin BIN2_Pin
+                           CIN1_Pin CIN2_Pin DIN1_Pin DIN2_Pin */
+  GPIO_InitStruct.Pin = AIN1_Pin|AIN2_Pin|BIN1_Pin|BIN2_Pin|CIN1_Pin|CIN2_Pin|DIN1_Pin|DIN2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : FRICTION_3650_A_FG_Pin */
+  GPIO_InitStruct.Pin = FRICTION_3650_A_FG_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(FRICTION_3650_FG_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(FRICTION_3650_A_FG_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : STORAGE_2430_FG_Pin */
-  GPIO_InitStruct.Pin = STORAGE_2430_FG_Pin;
+  /*Configure GPIO pin : FRICTION_3650_B_FG_Pin */
+  GPIO_InitStruct.Pin = FRICTION_3650_B_FG_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(STORAGE_2430_FG_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(FRICTION_3650_B_FG_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 2, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
   HAL_NVIC_SetPriority(EXTI4_IRQn, 2, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 2, 0);
-  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 }
 
 /* USER CODE BEGIN 2 */
 
 /* USER CODE END 2 */
+
+
