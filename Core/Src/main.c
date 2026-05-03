@@ -32,30 +32,12 @@
 /* USER CODE BEGIN PTD */
 typedef enum
 {
-  STEPPER_CMD_NONE = 0,
-  STEPPER_CMD_FWD_LOW,
-  STEPPER_CMD_FWD_HIGH,
-  STEPPER_CMD_REV_LOW,
-  STEPPER_CMD_REV_HIGH
-} StepperCommand_t;
-
-typedef enum
-{
-  FRICTION_3650_A_CMD_NONE = 0,
-  FRICTION_3650_A_CMD_FWD_LOW,
-  FRICTION_3650_A_CMD_FWD_HIGH,
-  FRICTION_3650_A_CMD_REV_LOW,
-  FRICTION_3650_A_CMD_REV_HIGH
-} Friction3650ACommand_t;
-
-typedef enum
-{
-  FRICTION_3650_B_MOTOR_CMD_NONE = 0,
-  FRICTION_3650_B_MOTOR_CMD_FWD_LOW,
-  FRICTION_3650_B_MOTOR_CMD_FWD_HIGH,
-  FRICTION_3650_B_MOTOR_CMD_REV_LOW,
-  FRICTION_3650_B_MOTOR_CMD_REV_HIGH
-} Friction3650BMotorCommand_t;
+  FRICTION_MOTOR_CMD_NONE = 0,
+  FRICTION_MOTOR_CMD_FWD_LOW,
+  FRICTION_MOTOR_CMD_FWD_HIGH,
+  FRICTION_MOTOR_CMD_REV_LOW,
+  FRICTION_MOTOR_CMD_REV_HIGH
+} FrictionMotorCommand_t;
 
 typedef enum
 {
@@ -67,26 +49,96 @@ typedef enum
 
 typedef enum
 {
-  MECANUM_WHEEL_A = 0,
-  MECANUM_WHEEL_B,
-  MECANUM_WHEEL_C,
-  MECANUM_WHEEL_D
-} MecanumWheel_t;
+  CHASSIS_WHEEL_FRONT_LEFT = 0,
+  CHASSIS_WHEEL_FRONT_RIGHT,
+  CHASSIS_WHEEL_REAR_LEFT,
+  CHASSIS_WHEEL_REAR_RIGHT,
+  CHASSIS_WHEEL_COUNT
+} ChassisWheel_t;
 
 typedef enum
 {
-  MECANUM_STOP = 0,
-  MECANUM_FORWARD,
-  MECANUM_REVERSE
-} MecanumDirection_t;
+  CHASSIS_STOP = 0,
+  CHASSIS_FORWARD,
+  CHASSIS_REVERSE
+} ChassisDirection_t;
 
 typedef enum
 {
-  MECANUM_DEMO_STAGE_FORWARD = 0,
-  MECANUM_DEMO_STAGE_STOP_AFTER_FORWARD,
-  MECANUM_DEMO_STAGE_REVERSE,
-  MECANUM_DEMO_STAGE_STOP_AFTER_REVERSE
-} MecanumDemoStage_t;
+  CHASSIS_DEMO_STAGE_FORWARD = 0,
+  CHASSIS_DEMO_STAGE_STOP_AFTER_FORWARD,
+  CHASSIS_DEMO_STAGE_REVERSE,
+  CHASSIS_DEMO_STAGE_STOP_AFTER_REVERSE
+} ChassisDemoStage_t;
+
+typedef struct
+{
+  TIM_HandleTypeDef *tim;
+  uint32_t tim_channel;
+  uint32_t pwm_timer_period;
+  uint32_t fg_pulses_per_rev;
+  GPIO_TypeDef *dir_gpio_port;
+  uint16_t dir_gpio_pin;
+  GPIO_PinState dir_default;
+  volatile uint32_t fg_pulse_count;
+  uint32_t last_report_pulse_count;
+  uint32_t rpm;
+  uint32_t pwm_duty_percent;
+  GPIO_PinState dir_state;
+  uint8_t pwm_running;
+} FrictionMotor_t;
+
+typedef FrictionMotor_t ChassisMotor_t;
+
+typedef enum
+{
+  STEPPER_OUTPUT_SOFTWARE_GPIO = 0,
+  STEPPER_OUTPUT_TIM1_CH1,
+  STEPPER_OUTPUT_TIM1_CH2
+} StepperOutputMode_t;
+
+typedef enum
+{
+  STEPPER_DEBUG_PHASE_FORWARD_RUN = 0,
+  STEPPER_DEBUG_PHASE_FORWARD_DECEL,
+  STEPPER_DEBUG_PHASE_REVERSE_RUN,
+  STEPPER_DEBUG_PHASE_REVERSE_DECEL
+} StepperDebugPhase_t;
+
+typedef enum
+{
+  STEPPER_CONTROL_MODE_AUTO_DEBUG = 0,
+  STEPPER_CONTROL_MODE_MANUAL
+} StepperControlMode_t;
+
+typedef struct
+{
+  StepperOutputMode_t output_mode;
+  GPIO_TypeDef *dir_gpio_port;
+  uint16_t dir_gpio_pin;
+  GPIO_PinState forward_dir_state;
+  float max_speed_sps;
+  float accel_sps2;
+  volatile float current_speed_sps;
+  volatile float target_speed_sps;
+  GPIO_TypeDef *step_gpio_port;
+  uint16_t step_gpio_pin;
+  uint32_t tim_channel;
+  volatile uint32_t tim_toggle_interval_ticks;
+  volatile uint8_t tim_output_running;
+  uint32_t last_cycle_counter;
+  float software_step_accumulator;
+  uint8_t software_pulse_high;
+} StepperAxis_t;
+
+typedef struct
+{
+  TIM_HandleTypeDef *tim;
+  uint32_t tim_channel;
+  volatile uint32_t target_pulse_width_us;
+  volatile int32_t target_angle_deg;
+  uint8_t pwm_running;
+} HardwareServo_t;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -108,15 +160,34 @@ typedef enum
 /* RPM report period for conveyor control */
 #define BELT_DRIVE_RPM_REPORT_PERIOD_MS      1000U
 
-/* Placeholder speed constants for stepper extension */
-#define STEPPER_UART_LOW_RPS                 3U
-#define STEPPER_UART_HIGH_RPS                6U
-
-/* 麦轮四路 PWM 定时器参数（TIM3，1 MHz 计数，周期 1000） */
-#define MECANUM_PWM_TIMER_PERIOD             999U
-#define MECANUM_DEMO_DUTY_PERCENT            99U
-#define MECANUM_DEMO_RUN_TIME_MS             3000U
-#define MECANUM_DEMO_STOP_TIME_MS            1000U
+/* Chassis 3650 motors use the same active-low PWM driver as the belt motors. */
+#define CHASSIS_3650_FG_PULSES_PER_REV       6U
+#define CHASSIS_3650_PWM_TIMER_PERIOD        999U
+#define CHASSIS_3650_DEMO_DUTY_PERCENT       30U
+#define CHASSIS_3650_DEMO_RUN_TIME_MS        3000U
+#define CHASSIS_3650_DEMO_STOP_TIME_MS       1000U
+#define CHASSIS_3650_DIR_DEFAULT             GPIO_PIN_SET
+#define STEPPER_DEBUG_FORWARD_RUN_MS         2000U
+#define STEPPER_DEBUG_CONTROL_PERIOD_MS      5U
+#define STEPPER_AXIS_COUNT                   2U
+#define STEPPER_Y_MAX_SPEED_SPS              680.0f
+#define STEPPER_Z_MAX_SPEED_SPS              2200.0f
+#define STEPPER_Y_ACCEL_SPS2                 260.0f
+#define STEPPER_Z_ACCEL_SPS2                 3000.0f
+#define STEPPER_TIM_STOP_THRESHOLD_SPS       1.0f
+#define STEPPER_DEBUG_TIM1_SLOT_HZ           10000U
+#define STEPPER_TIM_PWM_PULSE_WIDTH_US       4U
+#define STEPPER_UART_SINGLE_AXIS_SCALE       0.45f
+#define STEPPER_UART_ALL_AXES_SCALE          0.30f
+#define UART1_RX_CMD_QUEUE_SIZE              16U
+#define SERVO_PWM_FRAME_US                   20000U
+#define SERVO_PWM_MIN_PULSE_US               500U
+#define SERVO_PWM_CENTER_PULSE_US            1500U
+#define SERVO_PWM_MAX_PULSE_US               2500U
+#define SERVO_MAX_ANGLE_DEG                  135
+#define SERVO_DEFAULT_ANGLE_DEG              0
+#define SERVO_UART_POSITIVE_ANGLE_DEG        135
+#define SERVO_UART_NEGATIVE_ANGLE_DEG        (-135)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -127,53 +198,197 @@ typedef enum
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-static volatile uint32_t friction_3650_a_fg_pulse_count = 0;
-static uint32_t friction_3650_a_last_report_pulse_count = 0;
-static uint32_t friction_3650_a_rpm = 0;
-static uint32_t friction_3650_a_pwm_duty_percent = 0U;
-static GPIO_PinState friction_3650_a_dir_state = FRICTION_3650_A_DIR_DEFAULT;
-static uint8_t friction_3650_a_pwm_running = 0U;
+static FrictionMotor_t friction_3650_a =
+{
+  &htim24,
+  TIM_CHANNEL_1,
+  FRICTION_3650_A_PWM_TIMER_PERIOD,
+  FRICTION_3650_A_FG_PULSES_PER_REV,
+  FRICTION_3650_A_DIR_GPIO_Port,
+  FRICTION_3650_A_DIR_Pin,
+  FRICTION_3650_A_DIR_DEFAULT,
+  0U,
+  0U,
+  0U,
+  0U,
+  FRICTION_3650_A_DIR_DEFAULT,
+  0U
+};
 
-static volatile uint32_t friction_3650_b_fg_pulse_count = 0;
-static uint32_t friction_3650_b_last_report_pulse_count = 0;
-static uint32_t friction_3650_b_rpm = 0;
-static uint32_t friction_3650_b_pwm_duty_percent = 0U;
-static GPIO_PinState friction_3650_b_dir_state = FRICTION_3650_B_DIR_DEFAULT;
-static uint8_t friction_3650_b_pwm_running = 0U;
+static FrictionMotor_t friction_3650_b =
+{
+  &htim24,
+  TIM_CHANNEL_2,
+  FRICTION_3650_B_PWM_TIMER_PERIOD,
+  FRICTION_3650_B_FG_PULSES_PER_REV,
+  FRICTION_3650_B_DIR_GPIO_Port,
+  FRICTION_3650_B_DIR_Pin,
+  FRICTION_3650_B_DIR_DEFAULT,
+  0U,
+  0U,
+  0U,
+  0U,
+  FRICTION_3650_B_DIR_DEFAULT,
+  0U
+};
 
 static uint32_t belt_drive_last_report_tick = 0;
 static uint8_t uart1_rx_byte = 0U;
 static uint8_t belt_drive_uart_tx_buf[64];
-static uint32_t mecanum_demo_last_tick = 0U;
-static MecanumDemoStage_t mecanum_demo_stage = MECANUM_DEMO_STAGE_FORWARD;
+static uint8_t uart1_ack_tx_buf[32];
+static volatile uint8_t uart1_ack_pending = 0U;
+static volatile uint8_t uart1_ack_byte = 0U;
+static volatile uint8_t uart1_rx_cmd_queue[UART1_RX_CMD_QUEUE_SIZE];
+static volatile uint8_t uart1_rx_cmd_read_index = 0U;
+static volatile uint8_t uart1_rx_cmd_write_index = 0U;
+static volatile uint8_t uart1_rx_cmd_count = 0U;
+static uint32_t chassis_demo_last_tick = 0U;
+static ChassisDemoStage_t chassis_demo_stage = CHASSIS_DEMO_STAGE_FORWARD;
+static ChassisMotor_t chassis_3650_motors[CHASSIS_WHEEL_COUNT] =
+{
+  {&htim3, TIM_CHANNEL_1, CHASSIS_3650_PWM_TIMER_PERIOD, CHASSIS_3650_FG_PULSES_PER_REV,
+   CHASSIS_3650_FL_DIR_GPIO_Port, CHASSIS_3650_FL_DIR_Pin, CHASSIS_3650_DIR_DEFAULT,
+   0U, 0U, 0U, 0U, CHASSIS_3650_DIR_DEFAULT, 0U},
+  {&htim2, TIM_CHANNEL_4, CHASSIS_3650_PWM_TIMER_PERIOD, CHASSIS_3650_FG_PULSES_PER_REV,
+   CHASSIS_3650_FR_DIR_GPIO_Port, CHASSIS_3650_FR_DIR_Pin, CHASSIS_3650_DIR_DEFAULT,
+   0U, 0U, 0U, 0U, CHASSIS_3650_DIR_DEFAULT, 0U},
+  {&htim4, TIM_CHANNEL_3, CHASSIS_3650_PWM_TIMER_PERIOD, CHASSIS_3650_FG_PULSES_PER_REV,
+   CHASSIS_3650_RL_DIR_GPIO_Port, CHASSIS_3650_RL_DIR_Pin, CHASSIS_3650_DIR_DEFAULT,
+   0U, 0U, 0U, 0U, CHASSIS_3650_DIR_DEFAULT, 0U},
+  {&htim4, TIM_CHANNEL_4, CHASSIS_3650_PWM_TIMER_PERIOD, CHASSIS_3650_FG_PULSES_PER_REV,
+   CHASSIS_3650_RR_DIR_GPIO_Port, CHASSIS_3650_RR_DIR_Pin, CHASSIS_3650_DIR_DEFAULT,
+   0U, 0U, 0U, 0U, CHASSIS_3650_DIR_DEFAULT, 0U}
+};
+static StepperAxis_t stepper_axis_y =
+{
+  STEPPER_OUTPUT_SOFTWARE_GPIO,
+  Y_DIR_GPIO_Port,
+  Y_DIR_Pin,
+  GPIO_PIN_SET,
+  STEPPER_Y_MAX_SPEED_SPS,
+  STEPPER_Y_ACCEL_SPS2,
+  0.0f,
+  0.0f,
+  Y_STEP_GPIO_Port,
+  Y_STEP_Pin,
+  TIM_CHANNEL_2,
+  0U,
+  0U,
+  0U,
+  0.0f,
+  0U
+};
+static StepperAxis_t stepper_axis_z =
+{
+  STEPPER_OUTPUT_SOFTWARE_GPIO,
+  Z_DIR_GPIO_Port,
+  Z_DIR_Pin,
+  GPIO_PIN_SET,
+  STEPPER_Z_MAX_SPEED_SPS,
+  STEPPER_Z_ACCEL_SPS2,
+  0.0f,
+  0.0f,
+  Z_STEP_GPIO_Port,
+  Z_STEP_Pin,
+  TIM_CHANNEL_1,
+  0U,
+  0U,
+  0U,
+  0.0f,
+  0U
+};
+static StepperAxis_t * const stepper_axes[STEPPER_AXIS_COUNT] =
+{
+  &stepper_axis_y,
+  &stepper_axis_z
+};
+static volatile StepperControlMode_t stepper_control_mode = STEPPER_CONTROL_MODE_AUTO_DEBUG;
+static volatile StepperDebugPhase_t stepper_debug_phase = STEPPER_DEBUG_PHASE_FORWARD_RUN;
+static volatile uint32_t stepper_debug_phase_tick = 0U;
+static volatile uint32_t stepper_debug_last_control_tick = 0U;
+static uint32_t stepper_tim_pwm_pulse_ticks = 1U;
+static HardwareServo_t servo_elbow =
+{
+  &htim15,
+  TIM_CHANNEL_1,
+  SERVO_PWM_CENTER_PULSE_US,
+  SERVO_DEFAULT_ANGLE_DEG,
+  0U
+};
+static HardwareServo_t servo_block =
+{
+  &htim13,
+  TIM_CHANNEL_1,
+  SERVO_PWM_CENTER_PULSE_US,
+  SERVO_DEFAULT_ANGLE_DEG,
+  0U
+};
+static HardwareServo_t servo_gripper =
+{
+  &htim8,
+  TIM_CHANNEL_2,
+  SERVO_PWM_CENTER_PULSE_US,
+  SERVO_DEFAULT_ANGLE_DEG,
+  0U
+};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-static uint32_t Friction3650A_GetPwmCompareFromDuty(uint32_t duty_percent);
-static uint32_t Friction3650B_GetPwmCompareFromDuty(uint32_t duty_percent);
-static void Friction3650A_StopOutput(void);
-static void Friction3650B_StopOutput(void);
-static void Friction3650A_SetOutput(GPIO_PinState dir, uint32_t duty_percent);
-static void Friction3650B_SetOutput(GPIO_PinState dir, uint32_t duty_percent);
+static uint32_t FrictionMotor_GetPwmCompareFromDuty(const FrictionMotor_t *motor, uint32_t duty_percent);
+static void FrictionMotor_StopOutput(FrictionMotor_t *motor);
+static void FrictionMotor_SetOutput(FrictionMotor_t *motor, GPIO_PinState dir, uint32_t duty_percent);
+static void FrictionMotor_InitStopped(FrictionMotor_t *motor);
+static GPIO_PinState FrictionMotor_GetReverseDirection(const FrictionMotor_t *motor);
 static void BeltDrive_StartUartReceive(void);
 static void BeltDrive_ApplyCommand(uint8_t rx_byte);
 static void BeltDrive_ReportRpmIfReady(void);
-static uint32_t Mecanum_GetPwmCompareFromDuty(uint32_t duty_percent);
-static void Mecanum_SetWheelOutput(MecanumWheel_t wheel, MecanumDirection_t direction, uint32_t duty_percent);
-static void Mecanum_StopAllWheels(void);
-static void Mecanum_RunDemoInMainLoop(void);
-static void Stepper_UartControlPlaceholder(uint8_t rx_byte);
+static void Chassis3650_ApplyToAllWheels(ChassisDirection_t direction, uint32_t duty_percent);
+static void Chassis3650_SetWheelOutput(ChassisWheel_t wheel, ChassisDirection_t direction, uint32_t duty_percent);
+static void Chassis3650_StopAllWheels(void);
+static void Chassis3650_RunDemoInMainLoop(void);
+static void StepperDebug_Init(void);
+static void StepperDebug_Run(void);
+static uint32_t StepperDebug_GetTim1CounterClockHz(void);
+static void StepperDebug_ForceTim1ChannelLow(uint32_t tim_channel);
+static void StepperDebug_SetAxisStepLow(StepperAxis_t *axis);
+static void StepperDebug_StartTim1Axis(StepperAxis_t *axis);
+static void StepperDebug_SetAxisDirection(StepperAxis_t *axis, uint8_t forward);
+static float StepperDebug_LimitAxisSpeed(const StepperAxis_t *axis, float speed_sps);
+static void StepperDebug_EnterManualMode(void);
+static void StepperDebug_EnterAutoMode(void);
+static void StepperDebug_CommandAxis(StepperAxis_t *axis, uint8_t forward, float speed_sps);
+static void StepperDebug_CommandAllAxes(uint8_t forward, float speed_scale);
+static void StepperDebug_RequestStopAllAxes(void);
+static void StepperDebug_SetTargetsToCurrentPhase(void);
+static void StepperDebug_UpdatePhase(void);
+static void StepperDebug_UpdateAxisSpeeds(float delta_s);
+static void StepperDebug_ApplyAxisSpeed(StepperAxis_t *axis);
+static uint8_t StepperDebug_AllAxesStopped(void);
+static void StepperDebug_ServiceTim1Axes(float delta_s);
+static void Stepper_RequestStopYAndZAxes(void);
+static void Stepper_ProcessUartCommand(uint8_t rx_byte);
 static void Friction3650A_UartControlPlaceholder(uint8_t rx_byte);
 static void Friction3650BMotor_UartControlPlaceholder(uint8_t rx_byte);
+static uint32_t Servo_ClampPulseWidthUs(uint32_t pulse_width_us);
+static int32_t Servo_ClampAngleDeg(int32_t angle_deg);
+static uint32_t Servo_AngleToPulseWidthUs(int32_t angle_deg);
+static void Servo_Init(HardwareServo_t *servo);
+static void Servo_SetAngleDegrees(HardwareServo_t *servo, int32_t angle_deg);
+static void Servo_UartControlPlaceholder(uint8_t rx_byte);
+static void Uart1_EnqueueRxByte(uint8_t rx_byte);
+static uint8_t Uart1_TryDequeueRxByte(uint8_t *rx_byte);
+static void Uart1_ProcessPendingRxCommands(void);
+static void Uart1_QueueAck(uint8_t rx_byte);
+static void Uart1_SendPendingAck(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-/* Convert duty percent to TIM2 CH1 compare value for motor A */
-static uint32_t Friction3650A_GetPwmCompareFromDuty(uint32_t duty_percent)
+/* Convert duty percent to compare value for active-low PWM outputs */
+static uint32_t FrictionMotor_GetPwmCompareFromDuty(const FrictionMotor_t *motor, uint32_t duty_percent)
 {
   uint32_t inverted_duty_percent;
 
@@ -183,69 +398,54 @@ static uint32_t Friction3650A_GetPwmCompareFromDuty(uint32_t duty_percent)
   }
 
   inverted_duty_percent = 100U - duty_percent;
-  return ((FRICTION_3650_A_PWM_TIMER_PERIOD + 1U) * inverted_duty_percent) / 100U;
+  return ((motor->pwm_timer_period + 1U) * inverted_duty_percent) / 100U;
 }
 
-/* Convert duty percent to TIM4 CH1 compare value for motor B */
-static uint32_t Friction3650B_GetPwmCompareFromDuty(uint32_t duty_percent)
+static void FrictionMotor_StopOutput(FrictionMotor_t *motor)
 {
-  uint32_t inverted_duty_percent;
-
-  if (duty_percent >= 100U)
+  __HAL_TIM_SET_COMPARE(motor->tim, motor->tim_channel, 0U);
+  if (motor->pwm_running != 0U)
   {
-    return 0U;
+    if (HAL_TIM_PWM_Stop(motor->tim, motor->tim_channel) != HAL_OK)
+    {
+      Error_Handler();
+    }
   }
 
-  inverted_duty_percent = 100U - duty_percent;
-  return ((FRICTION_3650_B_PWM_TIMER_PERIOD + 1U) * inverted_duty_percent) / 100U;
+  motor->pwm_duty_percent = 0U;
+  motor->pwm_running = 0U;
 }
 
-/* Apply direction and PWM output for 3650-A motor */
-static void Friction3650A_StopOutput(void)
+static void FrictionMotor_SetOutput(FrictionMotor_t *motor, GPIO_PinState dir, uint32_t duty_percent)
 {
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0U);
-  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
-  friction_3650_a_pwm_duty_percent = 0U;
-  friction_3650_a_pwm_running = 0U;
-}
+  motor->dir_state = dir;
+  motor->pwm_duty_percent = duty_percent;
+  HAL_GPIO_WritePin(motor->dir_gpio_port, motor->dir_gpio_pin, motor->dir_state);
 
-static void Friction3650A_SetOutput(GPIO_PinState dir, uint32_t duty_percent)
-{
-  friction_3650_a_dir_state = dir;
-  friction_3650_a_pwm_duty_percent = duty_percent;
-  HAL_GPIO_WritePin(FRICTION_3650_A_DIR_GPIO_Port, FRICTION_3650_A_DIR_Pin, friction_3650_a_dir_state);
-
-  if (friction_3650_a_pwm_running == 0U)
+  if (motor->pwm_running == 0U)
   {
-    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-    friction_3650_a_pwm_running = 1U;
+    if (HAL_TIM_PWM_Start(motor->tim, motor->tim_channel) != HAL_OK)
+    {
+      Error_Handler();
+    }
+    motor->pwm_running = 1U;
   }
 
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, Friction3650A_GetPwmCompareFromDuty(friction_3650_a_pwm_duty_percent));
+  __HAL_TIM_SET_COMPARE(motor->tim,
+                        motor->tim_channel,
+                        FrictionMotor_GetPwmCompareFromDuty(motor, motor->pwm_duty_percent));
 }
 
-/* Apply direction and PWM output for 3650-B motor */
-static void Friction3650B_StopOutput(void)
+static void FrictionMotor_InitStopped(FrictionMotor_t *motor)
 {
-  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0U);
-  HAL_TIM_PWM_Stop(&htim4, TIM_CHANNEL_1);
-  friction_3650_b_pwm_duty_percent = 0U;
-  friction_3650_b_pwm_running = 0U;
+  HAL_GPIO_WritePin(motor->dir_gpio_port, motor->dir_gpio_pin, motor->dir_default);
+  motor->dir_state = motor->dir_default;
+  FrictionMotor_StopOutput(motor);
 }
 
-static void Friction3650B_SetOutput(GPIO_PinState dir, uint32_t duty_percent)
+static GPIO_PinState FrictionMotor_GetReverseDirection(const FrictionMotor_t *motor)
 {
-  friction_3650_b_dir_state = dir;
-  friction_3650_b_pwm_duty_percent = duty_percent;
-  HAL_GPIO_WritePin(FRICTION_3650_B_DIR_GPIO_Port, FRICTION_3650_B_DIR_Pin, friction_3650_b_dir_state);
-
-  if (friction_3650_b_pwm_running == 0U)
-  {
-    HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-    friction_3650_b_pwm_running = 1U;
-  }
-
-  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, Friction3650B_GetPwmCompareFromDuty(friction_3650_b_pwm_duty_percent));
+  return (motor->dir_default == GPIO_PIN_SET) ? GPIO_PIN_RESET : GPIO_PIN_SET;
 }
 
 /* Start non-blocking USART1 RX (1 byte) and keep receiver alive */
@@ -269,10 +469,10 @@ static void BeltDrive_StartUartReceive(void)
 static void BeltDrive_ApplyCommand(uint8_t rx_byte)
 {
   BeltDriveCommand_t command = BELT_DRIVE_CMD_NONE;
-  uint32_t friction_duty = friction_3650_a_pwm_duty_percent;
-  uint32_t storage_duty = friction_3650_b_pwm_duty_percent;
-  GPIO_PinState friction_dir = friction_3650_a_dir_state;
-  GPIO_PinState storage_dir = friction_3650_b_dir_state;
+  uint32_t friction_duty = friction_3650_a.pwm_duty_percent;
+  uint32_t storage_duty = friction_3650_b.pwm_duty_percent;
+  GPIO_PinState friction_dir = friction_3650_a.dir_state;
+  GPIO_PinState storage_dir = friction_3650_b.dir_state;
 
   switch (rx_byte)
   {
@@ -282,16 +482,16 @@ static void BeltDrive_ApplyCommand(uint8_t rx_byte)
 
     case '1':
       command = BELT_DRIVE_CMD_REV_LOW;
-      friction_dir = (FRICTION_3650_A_DIR_DEFAULT == GPIO_PIN_SET) ? GPIO_PIN_RESET : GPIO_PIN_SET;
-      storage_dir = FRICTION_3650_B_DIR_DEFAULT;
+      friction_dir = FrictionMotor_GetReverseDirection(&friction_3650_a);
+      storage_dir = friction_3650_b.dir_default;
       friction_duty = FRICTION_3650_A_PWM_DUTY_LOW_PERCENT;
       storage_duty = FRICTION_3650_B_DUTY_LOW_PERCENT;
       break;
 
     case '2':
       command = BELT_DRIVE_CMD_REV_HIGH;
-      friction_dir = (FRICTION_3650_A_DIR_DEFAULT == GPIO_PIN_SET) ? GPIO_PIN_RESET : GPIO_PIN_SET;
-      storage_dir = FRICTION_3650_B_DIR_DEFAULT;
+      friction_dir = FrictionMotor_GetReverseDirection(&friction_3650_a);
+      storage_dir = friction_3650_b.dir_default;
       friction_duty = FRICTION_3650_A_PWM_DUTY_HIGH_PERCENT;
       storage_duty = FRICTION_3650_B_DUTY_HIGH_PERCENT;
       break;
@@ -307,13 +507,13 @@ static void BeltDrive_ApplyCommand(uint8_t rx_byte)
 
   if (command == BELT_DRIVE_CMD_STOP)
   {
-    Friction3650A_StopOutput();
-    Friction3650B_StopOutput();
+    FrictionMotor_StopOutput(&friction_3650_a);
+    FrictionMotor_StopOutput(&friction_3650_b);
     return;
   }
 
-  Friction3650A_SetOutput(friction_dir, friction_duty);
-  Friction3650B_SetOutput(storage_dir, storage_duty);
+  FrictionMotor_SetOutput(&friction_3650_a, friction_dir, friction_duty);
+  FrictionMotor_SetOutput(&friction_3650_b, storage_dir, storage_duty);
 }
 
 /* Periodically compute RPM from FG pulses and report via USART1 */
@@ -333,277 +533,588 @@ static void BeltDrive_ReportRpmIfReady(void)
   }
 
   __disable_irq();
-  friction_pulse_snapshot = friction_3650_a_fg_pulse_count;
-  storage_pulse_snapshot = friction_3650_b_fg_pulse_count;
+  friction_pulse_snapshot = friction_3650_a.fg_pulse_count;
+  storage_pulse_snapshot = friction_3650_b.fg_pulse_count;
   __enable_irq();
 
-  friction_pulse_delta = friction_pulse_snapshot - friction_3650_a_last_report_pulse_count;
-  storage_pulse_delta = storage_pulse_snapshot - friction_3650_b_last_report_pulse_count;
-  friction_3650_a_last_report_pulse_count = friction_pulse_snapshot;
-  friction_3650_b_last_report_pulse_count = storage_pulse_snapshot;
+  friction_pulse_delta = friction_pulse_snapshot - friction_3650_a.last_report_pulse_count;
+  storage_pulse_delta = storage_pulse_snapshot - friction_3650_b.last_report_pulse_count;
+  friction_3650_a.last_report_pulse_count = friction_pulse_snapshot;
+  friction_3650_b.last_report_pulse_count = storage_pulse_snapshot;
   belt_drive_last_report_tick = now_tick;
 
   if (elapsed_ms > 0U)
   {
-    friction_3650_a_rpm = (friction_pulse_delta * 60000U) / (FRICTION_3650_A_FG_PULSES_PER_REV * elapsed_ms);
-    friction_3650_b_rpm = (storage_pulse_delta * 60000U) / (FRICTION_3650_B_FG_PULSES_PER_REV * elapsed_ms);
+    friction_3650_a.rpm = (friction_pulse_delta * 60000U) / (friction_3650_a.fg_pulses_per_rev * elapsed_ms);
+    friction_3650_b.rpm = (storage_pulse_delta * 60000U) / (friction_3650_b.fg_pulses_per_rev * elapsed_ms);
   }
   else
   {
-    friction_3650_a_rpm = 0U;
-    friction_3650_b_rpm = 0U;
+    friction_3650_a.rpm = 0U;
+    friction_3650_b.rpm = 0U;
   }
 
   msg_len = snprintf((char *)belt_drive_uart_tx_buf,
                      sizeof(belt_drive_uart_tx_buf),
                      "3650_a_rpm=%lu,3650_b_rpm=%lu\r\n",
-                     friction_3650_a_rpm,
-                     friction_3650_b_rpm);
+                     friction_3650_a.rpm,
+                     friction_3650_b.rpm);
   if (msg_len > 0)
   {
     HAL_UART_Transmit(&huart1, belt_drive_uart_tx_buf, (uint16_t)msg_len, 50);
   }
 }
 
-/* 将占空比百分比转换成 TIM3 的比较值 */
-static uint32_t Mecanum_GetPwmCompareFromDuty(uint32_t duty_percent)
+static void Chassis3650_ApplyToAllWheels(ChassisDirection_t direction, uint32_t duty_percent)
 {
-  uint32_t compare_value;
+  uint32_t wheel_index;
 
-  if (duty_percent >= 100U)
+  for (wheel_index = 0U; wheel_index < (uint32_t)CHASSIS_WHEEL_COUNT; wheel_index++)
   {
-    return MECANUM_PWM_TIMER_PERIOD;
+    Chassis3650_SetWheelOutput((ChassisWheel_t)wheel_index, direction, duty_percent);
   }
-
-  compare_value = ((MECANUM_PWM_TIMER_PERIOD + 1U) * duty_percent) / 100U;
-  if (compare_value > MECANUM_PWM_TIMER_PERIOD)
-  {
-    compare_value = MECANUM_PWM_TIMER_PERIOD;
-  }
-
-  return compare_value;
 }
 
-/*
- * 麦轮单路控制封装：
- *   正转  -> IN1=1, IN2=0
- *   反转  -> IN1=0, IN2=1
- *   停转  -> IN1=0, IN2=0，同时关闭该路 PWM
- *
- * 当前主循环未调用这个函数，先保留给后续底盘控制逻辑使用。
- */
-static void Mecanum_SetWheelOutput(MecanumWheel_t wheel, MecanumDirection_t direction, uint32_t duty_percent)
+static void Chassis3650_SetWheelOutput(ChassisWheel_t wheel, ChassisDirection_t direction, uint32_t duty_percent)
 {
-  uint32_t tim_channel = 0U;
-  GPIO_TypeDef *in1_port = GPIOE;
-  GPIO_TypeDef *in2_port = GPIOE;
-  uint16_t in1_pin = 0U;
-  uint16_t in2_pin = 0U;
+  ChassisMotor_t *motor;
+  GPIO_PinState dir;
 
-  switch (wheel)
+  if ((uint32_t)wheel >= (uint32_t)CHASSIS_WHEEL_COUNT)
   {
-    case MECANUM_WHEEL_A:
-      tim_channel = TIM_CHANNEL_1;
-      in1_pin = AIN1_Pin;
-      in2_pin = AIN2_Pin;
-      break;
-
-    case MECANUM_WHEEL_B:
-      tim_channel = TIM_CHANNEL_2;
-      in1_pin = BIN1_Pin;
-      in2_pin = BIN2_Pin;
-      break;
-
-    case MECANUM_WHEEL_C:
-      tim_channel = TIM_CHANNEL_3;
-      in1_pin = CIN1_Pin;
-      in2_pin = CIN2_Pin;
-      break;
-
-    case MECANUM_WHEEL_D:
-      tim_channel = TIM_CHANNEL_4;
-      in1_pin = DIN1_Pin;
-      in2_pin = DIN2_Pin;
-      break;
-
-    default:
-      return;
-  }
-
-  if ((direction == MECANUM_STOP) || (duty_percent == 0U))
-  {
-    HAL_GPIO_WritePin(in1_port, in1_pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(in2_port, in2_pin, GPIO_PIN_RESET);
-    __HAL_TIM_SET_COMPARE(&htim3, tim_channel, 0U);
-    HAL_TIM_PWM_Stop(&htim3, tim_channel);
     return;
   }
 
-  if (direction == MECANUM_FORWARD)
+  motor = &chassis_3650_motors[(uint32_t)wheel];
+
+  if ((direction == CHASSIS_STOP) || (duty_percent == 0U))
   {
-    HAL_GPIO_WritePin(in1_port, in1_pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(in2_port, in2_pin, GPIO_PIN_RESET);
+    FrictionMotor_StopOutput(motor);
+    return;
+  }
+
+  dir = (direction == CHASSIS_FORWARD) ? motor->dir_default : FrictionMotor_GetReverseDirection(motor);
+  FrictionMotor_SetOutput(motor, dir, duty_percent);
+}
+
+static void Chassis3650_StopAllWheels(void)
+{
+  Chassis3650_ApplyToAllWheels(CHASSIS_STOP, 0U);
+}
+
+static void Chassis3650_RunDemoInMainLoop(void)
+{
+  uint32_t now_tick = HAL_GetTick();
+  uint32_t elapsed_ms = now_tick - chassis_demo_last_tick;
+
+  switch (chassis_demo_stage)
+  {
+    case CHASSIS_DEMO_STAGE_FORWARD:
+      Chassis3650_ApplyToAllWheels(CHASSIS_FORWARD, CHASSIS_3650_DEMO_DUTY_PERCENT);
+      if (elapsed_ms >= CHASSIS_3650_DEMO_RUN_TIME_MS)
+      {
+        chassis_demo_stage = CHASSIS_DEMO_STAGE_STOP_AFTER_FORWARD;
+        chassis_demo_last_tick = now_tick;
+        Chassis3650_StopAllWheels();
+      }
+      break;
+
+    case CHASSIS_DEMO_STAGE_STOP_AFTER_FORWARD:
+      if (elapsed_ms >= CHASSIS_3650_DEMO_STOP_TIME_MS)
+      {
+        chassis_demo_stage = CHASSIS_DEMO_STAGE_REVERSE;
+        chassis_demo_last_tick = now_tick;
+      }
+      break;
+
+    case CHASSIS_DEMO_STAGE_REVERSE:
+      Chassis3650_ApplyToAllWheels(CHASSIS_REVERSE, CHASSIS_3650_DEMO_DUTY_PERCENT);
+      if (elapsed_ms >= CHASSIS_3650_DEMO_RUN_TIME_MS)
+      {
+        chassis_demo_stage = CHASSIS_DEMO_STAGE_STOP_AFTER_REVERSE;
+        chassis_demo_last_tick = now_tick;
+        Chassis3650_StopAllWheels();
+      }
+      break;
+
+    case CHASSIS_DEMO_STAGE_STOP_AFTER_REVERSE:
+    default:
+      if (elapsed_ms >= CHASSIS_3650_DEMO_STOP_TIME_MS)
+      {
+        chassis_demo_stage = CHASSIS_DEMO_STAGE_FORWARD;
+        chassis_demo_last_tick = now_tick;
+      }
+      break;
+  }
+}
+
+static uint32_t StepperDebug_GetTim1CounterClockHz(void)
+{
+  RCC_ClkInitTypeDef clk_config;
+  uint32_t flash_latency;
+  uint32_t pclk_hz;
+
+  HAL_RCC_GetClockConfig(&clk_config, &flash_latency);
+  pclk_hz = HAL_RCC_GetPCLK2Freq();
+  if (clk_config.APB2CLKDivider != RCC_HCLK_DIV1)
+  {
+    pclk_hz *= 2U;
+  }
+
+  return pclk_hz / (htim1.Init.Prescaler + 1U);
+}
+
+static void StepperDebug_ForceTim1ChannelLow(uint32_t tim_channel)
+{
+  if (tim_channel == TIM_CHANNEL_1)
+  {
+    __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0U);
   }
   else
   {
-    HAL_GPIO_WritePin(in1_port, in1_pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(in2_port, in2_pin, GPIO_PIN_SET);
+    __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0U);
   }
-
-  HAL_TIM_PWM_Start(&htim3, tim_channel);
-  __HAL_TIM_SET_COMPARE(&htim3, tim_channel, Mecanum_GetPwmCompareFromDuty(duty_percent));
 }
 
-/* 一键关闭四个麦轮通道，作为底盘待机状态 */
-static void Mecanum_StopAllWheels(void)
+static void StepperDebug_SetAxisStepLow(StepperAxis_t *axis)
 {
-  Mecanum_SetWheelOutput(MECANUM_WHEEL_A, MECANUM_STOP, 0U);
-  Mecanum_SetWheelOutput(MECANUM_WHEEL_B, MECANUM_STOP, 0U);
-  Mecanum_SetWheelOutput(MECANUM_WHEEL_C, MECANUM_STOP, 0U);
-  Mecanum_SetWheelOutput(MECANUM_WHEEL_D, MECANUM_STOP, 0U);
-}
-
-/*
- * 主循环里的麦轮测试逻辑：
- * 1. 四个轮子同速正转 3 秒
- * 2. 全部停转 1 秒
- * 3. 四个轮子同速反转 3 秒
- * 4. 全部停转 1 秒
- * 然后重复，便于直接观察方向和 PWM 是否正常。
- */
-static void Mecanum_RunDemoInMainLoop(void)
-{
-  uint32_t now_tick = HAL_GetTick();
-  uint32_t elapsed_ms = now_tick - mecanum_demo_last_tick;
-
-  switch (mecanum_demo_stage)
+  if (axis->output_mode == STEPPER_OUTPUT_SOFTWARE_GPIO)
   {
-    case MECANUM_DEMO_STAGE_FORWARD:
-      Mecanum_SetWheelOutput(MECANUM_WHEEL_A, MECANUM_FORWARD, MECANUM_DEMO_DUTY_PERCENT);
-      Mecanum_SetWheelOutput(MECANUM_WHEEL_B, MECANUM_FORWARD, MECANUM_DEMO_DUTY_PERCENT);
-      Mecanum_SetWheelOutput(MECANUM_WHEEL_C, MECANUM_FORWARD, MECANUM_DEMO_DUTY_PERCENT);
-      Mecanum_SetWheelOutput(MECANUM_WHEEL_D, MECANUM_FORWARD, MECANUM_DEMO_DUTY_PERCENT);
-      if (elapsed_ms >= MECANUM_DEMO_RUN_TIME_MS)
-      {
-        mecanum_demo_stage = MECANUM_DEMO_STAGE_STOP_AFTER_FORWARD;
-        mecanum_demo_last_tick = now_tick;
-        Mecanum_StopAllWheels();
-      }
-      break;
-
-    case MECANUM_DEMO_STAGE_STOP_AFTER_FORWARD:
-      if (elapsed_ms >= MECANUM_DEMO_STOP_TIME_MS)
-      {
-        mecanum_demo_stage = MECANUM_DEMO_STAGE_REVERSE;
-        mecanum_demo_last_tick = now_tick;
-      }
-      break;
-
-    case MECANUM_DEMO_STAGE_REVERSE:
-      Mecanum_SetWheelOutput(MECANUM_WHEEL_A, MECANUM_REVERSE, MECANUM_DEMO_DUTY_PERCENT);
-      Mecanum_SetWheelOutput(MECANUM_WHEEL_B, MECANUM_REVERSE, MECANUM_DEMO_DUTY_PERCENT);
-      Mecanum_SetWheelOutput(MECANUM_WHEEL_C, MECANUM_REVERSE, MECANUM_DEMO_DUTY_PERCENT);
-      Mecanum_SetWheelOutput(MECANUM_WHEEL_D, MECANUM_REVERSE, MECANUM_DEMO_DUTY_PERCENT);
-      if (elapsed_ms >= MECANUM_DEMO_RUN_TIME_MS)
-      {
-        mecanum_demo_stage = MECANUM_DEMO_STAGE_STOP_AFTER_REVERSE;
-        mecanum_demo_last_tick = now_tick;
-        Mecanum_StopAllWheels();
-      }
-      break;
-
-    case MECANUM_DEMO_STAGE_STOP_AFTER_REVERSE:
-    default:
-      if (elapsed_ms >= MECANUM_DEMO_STOP_TIME_MS)
-      {
-        mecanum_demo_stage = MECANUM_DEMO_STAGE_FORWARD;
-        mecanum_demo_last_tick = now_tick;
-      }
-      break;
+    HAL_GPIO_WritePin(axis->step_gpio_port, axis->step_gpio_pin, GPIO_PIN_RESET);
+  }
+  else
+  {
+    StepperDebug_ForceTim1ChannelLow(axis->tim_channel);
   }
 }
 
-/* Stepper command placeholder for future implementation */
-static void Stepper_UartControlPlaceholder(uint8_t rx_byte)
+static void StepperDebug_StartTim1Axis(StepperAxis_t *axis)
 {
-  StepperCommand_t command = STEPPER_CMD_NONE;
-  GPIO_PinState dir = GPIO_PIN_RESET;
-  uint32_t target_rps = 0U;
-
-  switch (rx_byte)
+  if (axis->output_mode == STEPPER_OUTPUT_SOFTWARE_GPIO)
   {
-    case '1':
-      command = STEPPER_CMD_FWD_LOW;
-      dir = GPIO_PIN_SET;
-      target_rps = STEPPER_UART_LOW_RPS;
-      break;
-
-    case '2':
-      command = STEPPER_CMD_FWD_HIGH;
-      dir = GPIO_PIN_SET;
-      target_rps = STEPPER_UART_HIGH_RPS;
-      break;
-
-    case '3':
-      command = STEPPER_CMD_REV_LOW;
-      dir = GPIO_PIN_RESET;
-      target_rps = STEPPER_UART_LOW_RPS;
-      break;
-
-    case '4':
-      command = STEPPER_CMD_REV_HIGH;
-      dir = GPIO_PIN_RESET;
-      target_rps = STEPPER_UART_HIGH_RPS;
-      break;
-
-    default:
-      break;
+    axis->tim_output_running = 1U;
+    StepperDebug_SetAxisStepLow(axis);
+    return;
   }
 
-  if (command == STEPPER_CMD_NONE)
+  if (axis->tim_output_running != 0U)
   {
     return;
   }
 
-  /*
-   * TODO: Replace this placeholder with real stepper driver calls.
-   * Suggested interface:
-   *   Stepper_SetDirectionAndSpeed(dir, target_rps);
-   */
-  (void)dir;
-  (void)target_rps;
+  if (HAL_TIM_PWM_Start(&htim1, axis->tim_channel) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  axis->tim_output_running = 1U;
+  StepperDebug_ForceTim1ChannelLow(axis->tim_channel);
+}
+
+static void StepperDebug_SetAxisDirection(StepperAxis_t *axis, uint8_t forward)
+{
+  GPIO_PinState dir_state = axis->forward_dir_state;
+
+  if (forward == 0U)
+  {
+    dir_state = (axis->forward_dir_state == GPIO_PIN_SET) ? GPIO_PIN_RESET : GPIO_PIN_SET;
+  }
+
+  HAL_GPIO_WritePin(axis->dir_gpio_port, axis->dir_gpio_pin, dir_state);
+}
+
+static float StepperDebug_LimitAxisSpeed(const StepperAxis_t *axis, float speed_sps)
+{
+  if (speed_sps < 0.0f)
+  {
+    return 0.0f;
+  }
+
+  if (speed_sps > axis->max_speed_sps)
+  {
+    return axis->max_speed_sps;
+  }
+
+  return speed_sps;
+}
+
+static void StepperDebug_EnterManualMode(void)
+{
+  stepper_control_mode = STEPPER_CONTROL_MODE_MANUAL;
+  stepper_debug_phase_tick = HAL_GetTick();
+  stepper_debug_last_control_tick = stepper_debug_phase_tick;
+}
+
+static void StepperDebug_EnterAutoMode(void)
+{
+  uint32_t axis_index;
+
+  stepper_control_mode = STEPPER_CONTROL_MODE_AUTO_DEBUG;
+  stepper_debug_phase = STEPPER_DEBUG_PHASE_FORWARD_RUN;
+  stepper_debug_phase_tick = HAL_GetTick();
+  stepper_debug_last_control_tick = stepper_debug_phase_tick;
+
+  for (axis_index = 0U; axis_index < STEPPER_AXIS_COUNT; axis_index++)
+  {
+    stepper_axes[axis_index]->target_speed_sps = 0.0f;
+  }
+
+  StepperDebug_SetTargetsToCurrentPhase();
+}
+
+static void StepperDebug_CommandAxis(StepperAxis_t *axis, uint8_t forward, float speed_sps)
+{
+  StepperDebug_EnterManualMode();
+  StepperDebug_SetAxisDirection(axis, forward);
+  axis->target_speed_sps = StepperDebug_LimitAxisSpeed(axis, speed_sps);
+}
+
+static void StepperDebug_CommandAllAxes(uint8_t forward, float speed_scale)
+{
+  uint32_t axis_index;
+
+  StepperDebug_EnterManualMode();
+  for (axis_index = 0U; axis_index < STEPPER_AXIS_COUNT; axis_index++)
+  {
+    StepperAxis_t *axis = stepper_axes[axis_index];
+    StepperDebug_SetAxisDirection(axis, forward);
+    axis->target_speed_sps = StepperDebug_LimitAxisSpeed(axis, axis->max_speed_sps * speed_scale);
+  }
+}
+
+static void StepperDebug_RequestStopAllAxes(void)
+{
+  uint32_t axis_index;
+
+  StepperDebug_EnterManualMode();
+  for (axis_index = 0U; axis_index < STEPPER_AXIS_COUNT; axis_index++)
+  {
+    stepper_axes[axis_index]->target_speed_sps = 0.0f;
+  }
+}
+
+static void StepperDebug_SetTargetsToCurrentPhase(void)
+{
+  uint32_t axis_index;
+  uint8_t forward = ((stepper_debug_phase == STEPPER_DEBUG_PHASE_FORWARD_RUN) ||
+                     (stepper_debug_phase == STEPPER_DEBUG_PHASE_FORWARD_DECEL)) ? 1U : 0U;
+
+  for (axis_index = 0U; axis_index < STEPPER_AXIS_COUNT; axis_index++)
+  {
+    StepperAxis_t *axis = stepper_axes[axis_index];
+    StepperDebug_SetAxisDirection(axis, forward);
+
+    if ((stepper_debug_phase == STEPPER_DEBUG_PHASE_FORWARD_RUN) ||
+        (stepper_debug_phase == STEPPER_DEBUG_PHASE_REVERSE_RUN))
+    {
+      axis->target_speed_sps = axis->max_speed_sps;
+    }
+    else
+    {
+      axis->target_speed_sps = 0.0f;
+    }
+  }
+}
+
+static void StepperDebug_UpdatePhase(void)
+{
+  uint32_t now_tick = HAL_GetTick();
+
+  switch (stepper_debug_phase)
+  {
+    case STEPPER_DEBUG_PHASE_FORWARD_RUN:
+      if ((now_tick - stepper_debug_phase_tick) >= STEPPER_DEBUG_FORWARD_RUN_MS)
+      {
+        stepper_debug_phase = STEPPER_DEBUG_PHASE_FORWARD_DECEL;
+        stepper_debug_phase_tick = now_tick;
+        StepperDebug_SetTargetsToCurrentPhase();
+      }
+      break;
+
+    case STEPPER_DEBUG_PHASE_FORWARD_DECEL:
+      if (StepperDebug_AllAxesStopped() != 0U)
+      {
+        stepper_debug_phase = STEPPER_DEBUG_PHASE_REVERSE_RUN;
+        stepper_debug_phase_tick = now_tick;
+        StepperDebug_SetTargetsToCurrentPhase();
+      }
+      break;
+
+    case STEPPER_DEBUG_PHASE_REVERSE_RUN:
+      if ((now_tick - stepper_debug_phase_tick) >= STEPPER_DEBUG_FORWARD_RUN_MS)
+      {
+        stepper_debug_phase = STEPPER_DEBUG_PHASE_REVERSE_DECEL;
+        stepper_debug_phase_tick = now_tick;
+        StepperDebug_SetTargetsToCurrentPhase();
+      }
+      break;
+
+    case STEPPER_DEBUG_PHASE_REVERSE_DECEL:
+    default:
+      if (StepperDebug_AllAxesStopped() != 0U)
+      {
+        stepper_debug_phase = STEPPER_DEBUG_PHASE_FORWARD_RUN;
+        stepper_debug_phase_tick = now_tick;
+        StepperDebug_SetTargetsToCurrentPhase();
+      }
+      break;
+  }
+}
+
+static void StepperDebug_UpdateAxisSpeeds(float delta_s)
+{
+  uint32_t axis_index;
+
+  for (axis_index = 0U; axis_index < STEPPER_AXIS_COUNT; axis_index++)
+  {
+    StepperAxis_t *axis = stepper_axes[axis_index];
+    float speed_step = axis->accel_sps2 * delta_s;
+
+    if (axis->current_speed_sps < axis->target_speed_sps)
+    {
+      axis->current_speed_sps += speed_step;
+      if (axis->current_speed_sps > axis->target_speed_sps)
+      {
+        axis->current_speed_sps = axis->target_speed_sps;
+      }
+    }
+    else if (axis->current_speed_sps > axis->target_speed_sps)
+    {
+      axis->current_speed_sps -= speed_step;
+      if (axis->current_speed_sps < axis->target_speed_sps)
+      {
+        axis->current_speed_sps = axis->target_speed_sps;
+      }
+    }
+
+    if (axis->current_speed_sps < 0.0f)
+    {
+      axis->current_speed_sps = 0.0f;
+    }
+
+    StepperDebug_ApplyAxisSpeed(axis);
+  }
+}
+
+static void StepperDebug_ApplyAxisSpeed(StepperAxis_t *axis)
+{
+  if (axis->current_speed_sps < STEPPER_TIM_STOP_THRESHOLD_SPS)
+  {
+    axis->tim_toggle_interval_ticks = 0U;
+    axis->tim_output_running = 0U;
+    StepperDebug_SetAxisStepLow(axis);
+    return;
+  }
+
+  StepperDebug_StartTim1Axis(axis);
+}
+
+static uint8_t StepperDebug_AllAxesStopped(void)
+{
+  uint32_t axis_index;
+
+  for (axis_index = 0U; axis_index < STEPPER_AXIS_COUNT; axis_index++)
+  {
+    if (stepper_axes[axis_index]->current_speed_sps > STEPPER_TIM_STOP_THRESHOLD_SPS)
+    {
+      return 0U;
+    }
+  }
+
+  return 1U;
+}
+
+static void StepperDebug_ServiceTim1Axes(float delta_s)
+{
+  uint32_t axis_index;
+
+  for (axis_index = 0U; axis_index < STEPPER_AXIS_COUNT; axis_index++)
+  {
+    StepperAxis_t *axis = stepper_axes[axis_index];
+
+    if (axis->tim_output_running == 0U)
+    {
+      StepperDebug_SetAxisStepLow(axis);
+      continue;
+    }
+
+    if (axis->current_speed_sps < STEPPER_TIM_STOP_THRESHOLD_SPS)
+    {
+      StepperDebug_SetAxisStepLow(axis);
+      continue;
+    }
+
+    axis->software_step_accumulator += axis->current_speed_sps * delta_s;
+    if (axis->software_step_accumulator >= 1.0f)
+    {
+      axis->software_step_accumulator -= 1.0f;
+      if (axis->output_mode == STEPPER_OUTPUT_SOFTWARE_GPIO)
+      {
+        HAL_GPIO_WritePin(axis->step_gpio_port, axis->step_gpio_pin, GPIO_PIN_SET);
+      }
+      else
+      {
+        __HAL_TIM_SET_COMPARE(&htim1, axis->tim_channel, stepper_tim_pwm_pulse_ticks);
+      }
+    }
+    else
+    {
+      StepperDebug_SetAxisStepLow(axis);
+    }
+  }
+}
+
+static void StepperDebug_Init(void)
+{
+  uint32_t axis_index;
+  uint32_t tim_clock_hz;
+  uint32_t tim_period_ticks;
+
+  tim_clock_hz = StepperDebug_GetTim1CounterClockHz();
+  tim_period_ticks = (tim_clock_hz / STEPPER_DEBUG_TIM1_SLOT_HZ);
+  stepper_tim_pwm_pulse_ticks = (tim_clock_hz / 1000000U) * STEPPER_TIM_PWM_PULSE_WIDTH_US;
+  if (stepper_tim_pwm_pulse_ticks == 0U)
+  {
+    stepper_tim_pwm_pulse_ticks = 1U;
+  }
+  if (tim_period_ticks < (stepper_tim_pwm_pulse_ticks + 2U))
+  {
+    tim_period_ticks = stepper_tim_pwm_pulse_ticks + 2U;
+  }
+  if (stepper_tim_pwm_pulse_ticks >= tim_period_ticks)
+  {
+    stepper_tim_pwm_pulse_ticks = tim_period_ticks - 1U;
+  }
+
+  __HAL_TIM_SET_AUTORELOAD(&htim1, tim_period_ticks - 1U);
+  __HAL_TIM_SET_COUNTER(&htim1, 0U);
+  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0U);
+  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0U);
+  if (HAL_TIM_GenerateEvent(&htim1, TIM_EVENTSOURCE_UPDATE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  __HAL_TIM_CLEAR_FLAG(&htim1, TIM_FLAG_UPDATE);
+
+  for (axis_index = 0U; axis_index < STEPPER_AXIS_COUNT; axis_index++)
+  {
+    StepperAxis_t *axis = stepper_axes[axis_index];
+    axis->current_speed_sps = 0.0f;
+    axis->target_speed_sps = 0.0f;
+    axis->tim_toggle_interval_ticks = 0U;
+    axis->tim_output_running = 0U;
+    axis->software_step_accumulator = 0.0f;
+    StepperDebug_SetAxisStepLow(axis);
+  }
+
+  StepperDebug_StartTim1Axis(&stepper_axis_y);
+  StepperDebug_StartTim1Axis(&stepper_axis_z);
+  __HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
+  __HAL_TIM_ENABLE(&htim1);
+  stepper_debug_phase = STEPPER_DEBUG_PHASE_FORWARD_RUN;
+  stepper_debug_phase_tick = HAL_GetTick();
+  stepper_debug_last_control_tick = stepper_debug_phase_tick;
+  StepperDebug_SetTargetsToCurrentPhase();
+}
+
+static void StepperDebug_Run(void)
+{
+  uint32_t now_tick = HAL_GetTick();
+  uint32_t elapsed_ms = now_tick - stepper_debug_last_control_tick;
+  float elapsed_s;
+
+  if (elapsed_ms >= STEPPER_DEBUG_CONTROL_PERIOD_MS)
+  {
+    stepper_debug_last_control_tick = now_tick;
+    elapsed_s = (float)elapsed_ms / 1000.0f;
+    if (stepper_control_mode == STEPPER_CONTROL_MODE_AUTO_DEBUG)
+    {
+      StepperDebug_UpdatePhase();
+    }
+    StepperDebug_UpdateAxisSpeeds(elapsed_s);
+  }
+}
+
+/*
+ * Stepper UART placeholder:
+ *   '3'/'4' Y axis forward/reverse
+ *   '5'/'6' Z axis forward/reverse
+ *
+ * The command handler is intentionally byte-oriented so it can be fed directly
+ * from HAL_UART_RxCpltCallback() during bring-up.
+ */
+static void Stepper_RequestStopYAndZAxes(void)
+{
+  StepperDebug_EnterManualMode();
+  stepper_axis_y.target_speed_sps = 0.0f;
+  stepper_axis_z.target_speed_sps = 0.0f;
+}
+
+/*
+ * Stepper UART command mapping handled in the main loop:
+ *   '0' stop Y/Z axes with deceleration
+ *   '3'/'4' Y axis forward/reverse
+ *   '5'/'6' Z axis forward/reverse
+ */
+static void Stepper_ProcessUartCommand(uint8_t rx_byte)
+{
+  switch (rx_byte)
+  {
+    case '0':
+      Stepper_RequestStopYAndZAxes();
+      break;
+
+    case '3':
+      StepperDebug_CommandAxis(&stepper_axis_y, 1U, stepper_axis_y.max_speed_sps * STEPPER_UART_SINGLE_AXIS_SCALE);
+      break;
+
+    case '4':
+      StepperDebug_CommandAxis(&stepper_axis_y, 0U, stepper_axis_y.max_speed_sps * STEPPER_UART_SINGLE_AXIS_SCALE);
+      break;
+
+    case '5':
+      StepperDebug_CommandAxis(&stepper_axis_z, 1U, stepper_axis_z.max_speed_sps * STEPPER_UART_SINGLE_AXIS_SCALE);
+      break;
+
+    case '6':
+      StepperDebug_CommandAxis(&stepper_axis_z, 0U, stepper_axis_z.max_speed_sps * STEPPER_UART_SINGLE_AXIS_SCALE);
+      break;
+
+    default:
+      break;
+  }
 }
 
 /* 3650-A single motor UART command placeholder */
 static void Friction3650A_UartControlPlaceholder(uint8_t rx_byte)
 {
-  Friction3650ACommand_t command = FRICTION_3650_A_CMD_NONE;
-  GPIO_PinState dir = FRICTION_3650_A_DIR_DEFAULT;
-  uint32_t duty_percent = friction_3650_a_pwm_duty_percent;
+  FrictionMotorCommand_t command = FRICTION_MOTOR_CMD_NONE;
+  GPIO_PinState dir = friction_3650_a.dir_default;
+  uint32_t duty_percent = friction_3650_a.pwm_duty_percent;
 
   switch (rx_byte)
   {
     case 'A':
-      command = FRICTION_3650_A_CMD_FWD_LOW;
-      dir = GPIO_PIN_SET;
+      command = FRICTION_MOTOR_CMD_FWD_LOW;
+      dir = friction_3650_a.dir_default;
       duty_percent = FRICTION_3650_A_PWM_DUTY_LOW_PERCENT;
       break;
 
     case 'B':
-      command = FRICTION_3650_A_CMD_FWD_HIGH;
-      dir = GPIO_PIN_SET;
+      command = FRICTION_MOTOR_CMD_FWD_HIGH;
+      dir = friction_3650_a.dir_default;
       duty_percent = FRICTION_3650_A_PWM_DUTY_HIGH_PERCENT;
       break;
 
     case 'C':
-      command = FRICTION_3650_A_CMD_REV_LOW;
-      dir = GPIO_PIN_RESET;
+      command = FRICTION_MOTOR_CMD_REV_LOW;
+      dir = FrictionMotor_GetReverseDirection(&friction_3650_a);
       duty_percent = FRICTION_3650_A_PWM_DUTY_LOW_PERCENT;
       break;
 
     case 'D':
-      command = FRICTION_3650_A_CMD_REV_HIGH;
-      dir = GPIO_PIN_RESET;
+      command = FRICTION_MOTOR_CMD_REV_HIGH;
+      dir = FrictionMotor_GetReverseDirection(&friction_3650_a);
       duty_percent = FRICTION_3650_A_PWM_DUTY_HIGH_PERCENT;
       break;
 
@@ -611,44 +1122,44 @@ static void Friction3650A_UartControlPlaceholder(uint8_t rx_byte)
       break;
   }
 
-  if (command == FRICTION_3650_A_CMD_NONE)
+  if (command == FRICTION_MOTOR_CMD_NONE)
   {
     return;
   }
 
-  Friction3650A_SetOutput(dir, duty_percent);
+  FrictionMotor_SetOutput(&friction_3650_a, dir, duty_percent);
 }
 
 /* 3650-B single motor UART command placeholder */
 static void Friction3650BMotor_UartControlPlaceholder(uint8_t rx_byte)
 {
-  Friction3650BMotorCommand_t command = FRICTION_3650_B_MOTOR_CMD_NONE;
-  GPIO_PinState dir = friction_3650_b_dir_state;
-  uint32_t duty_percent = friction_3650_b_pwm_duty_percent;
+  FrictionMotorCommand_t command = FRICTION_MOTOR_CMD_NONE;
+  GPIO_PinState dir = friction_3650_b.dir_default;
+  uint32_t duty_percent = friction_3650_b.pwm_duty_percent;
 
   switch (rx_byte)
   {
     case 'E':
-      command = FRICTION_3650_B_MOTOR_CMD_FWD_LOW;
-      dir = GPIO_PIN_SET;
+      command = FRICTION_MOTOR_CMD_FWD_LOW;
+      dir = friction_3650_b.dir_default;
       duty_percent = FRICTION_3650_B_DUTY_LOW_PERCENT;
       break;
 
     case 'F':
-      command = FRICTION_3650_B_MOTOR_CMD_FWD_HIGH;
-      dir = GPIO_PIN_SET;
+      command = FRICTION_MOTOR_CMD_FWD_HIGH;
+      dir = friction_3650_b.dir_default;
       duty_percent = FRICTION_3650_B_DUTY_HIGH_PERCENT;
       break;
 
     case 'G':
-      command = FRICTION_3650_B_MOTOR_CMD_REV_LOW;
-      dir = GPIO_PIN_RESET;
+      command = FRICTION_MOTOR_CMD_REV_LOW;
+      dir = FrictionMotor_GetReverseDirection(&friction_3650_b);
       duty_percent = FRICTION_3650_B_DUTY_LOW_PERCENT;
       break;
 
     case 'H':
-      command = FRICTION_3650_B_MOTOR_CMD_REV_HIGH;
-      dir = GPIO_PIN_RESET;
+      command = FRICTION_MOTOR_CMD_REV_HIGH;
+      dir = FrictionMotor_GetReverseDirection(&friction_3650_b);
       duty_percent = FRICTION_3650_B_DUTY_HIGH_PERCENT;
       break;
 
@@ -656,12 +1167,212 @@ static void Friction3650BMotor_UartControlPlaceholder(uint8_t rx_byte)
       break;
   }
 
-  if (command == FRICTION_3650_B_MOTOR_CMD_NONE)
+  if (command == FRICTION_MOTOR_CMD_NONE)
   {
     return;
   }
 
-  Friction3650B_SetOutput(dir, duty_percent);
+  FrictionMotor_SetOutput(&friction_3650_b, dir, duty_percent);
+}
+
+static uint32_t Servo_ClampPulseWidthUs(uint32_t pulse_width_us)
+{
+  if (pulse_width_us < SERVO_PWM_MIN_PULSE_US)
+  {
+    return SERVO_PWM_MIN_PULSE_US;
+  }
+
+  if (pulse_width_us > SERVO_PWM_MAX_PULSE_US)
+  {
+    return SERVO_PWM_MAX_PULSE_US;
+  }
+
+  return pulse_width_us;
+}
+
+static int32_t Servo_ClampAngleDeg(int32_t angle_deg)
+{
+  if (angle_deg < (-SERVO_MAX_ANGLE_DEG))
+  {
+    return -SERVO_MAX_ANGLE_DEG;
+  }
+
+  if (angle_deg > SERVO_MAX_ANGLE_DEG)
+  {
+    return SERVO_MAX_ANGLE_DEG;
+  }
+
+  return angle_deg;
+}
+
+static uint32_t Servo_AngleToPulseWidthUs(int32_t angle_deg)
+{
+  int32_t clamped_angle = Servo_ClampAngleDeg(angle_deg);
+  int32_t numerator = clamped_angle * (int32_t)(SERVO_PWM_MAX_PULSE_US - SERVO_PWM_CENTER_PULSE_US);
+  int32_t offset_us;
+
+  if (numerator >= 0)
+  {
+    numerator += SERVO_MAX_ANGLE_DEG / 2;
+  }
+  else
+  {
+    numerator -= SERVO_MAX_ANGLE_DEG / 2;
+  }
+
+  offset_us = numerator / SERVO_MAX_ANGLE_DEG;
+  return Servo_ClampPulseWidthUs((uint32_t)((int32_t)SERVO_PWM_CENTER_PULSE_US + offset_us));
+}
+
+static void Servo_SetAngleDegrees(HardwareServo_t *servo, int32_t angle_deg)
+{
+  int32_t clamped_angle = Servo_ClampAngleDeg(angle_deg);
+
+  servo->target_angle_deg = clamped_angle;
+  servo->target_pulse_width_us = Servo_AngleToPulseWidthUs(clamped_angle);
+  __HAL_TIM_SET_COMPARE(servo->tim, servo->tim_channel, servo->target_pulse_width_us);
+}
+
+static void Servo_Init(HardwareServo_t *servo)
+{
+  Servo_SetAngleDegrees(servo, servo->target_angle_deg);
+
+  if (servo->pwm_running == 0U)
+  {
+    if (HAL_TIM_PWM_Start(servo->tim, servo->tim_channel) != HAL_OK)
+    {
+      Error_Handler();
+    }
+    servo->pwm_running = 1U;
+  }
+}
+
+/*
+ * Servo UART commands:
+ *   'I' -> center (0 deg)
+ *   'J' -> +135 deg
+ *   'K' -> -135 deg
+ */
+static void Servo_UartControlPlaceholder(uint8_t rx_byte)
+{
+  switch (rx_byte)
+  {
+    case 'I':
+      Servo_SetAngleDegrees(&servo_elbow, SERVO_DEFAULT_ANGLE_DEG);
+      break;
+
+    case 'J':
+      Servo_SetAngleDegrees(&servo_elbow, SERVO_UART_POSITIVE_ANGLE_DEG);
+      break;
+
+    case 'K':
+      Servo_SetAngleDegrees(&servo_elbow, SERVO_UART_NEGATIVE_ANGLE_DEG);
+      break;
+
+    default:
+      break;
+  }
+}
+
+static void Uart1_EnqueueRxByte(uint8_t rx_byte)
+{
+  __disable_irq();
+
+  if (uart1_rx_cmd_count >= UART1_RX_CMD_QUEUE_SIZE)
+  {
+    uart1_rx_cmd_read_index++;
+    if (uart1_rx_cmd_read_index >= UART1_RX_CMD_QUEUE_SIZE)
+    {
+      uart1_rx_cmd_read_index = 0U;
+    }
+    uart1_rx_cmd_count--;
+  }
+
+  uart1_rx_cmd_queue[uart1_rx_cmd_write_index] = rx_byte;
+  uart1_rx_cmd_write_index++;
+  if (uart1_rx_cmd_write_index >= UART1_RX_CMD_QUEUE_SIZE)
+  {
+    uart1_rx_cmd_write_index = 0U;
+  }
+  uart1_rx_cmd_count++;
+
+  __enable_irq();
+}
+
+static uint8_t Uart1_TryDequeueRxByte(uint8_t *rx_byte)
+{
+  uint8_t has_data = 0U;
+
+  __disable_irq();
+
+  if (uart1_rx_cmd_count > 0U)
+  {
+    *rx_byte = uart1_rx_cmd_queue[uart1_rx_cmd_read_index];
+    uart1_rx_cmd_read_index++;
+    if (uart1_rx_cmd_read_index >= UART1_RX_CMD_QUEUE_SIZE)
+    {
+      uart1_rx_cmd_read_index = 0U;
+    }
+    uart1_rx_cmd_count--;
+    has_data = 1U;
+  }
+
+  __enable_irq();
+  return has_data;
+}
+
+static void Uart1_ProcessPendingRxCommands(void)
+{
+  uint8_t rx_byte;
+
+  while (Uart1_TryDequeueRxByte(&rx_byte) != 0U)
+  {
+    Stepper_ProcessUartCommand(rx_byte);
+    Servo_UartControlPlaceholder(rx_byte);
+    Uart1_QueueAck(rx_byte);
+  }
+}
+
+static void Uart1_QueueAck(uint8_t rx_byte)
+{
+  uart1_ack_byte = rx_byte;
+  uart1_ack_pending = 1U;
+}
+
+static void Uart1_SendPendingAck(void)
+{
+  uint8_t rx_byte;
+  int msg_len;
+
+  if (uart1_ack_pending == 0U)
+  {
+    return;
+  }
+
+  __disable_irq();
+  rx_byte = uart1_ack_byte;
+  uart1_ack_pending = 0U;
+  __enable_irq();
+
+  if ((rx_byte >= 32U) && (rx_byte <= 126U))
+  {
+    msg_len = snprintf((char *)uart1_ack_tx_buf,
+                       sizeof(uart1_ack_tx_buf),
+                       "ACK:%c\r\n",
+                       rx_byte);
+  }
+  else
+  {
+    msg_len = snprintf((char *)uart1_ack_tx_buf,
+                       sizeof(uart1_ack_tx_buf),
+                       "ACK:0x%02X\r\n",
+                       rx_byte);
+  }
+
+  if (msg_len > 0)
+  {
+    HAL_UART_Transmit(&huart1, uart1_ack_tx_buf, (uint16_t)msg_len, 50);
+  }
 }
 /* USER CODE END 0 */
 
@@ -701,24 +1412,20 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM4_Init();
   MX_USART1_UART_Init();
+  MX_TIM1_Init();
+  MX_TIM8_Init();
+  MX_TIM13_Init();
+  MX_TIM15_Init();
+  MX_TIM24_Init();
   /* USER CODE BEGIN 2 */
-  belt_drive_last_report_tick = HAL_GetTick();
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-  friction_3650_a_pwm_running = 1U;
-  friction_3650_b_pwm_running = 1U;
-
-  /* 初始化两路 3650 电机为默认方向、0% 占空比 */
-  HAL_GPIO_WritePin(FRICTION_3650_A_DIR_GPIO_Port, FRICTION_3650_A_DIR_Pin, FRICTION_3650_A_DIR_DEFAULT);
-  HAL_GPIO_WritePin(FRICTION_3650_B_DIR_GPIO_Port, FRICTION_3650_B_DIR_Pin, FRICTION_3650_B_DIR_DEFAULT);
-  Friction3650A_StopOutput();
-  Friction3650B_StopOutput();
-
-  /* 麦轮测试逻辑已接入主循环，先从正转阶段开始。 */
-  mecanum_demo_stage = MECANUM_DEMO_STAGE_FORWARD;
-  mecanum_demo_last_tick = HAL_GetTick();
-  Mecanum_StopAllWheels();
-
+  FrictionMotor_InitStopped(&friction_3650_a);
+  FrictionMotor_InitStopped(&friction_3650_b);
+  Chassis3650_StopAllWheels();
+  StepperDebug_Init();
+  StepperDebug_RequestStopAllAxes();
+  Servo_Init(&servo_elbow);
+  Servo_Init(&servo_block);
+  Servo_Init(&servo_gripper);
   BeltDrive_StartUartReceive();
 
   /* USER CODE END 2 */
@@ -730,8 +1437,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    Mecanum_RunDemoInMainLoop();
-    BeltDrive_ReportRpmIfReady();
+    Uart1_ProcessPendingRxCommands();
+    Uart1_SendPendingAck();
+    StepperDebug_Run();
   }
   /* USER CODE END 3 */
 }
@@ -800,11 +1508,27 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   if (GPIO_Pin == FRICTION_3650_A_FG_Pin)
   {
-    friction_3650_a_fg_pulse_count++;
+    friction_3650_a.fg_pulse_count++;
   }
   else if (GPIO_Pin == FRICTION_3650_B_FG_Pin)
   {
-    friction_3650_b_fg_pulse_count++;
+    friction_3650_b.fg_pulse_count++;
+  }
+  else if (GPIO_Pin == CHASSIS_3650_FL_FG_Pin)
+  {
+    chassis_3650_motors[CHASSIS_WHEEL_FRONT_LEFT].fg_pulse_count++;
+  }
+  else if (GPIO_Pin == CHASSIS_3650_FR_FG_Pin)
+  {
+    chassis_3650_motors[CHASSIS_WHEEL_FRONT_RIGHT].fg_pulse_count++;
+  }
+  else if (GPIO_Pin == CHASSIS_3650_RL_FG_Pin)
+  {
+    chassis_3650_motors[CHASSIS_WHEEL_REAR_LEFT].fg_pulse_count++;
+  }
+  else if (GPIO_Pin == CHASSIS_3650_RR_FG_Pin)
+  {
+    chassis_3650_motors[CHASSIS_WHEEL_REAR_RIGHT].fg_pulse_count++;
   }
 }
 
@@ -812,7 +1536,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   if (huart->Instance == USART1)
   {
-    BeltDrive_ApplyCommand(uart1_rx_byte);
+    Uart1_EnqueueRxByte(uart1_rx_byte);
     BeltDrive_StartUartReceive();
   }
 }
@@ -823,6 +1547,16 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
   {
     BeltDrive_StartUartReceive();
   }
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if (htim->Instance != TIM1)
+  {
+    return;
+  }
+
+  StepperDebug_ServiceTim1Axes(1.0f / (float)STEPPER_DEBUG_TIM1_SLOT_HZ);
 }
 /* USER CODE END 4 */
 
@@ -886,6 +1620,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-
-

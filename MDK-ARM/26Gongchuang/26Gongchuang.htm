@@ -3,7 +3,7 @@
 <title>Static Call Graph - [26Gongchuang\26Gongchuang.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image 26Gongchuang\26Gongchuang.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Apr 16 23:31:19 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Apr 24 18:31:04 2026
 <BR><P>
 <H3>Maximum Stack Usage =        336 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -12,7 +12,7 @@ __rt_entry_main &rArr; main &rArr; MX_USART1_UART_Init &rArr; HAL_UART_Init &rAr
 <H3>
 Functions with no stack information
 </H3><UL>
- <LI><a href="#[ba]">__user_initial_stackheap</a>
+ <LI><a href="#[c1]">__user_initial_stackheap</a>
 </UL>
 </UL>
 <P>
@@ -151,7 +151,7 @@ Function Pointers
  <LI><a href="#[25]">TIM1_BRK_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[28]">TIM1_CC_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[27]">TIM1_TRG_COM_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
- <LI><a href="#[26]">TIM1_UP_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
+ <LI><a href="#[26]">TIM1_UP_IRQHandler</a> from stm32h7xx_it.o(i.TIM1_UP_IRQHandler) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[94]">TIM23_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[95]">TIM24_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[29]">TIM2_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
@@ -193,8 +193,8 @@ Function Pointers
 Global Symbols
 </H3>
 <P><STRONG><a name="[9f]"></a>__main</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, __main.o(!!!main))
-<BR><BR>[Calls]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
-<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+<BR><BR>[Calls]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+<LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
 </UL>
 
 <P><STRONG><a name="[a0]"></a>__scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter))
@@ -205,141 +205,146 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
 </UL>
 
-<P><STRONG><a name="[113]"></a>__scatterload_rt2_thumb_only</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
+<P><STRONG><a name="[137]"></a>__scatterload_rt2_thumb_only</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
 
-<P><STRONG><a name="[114]"></a>__scatterload_null</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
+<P><STRONG><a name="[138]"></a>__scatterload_null</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
 
-<P><STRONG><a name="[a3]"></a>__scatterload_copy</STRONG> (Thumb, 26 bytes, Stack size unknown bytes, __scatter_copy.o(!!handler_copy), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_copy
-</UL>
-<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_copy
-</UL>
+<P><STRONG><a name="[139]"></a>__decompress</STRONG> (Thumb, 90 bytes, Stack size unknown bytes, __dczerorl2.o(!!dczerorl2), UNUSED)
 
-<P><STRONG><a name="[115]"></a>__scatterload_zeroinit</STRONG> (Thumb, 28 bytes, Stack size unknown bytes, __scatter_zi.o(!!handler_zi), UNUSED)
+<P><STRONG><a name="[13a]"></a>__decompress1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __dczerorl2.o(!!dczerorl2), UNUSED)
 
-<P><STRONG><a name="[b8]"></a>_printf_percent</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000))
-<BR><BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+<P><STRONG><a name="[13b]"></a>__scatterload_zeroinit</STRONG> (Thumb, 28 bytes, Stack size unknown bytes, __scatter_zi.o(!!handler_zi), UNUSED)
+
+<P><STRONG><a name="[bd]"></a>_printf_percent</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
 </UL>
 
-<P><STRONG><a name="[a4]"></a>_printf_u</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, _printf_u.o(.ARM.Collect$$_printf_percent$$0000000A))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56 + Unknown Stack Size
-<LI>Call Chain = _printf_u &rArr; _printf_int_dec &rArr; _printf_int_common
+<P><STRONG><a name="[a3]"></a>_printf_x</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64 + Unknown Stack Size
+<LI>Call Chain = _printf_x &rArr; _printf_int_hex &rArr; _printf_int_common &rArr; _printf_post_padding
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_dec
-</UL>
-
-<P><STRONG><a name="[116]"></a>_printf_percent_end</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017))
-
-<P><STRONG><a name="[ab]"></a>__rt_lib_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit.o(.ARM.Collect$$libinit$$00000000))
-<BR><BR>[Called By]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_li
+<BR>[Calls]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_hex
 </UL>
 
-<P><STRONG><a name="[a6]"></a>__rt_lib_init_fp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000001))
-<BR><BR>[Calls]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_init
+<P><STRONG><a name="[a5]"></a>_printf_c</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, _printf_c.o(.ARM.Collect$$_printf_percent$$00000013))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
+<LI>Call Chain = _printf_c &rArr; _printf_char &rArr; _printf_cs_common &rArr; _printf_str &rArr; _printf_post_padding
+</UL>
+<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char
 </UL>
 
-<P><STRONG><a name="[117]"></a>__rt_lib_init_alloca_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002E))
+<P><STRONG><a name="[13c]"></a>_printf_percent_end</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017))
 
-<P><STRONG><a name="[118]"></a>__rt_lib_init_argv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002C))
-
-<P><STRONG><a name="[119]"></a>__rt_lib_init_atexit_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001B))
-
-<P><STRONG><a name="[11a]"></a>__rt_lib_init_clock_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000021))
-
-<P><STRONG><a name="[11b]"></a>__rt_lib_init_cpp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000032))
-
-<P><STRONG><a name="[11c]"></a>__rt_lib_init_exceptions_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000030))
-
-<P><STRONG><a name="[11d]"></a>__rt_lib_init_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001F))
-
-<P><STRONG><a name="[11e]"></a>__rt_lib_init_getenv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000023))
-
-<P><STRONG><a name="[11f]"></a>__rt_lib_init_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000A))
-
-<P><STRONG><a name="[120]"></a>__rt_lib_init_lc_collate_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000011))
-
-<P><STRONG><a name="[121]"></a>__rt_lib_init_lc_ctype_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000013))
-
-<P><STRONG><a name="[122]"></a>__rt_lib_init_lc_monetary_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000015))
-
-<P><STRONG><a name="[123]"></a>__rt_lib_init_lc_numeric_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000017))
-
-<P><STRONG><a name="[124]"></a>__rt_lib_init_lc_time_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000019))
-
-<P><STRONG><a name="[125]"></a>__rt_lib_init_preinit_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000004))
-
-<P><STRONG><a name="[126]"></a>__rt_lib_init_rand_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000E))
-
-<P><STRONG><a name="[127]"></a>__rt_lib_init_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000033))
-
-<P><STRONG><a name="[128]"></a>__rt_lib_init_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001D))
-
-<P><STRONG><a name="[129]"></a>__rt_lib_init_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000025))
-
-<P><STRONG><a name="[12a]"></a>__rt_lib_init_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000C))
-
-<P><STRONG><a name="[b0]"></a>__rt_lib_shutdown</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown.o(.ARM.Collect$$libshutdown$$00000000))
-<BR><BR>[Called By]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_ls
+<P><STRONG><a name="[ac]"></a>__rt_lib_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit.o(.ARM.Collect$$libinit$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_li
 </UL>
 
-<P><STRONG><a name="[12b]"></a>__rt_lib_shutdown_cpp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000004))
+<P><STRONG><a name="[a7]"></a>__rt_lib_init_fp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000001))
+<BR><BR>[Calls]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_init
+</UL>
 
-<P><STRONG><a name="[12c]"></a>__rt_lib_shutdown_fini_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000002))
+<P><STRONG><a name="[13d]"></a>__rt_lib_init_alloca_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002E))
 
-<P><STRONG><a name="[12d]"></a>__rt_lib_shutdown_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000009))
+<P><STRONG><a name="[13e]"></a>__rt_lib_init_argv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002C))
 
-<P><STRONG><a name="[12e]"></a>__rt_lib_shutdown_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000011))
+<P><STRONG><a name="[13f]"></a>__rt_lib_init_atexit_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001B))
 
-<P><STRONG><a name="[12f]"></a>__rt_lib_shutdown_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000012))
+<P><STRONG><a name="[140]"></a>__rt_lib_init_clock_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000021))
 
-<P><STRONG><a name="[130]"></a>__rt_lib_shutdown_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000C))
+<P><STRONG><a name="[141]"></a>__rt_lib_init_cpp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000032))
 
-<P><STRONG><a name="[131]"></a>__rt_lib_shutdown_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000006))
+<P><STRONG><a name="[142]"></a>__rt_lib_init_exceptions_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000030))
 
-<P><STRONG><a name="[132]"></a>__rt_lib_shutdown_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E))
+<P><STRONG><a name="[143]"></a>__rt_lib_init_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001F))
+
+<P><STRONG><a name="[144]"></a>__rt_lib_init_getenv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000023))
+
+<P><STRONG><a name="[145]"></a>__rt_lib_init_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000A))
+
+<P><STRONG><a name="[146]"></a>__rt_lib_init_lc_collate_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000011))
+
+<P><STRONG><a name="[147]"></a>__rt_lib_init_lc_ctype_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000013))
+
+<P><STRONG><a name="[148]"></a>__rt_lib_init_lc_monetary_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000015))
+
+<P><STRONG><a name="[149]"></a>__rt_lib_init_lc_numeric_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000017))
+
+<P><STRONG><a name="[14a]"></a>__rt_lib_init_lc_time_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000019))
+
+<P><STRONG><a name="[14b]"></a>__rt_lib_init_preinit_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000004))
+
+<P><STRONG><a name="[14c]"></a>__rt_lib_init_rand_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000E))
+
+<P><STRONG><a name="[14d]"></a>__rt_lib_init_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000033))
+
+<P><STRONG><a name="[14e]"></a>__rt_lib_init_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001D))
+
+<P><STRONG><a name="[14f]"></a>__rt_lib_init_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000025))
+
+<P><STRONG><a name="[150]"></a>__rt_lib_init_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000C))
+
+<P><STRONG><a name="[b1]"></a>__rt_lib_shutdown</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown.o(.ARM.Collect$$libshutdown$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_ls
+</UL>
+
+<P><STRONG><a name="[151]"></a>__rt_lib_shutdown_cpp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000004))
+
+<P><STRONG><a name="[152]"></a>__rt_lib_shutdown_fini_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000002))
+
+<P><STRONG><a name="[153]"></a>__rt_lib_shutdown_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000009))
+
+<P><STRONG><a name="[154]"></a>__rt_lib_shutdown_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000011))
+
+<P><STRONG><a name="[155]"></a>__rt_lib_shutdown_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000012))
+
+<P><STRONG><a name="[156]"></a>__rt_lib_shutdown_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000C))
+
+<P><STRONG><a name="[157]"></a>__rt_lib_shutdown_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000006))
+
+<P><STRONG><a name="[158]"></a>__rt_lib_shutdown_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E))
 
 <P><STRONG><a name="[a1]"></a>__rt_entry</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry.o(.ARM.Collect$$rtentry$$00000000))
-<BR><BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
-<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
+<BR><BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
+<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
-<P><STRONG><a name="[133]"></a>__rt_entry_presh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000002))
+<P><STRONG><a name="[159]"></a>__rt_entry_presh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000002))
 
-<P><STRONG><a name="[a8]"></a>__rt_entry_sh</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry4.o(.ARM.Collect$$rtentry$$00000004))
+<P><STRONG><a name="[a9]"></a>__rt_entry_sh</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry4.o(.ARM.Collect$$rtentry$$00000004))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_sh &rArr; __user_setup_stackheap
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
+<BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[aa]"></a>__rt_entry_li</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000A))
-<BR><BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init
+<P><STRONG><a name="[ab]"></a>__rt_entry_li</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000A))
+<BR><BR>[Calls]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init
 </UL>
 
-<P><STRONG><a name="[134]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
+<P><STRONG><a name="[15a]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
-<P><STRONG><a name="[ac]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
+<P><STRONG><a name="[ad]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
 <BR><BR>[Stack]<UL><LI>Max Depth = 336 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; MX_USART1_UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
+<BR>[Calls]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
 </UL>
 
-<P><STRONG><a name="[135]"></a>__rt_entry_postli_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000C))
+<P><STRONG><a name="[15b]"></a>__rt_entry_postli_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000C))
 
-<P><STRONG><a name="[bb]"></a>__rt_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit.o(.ARM.Collect$$rtexit$$00000000))
-<BR><BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
+<P><STRONG><a name="[c2]"></a>__rt_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit.o(.ARM.Collect$$rtexit$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
 </UL>
 
-<P><STRONG><a name="[af]"></a>__rt_exit_ls</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000003))
-<BR><BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_shutdown
+<P><STRONG><a name="[b0]"></a>__rt_exit_ls</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000003))
+<BR><BR>[Calls]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_shutdown
 </UL>
 
-<P><STRONG><a name="[136]"></a>__rt_exit_prels_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000002))
+<P><STRONG><a name="[15c]"></a>__rt_exit_prels_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000002))
 
-<P><STRONG><a name="[b1]"></a>__rt_exit_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000004))
-<BR><BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_exit
+<P><STRONG><a name="[b2]"></a>__rt_exit_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000004))
+<BR><BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_exit
 </UL>
 
 <P><STRONG><a name="[3]"></a>Reset_Handler</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, startup_stm32h723xx.o(.text))
@@ -679,9 +684,6 @@ Global Symbols
 <P><STRONG><a name="[27]"></a>TIM1_TRG_COM_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32h723xx.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[26]"></a>TIM1_UP_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32h723xx.o(.text))
-<BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
-</UL>
 <P><STRONG><a name="[94]"></a>TIM23_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32h723xx.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
@@ -751,127 +753,179 @@ Global Symbols
 <P><STRONG><a name="[d]"></a>WWDG_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32h723xx.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[ba]"></a>__user_initial_stackheap</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup_stm32h723xx.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
+<P><STRONG><a name="[c1]"></a>__user_initial_stackheap</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup_stm32h723xx.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[10f]"></a>__aeabi_uldivmod</STRONG> (Thumb, 0 bytes, Stack size 48 bytes, lludivv7m.o(.text))
+<P><STRONG><a name="[131]"></a>__aeabi_uldivmod</STRONG> (Thumb, 0 bytes, Stack size 48 bytes, lludivv7m.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = __aeabi_uldivmod
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
+<BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 
-<P><STRONG><a name="[137]"></a>_ll_udiv</STRONG> (Thumb, 238 bytes, Stack size 48 bytes, lludivv7m.o(.text), UNUSED)
+<P><STRONG><a name="[15d]"></a>_ll_udiv</STRONG> (Thumb, 238 bytes, Stack size 48 bytes, lludivv7m.o(.text), UNUSED)
 
-<P><STRONG><a name="[b3]"></a>__2snprintf</STRONG> (Thumb, 50 bytes, Stack size 40 bytes, __2snprintf.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 128 + Unknown Stack Size
+<P><STRONG><a name="[b4]"></a>__2snprintf</STRONG> (Thumb, 50 bytes, Stack size 40 bytes, __2snprintf.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 144 + Unknown Stack Size
 <LI>Call Chain = __2snprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sputc
-<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_common
+<BR>[Calls]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sputc
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_common
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_ReportRpmIfReady
-</UL>
-
-<P><STRONG><a name="[a5]"></a>_printf_int_dec</STRONG> (Thumb, 104 bytes, Stack size 24 bytes, _printf_dec.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = _printf_int_dec &rArr; _printf_int_common
-</UL>
-<BR>[Calls]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_common
-</UL>
-<BR>[Called By]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_u
+<BR>[Called By]<UL><LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart1_SendPendingAck
 </UL>
 
-<P><STRONG><a name="[b7]"></a>__printf</STRONG> (Thumb, 184 bytes, Stack size 24 bytes, __printf_ss.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24 + Unknown Stack Size
+<P><STRONG><a name="[b8]"></a>_printf_pre_padding</STRONG> (Thumb, 44 bytes, Stack size 16 bytes, _printf_pad.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = _printf_pre_padding
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_common
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_str
+</UL>
+
+<P><STRONG><a name="[b9]"></a>_printf_post_padding</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, _printf_pad.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = _printf_post_padding
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_common
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_str
+</UL>
+
+<P><STRONG><a name="[b7]"></a>_printf_str</STRONG> (Thumb, 82 bytes, Stack size 16 bytes, _printf_str.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = _printf_str &rArr; _printf_post_padding
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_post_padding
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding
+</UL>
+<BR>[Called By]<UL><LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_cs_common
+</UL>
+
+<P><STRONG><a name="[a4]"></a>_printf_int_hex</STRONG> (Thumb, 84 bytes, Stack size 16 bytes, _printf_hex_int.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = _printf_int_hex &rArr; _printf_int_common &rArr; _printf_post_padding
+</UL>
+<BR>[Calls]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_common
+</UL>
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_x
+</UL>
+
+<P><STRONG><a name="[15e]"></a>_printf_longlong_hex</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, _printf_hex_int.o(.text), UNUSED)
+
+<P><STRONG><a name="[bb]"></a>__printf</STRONG> (Thumb, 308 bytes, Stack size 40 bytes, __printf_flags_wp.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
 <LI>Call Chain = __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_percent
+<BR>[Calls]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_percent
+<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_is_digit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_common
+<BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_common
 </UL>
 
-<P><STRONG><a name="[dd]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text))
+<P><STRONG><a name="[e9]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = __aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
-<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
-<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
+<BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM8_Init
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM1_Init
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
+<LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
 
-<P><STRONG><a name="[138]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
+<P><STRONG><a name="[15f]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
 
-<P><STRONG><a name="[139]"></a>__rt_memclr_w</STRONG> (Thumb, 78 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
+<P><STRONG><a name="[160]"></a>__rt_memclr_w</STRONG> (Thumb, 78 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
 
-<P><STRONG><a name="[13a]"></a>_memset_w</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text), UNUSED)
+<P><STRONG><a name="[161]"></a>_memset_w</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text), UNUSED)
 
-<P><STRONG><a name="[13b]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[162]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[13c]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[163]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[13d]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[164]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[b6]"></a>_printf_int_common</STRONG> (Thumb, 178 bytes, Stack size 32 bytes, _printf_intcommon.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = _printf_int_common
+<P><STRONG><a name="[ba]"></a>_printf_int_common</STRONG> (Thumb, 178 bytes, Stack size 32 bytes, _printf_intcommon.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = _printf_int_common &rArr; _printf_post_padding
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_dec
+<BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_post_padding
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding
+</UL>
+<BR>[Called By]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_hex
 </UL>
 
-<P><STRONG><a name="[b4]"></a>_printf_char_common</STRONG> (Thumb, 32 bytes, Stack size 64 bytes, _printf_char_common.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 88 + Unknown Stack Size
+<P><STRONG><a name="[b5]"></a>_printf_char_common</STRONG> (Thumb, 32 bytes, Stack size 64 bytes, _printf_char_common.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104 + Unknown Stack Size
 <LI>Call Chain = _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+<BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
+<BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
 </UL>
 
-<P><STRONG><a name="[b5]"></a>_sputc</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, _sputc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
+<P><STRONG><a name="[b6]"></a>_sputc</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, _sputc.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
 </UL>
 
 <P><STRONG><a name="[98]"></a>_snputc</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, _snputc.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> __2snprintf.o(.text)
 </UL>
-<P><STRONG><a name="[a9]"></a>__user_setup_stackheap</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, sys_stackheap_outer.o(.text))
+<P><STRONG><a name="[be]"></a>_printf_cs_common</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, _printf_char.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = _printf_cs_common &rArr; _printf_str &rArr; _printf_post_padding
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_str
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_string
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char
+</UL>
+
+<P><STRONG><a name="[a6]"></a>_printf_char</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, _printf_char.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = _printf_char &rArr; _printf_cs_common &rArr; _printf_str &rArr; _printf_post_padding
+</UL>
+<BR>[Calls]<UL><LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_cs_common
+</UL>
+<BR>[Called By]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_c
+</UL>
+
+<P><STRONG><a name="[bf]"></a>_printf_string</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, _printf_char.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_cs_common
+</UL>
+
+<P><STRONG><a name="[aa]"></a>__user_setup_stackheap</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, sys_stackheap_outer.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = __user_setup_stackheap
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_initial_stackheap
-<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_perproc_libspace
+<BR>[Calls]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_initial_stackheap
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_perproc_libspace
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_sh
+<BR>[Called By]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_sh
 </UL>
 
-<P><STRONG><a name="[ae]"></a>exit</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, exit.o(.text))
+<P><STRONG><a name="[af]"></a>exit</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, exit.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = exit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit
+<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
-</UL>
-
-<P><STRONG><a name="[13e]"></a>__user_libspace</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
-
-<P><STRONG><a name="[b9]"></a>__user_perproc_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
+<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[13f]"></a>__user_perthread_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
+<P><STRONG><a name="[165]"></a>__user_libspace</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
 
-<P><STRONG><a name="[b2]"></a>_sys_exit</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, sys_exit.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_exit
+<P><STRONG><a name="[c0]"></a>__user_perproc_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[140]"></a>__I$use$semihosting</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
+<P><STRONG><a name="[166]"></a>__user_perthread_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
 
-<P><STRONG><a name="[141]"></a>__use_no_semihosting_swi</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
+<P><STRONG><a name="[b3]"></a>_sys_exit</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, sys_exit.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_exit
+</UL>
 
-<P><STRONG><a name="[142]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, indicate_semi.o(.text), UNUSED)
+<P><STRONG><a name="[167]"></a>__I$use$semihosting</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
+
+<P><STRONG><a name="[168]"></a>__use_no_semihosting_swi</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
+
+<P><STRONG><a name="[169]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, indicate_semi.o(.text), UNUSED)
 
 <P><STRONG><a name="[7]"></a>BusFault_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_it.o(i.BusFault_Handler))
 <BR><BR>[Calls]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BusFault_Handler
@@ -886,424 +940,511 @@ Global Symbols
 <P><STRONG><a name="[15]"></a>EXTI2_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32h7xx_it.o(i.EXTI2_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = EXTI2_IRQHandler &rArr; HAL_GPIO_EXTI_IRQHandler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_IRQHandler
+<BR>[Calls]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
 <P><STRONG><a name="[17]"></a>EXTI4_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32h7xx_it.o(i.EXTI4_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = EXTI4_IRQHandler &rArr; HAL_GPIO_EXTI_IRQHandler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_IRQHandler
+<BR>[Calls]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[fb]"></a>Error_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, main.o(i.Error_Handler))
-<BR><BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
-<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<P><STRONG><a name="[10a]"></a>Error_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, main.o(i.Error_Handler))
+<BR><BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM8_Init
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM1_Init
 </UL>
 
-<P><STRONG><a name="[c8]"></a>HAL_DMA_Abort</STRONG> (Thumb, 836 bytes, Stack size 40 bytes, stm32h7xx_hal_dma.o(i.HAL_DMA_Abort))
+<P><STRONG><a name="[ca]"></a>HAL_DMA_Abort</STRONG> (Thumb, 836 bytes, Stack size 40 bytes, stm32h7xx_hal_dma.o(i.HAL_DMA_Abort))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HAL_DMA_Abort
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
 
-<P><STRONG><a name="[f0]"></a>HAL_DMA_Abort_IT</STRONG> (Thumb, 602 bytes, Stack size 40 bytes, stm32h7xx_hal_dma.o(i.HAL_DMA_Abort_IT))
+<P><STRONG><a name="[ff]"></a>HAL_DMA_Abort_IT</STRONG> (Thumb, 602 bytes, Stack size 40 bytes, stm32h7xx_hal_dma.o(i.HAL_DMA_Abort_IT))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HAL_DMA_Abort_IT
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
 
-<P><STRONG><a name="[c9]"></a>HAL_GPIO_EXTI_Callback</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, main.o(i.HAL_GPIO_EXTI_Callback))
-<BR><BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_IRQHandler
+<P><STRONG><a name="[cc]"></a>HAL_GPIO_EXTI_Callback</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, main.o(i.HAL_GPIO_EXTI_Callback))
+<BR><BR>[Called By]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_IRQHandler
 </UL>
 
-<P><STRONG><a name="[c6]"></a>HAL_GPIO_EXTI_IRQHandler</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, stm32h7xx_hal_gpio.o(i.HAL_GPIO_EXTI_IRQHandler))
+<P><STRONG><a name="[c5]"></a>HAL_GPIO_EXTI_IRQHandler</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, stm32h7xx_hal_gpio.o(i.HAL_GPIO_EXTI_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = HAL_GPIO_EXTI_IRQHandler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_Callback
+<BR>[Calls]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_Callback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI4_IRQHandler
 <LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI2_IRQHandler
 </UL>
 
-<P><STRONG><a name="[de]"></a>HAL_GPIO_Init</STRONG> (Thumb, 496 bytes, Stack size 40 bytes, stm32h7xx_hal_gpio.o(i.HAL_GPIO_Init))
+<P><STRONG><a name="[ea]"></a>HAL_GPIO_Init</STRONG> (Thumb, 496 bytes, Stack size 40 bytes, stm32h7xx_hal_gpio.o(i.HAL_GPIO_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HAL_GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
-<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
-<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
+<BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 </UL>
 
-<P><STRONG><a name="[bd]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32h7xx_hal_gpio.o(i.HAL_GPIO_WritePin))
-<BR><BR>[Called By]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
-<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
-<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_ApplyCommand
+<P><STRONG><a name="[c7]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32h7xx_hal_gpio.o(i.HAL_GPIO_WritePin))
+<BR><BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
+<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_SetAxisDirection
+<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_ServiceSoftwareAxis
+<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
+<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FrictionMotor_InitStopped
 </UL>
 
-<P><STRONG><a name="[c2]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32h7xx_hal.o(i.HAL_GetTick))
-<BR><BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
-<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
-<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
-<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
-<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_PWREx_ConfigSupply
-<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_RunDemoInMainLoop
-<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_ReportRpmIfReady
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
-<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
-<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort
-<LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLL3_Config
-<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLL2_Config
+<P><STRONG><a name="[cb]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32h7xx_hal.o(i.HAL_GetTick))
+<BR><BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
+<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
+<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
+<LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_PWREx_ConfigSupply
+<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_UpdatePhase
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_Init
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_EnterManualMode
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLL3_Config
+<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLL2_Config
+<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort
+<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
 </UL>
 
-<P><STRONG><a name="[10b]"></a>HAL_IncTick</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32h7xx_hal.o(i.HAL_IncTick))
+<P><STRONG><a name="[12d]"></a>HAL_IncTick</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32h7xx_hal.o(i.HAL_IncTick))
 <BR><BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
-<P><STRONG><a name="[ca]"></a>HAL_Init</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, stm32h7xx_hal.o(i.HAL_Init))
+<P><STRONG><a name="[cd]"></a>HAL_Init</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, stm32h7xx_hal.o(i.HAL_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HAL_Init &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MspInit
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
-<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
-<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriorityGrouping
+<BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
+<LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriorityGrouping
+<LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MspInit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[cd]"></a>HAL_InitTick</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, stm32h7xx_hal.o(i.HAL_InitTick))
+<P><STRONG><a name="[d0]"></a>HAL_InitTick</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, stm32h7xx_hal.o(i.HAL_InitTick))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = HAL_InitTick &rArr; HAL_NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
-<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SYSTICK_Config
+<BR>[Calls]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
+<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SYSTICK_Config
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 </UL>
 
-<P><STRONG><a name="[111]"></a>HAL_MPU_ConfigRegion</STRONG> (Thumb, 86 bytes, Stack size 20 bytes, stm32h7xx_hal_cortex.o(i.HAL_MPU_ConfigRegion))
+<P><STRONG><a name="[135]"></a>HAL_MPU_ConfigRegion</STRONG> (Thumb, 86 bytes, Stack size 20 bytes, stm32h7xx_hal_cortex.o(i.HAL_MPU_ConfigRegion))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = HAL_MPU_ConfigRegion
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[110]"></a>HAL_MPU_Disable</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, stm32h7xx_hal_cortex.o(i.HAL_MPU_Disable))
-<BR><BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<P><STRONG><a name="[134]"></a>HAL_MPU_Disable</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, stm32h7xx_hal_cortex.o(i.HAL_MPU_Disable))
+<BR><BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[112]"></a>HAL_MPU_Enable</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, stm32h7xx_hal_cortex.o(i.HAL_MPU_Enable))
-<BR><BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<P><STRONG><a name="[136]"></a>HAL_MPU_Enable</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, stm32h7xx_hal_cortex.o(i.HAL_MPU_Enable))
+<BR><BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ce]"></a>HAL_MspInit</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, stm32h7xx_hal_msp.o(i.HAL_MspInit))
+<P><STRONG><a name="[d1]"></a>HAL_MspInit</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, stm32h7xx_hal_msp.o(i.HAL_MspInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = HAL_MspInit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 </UL>
 
-<P><STRONG><a name="[fc]"></a>HAL_NVIC_EnableIRQ</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32h7xx_hal_cortex.o(i.HAL_NVIC_EnableIRQ))
-<BR><BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
-<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
+<P><STRONG><a name="[f5]"></a>HAL_NVIC_EnableIRQ</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32h7xx_hal_cortex.o(i.HAL_NVIC_EnableIRQ))
+<BR><BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
+<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_MspInit
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 </UL>
 
-<P><STRONG><a name="[d0]"></a>HAL_NVIC_SetPriority</STRONG> (Thumb, 60 bytes, Stack size 16 bytes, stm32h7xx_hal_cortex.o(i.HAL_NVIC_SetPriority))
+<P><STRONG><a name="[d3]"></a>HAL_NVIC_SetPriority</STRONG> (Thumb, 60 bytes, Stack size 16 bytes, stm32h7xx_hal_cortex.o(i.HAL_NVIC_SetPriority))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SetPriority
+<BR>[Calls]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SetPriority
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
-<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
+<BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
+<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_MspInit
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
+<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
 </UL>
 
-<P><STRONG><a name="[cb]"></a>HAL_NVIC_SetPriorityGrouping</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, stm32h7xx_hal_cortex.o(i.HAL_NVIC_SetPriorityGrouping))
+<P><STRONG><a name="[ce]"></a>HAL_NVIC_SetPriorityGrouping</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, stm32h7xx_hal_cortex.o(i.HAL_NVIC_SetPriorityGrouping))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = HAL_NVIC_SetPriorityGrouping
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 </UL>
 
-<P><STRONG><a name="[d2]"></a>HAL_PWREx_ConfigSupply</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, stm32h7xx_hal_pwr_ex.o(i.HAL_PWREx_ConfigSupply))
+<P><STRONG><a name="[d5]"></a>HAL_PWREx_ConfigSupply</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, stm32h7xx_hal_pwr_ex.o(i.HAL_PWREx_ConfigSupply))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_PWREx_ConfigSupply
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
+<BR>[Called By]<UL><LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
 
-<P><STRONG><a name="[d3]"></a>HAL_RCCEx_GetD3PCLK1Freq</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, stm32h7xx_hal_rcc_ex.o(i.HAL_RCCEx_GetD3PCLK1Freq))
+<P><STRONG><a name="[d6]"></a>HAL_RCCEx_GetD3PCLK1Freq</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, stm32h7xx_hal_rcc_ex.o(i.HAL_RCCEx_GetD3PCLK1Freq))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = HAL_RCCEx_GetD3PCLK1Freq &rArr; HAL_RCC_GetHCLKFreq &rArr; HAL_RCC_GetSysClockFreq
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
+<BR>[Calls]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
+<BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 
-<P><STRONG><a name="[10d]"></a>HAL_RCCEx_GetPLL2ClockFreq</STRONG> (Thumb, 296 bytes, Stack size 12 bytes, stm32h7xx_hal_rcc_ex.o(i.HAL_RCCEx_GetPLL2ClockFreq))
+<P><STRONG><a name="[12f]"></a>HAL_RCCEx_GetPLL2ClockFreq</STRONG> (Thumb, 296 bytes, Stack size 12 bytes, stm32h7xx_hal_rcc_ex.o(i.HAL_RCCEx_GetPLL2ClockFreq))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = HAL_RCCEx_GetPLL2ClockFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
+<BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 
-<P><STRONG><a name="[10e]"></a>HAL_RCCEx_GetPLL3ClockFreq</STRONG> (Thumb, 296 bytes, Stack size 12 bytes, stm32h7xx_hal_rcc_ex.o(i.HAL_RCCEx_GetPLL3ClockFreq))
+<P><STRONG><a name="[130]"></a>HAL_RCCEx_GetPLL3ClockFreq</STRONG> (Thumb, 296 bytes, Stack size 12 bytes, stm32h7xx_hal_rcc_ex.o(i.HAL_RCCEx_GetPLL3ClockFreq))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = HAL_RCCEx_GetPLL3ClockFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
+<BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 
-<P><STRONG><a name="[d5]"></a>HAL_RCCEx_PeriphCLKConfig</STRONG> (Thumb, 2362 bytes, Stack size 48 bytes, stm32h7xx_hal_rcc_ex.o(i.HAL_RCCEx_PeriphCLKConfig))
+<P><STRONG><a name="[d8]"></a>HAL_RCCEx_PeriphCLKConfig</STRONG> (Thumb, 2362 bytes, Stack size 48 bytes, stm32h7xx_hal_rcc_ex.o(i.HAL_RCCEx_PeriphCLKConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLL3_Config
-<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLL2_Config
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLL3_Config
+<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLL2_Config
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
+<BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
 </UL>
 
-<P><STRONG><a name="[d8]"></a>HAL_RCC_ClockConfig</STRONG> (Thumb, 580 bytes, Stack size 40 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_ClockConfig))
+<P><STRONG><a name="[db]"></a>HAL_RCC_ClockConfig</STRONG> (Thumb, 580 bytes, Stack size 40 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_ClockConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = HAL_RCC_ClockConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
-<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
+<BR>[Called By]<UL><LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
 
-<P><STRONG><a name="[d4]"></a>HAL_RCC_GetHCLKFreq</STRONG> (Thumb, 52 bytes, Stack size 12 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_GetHCLKFreq))
+<P><STRONG><a name="[122]"></a>HAL_RCC_GetClockConfig</STRONG> (Thumb, 84 bytes, Stack size 16 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_GetClockConfig))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_RCC_GetClockConfig
+</UL>
+<BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_Init
+</UL>
+
+<P><STRONG><a name="[d7]"></a>HAL_RCC_GetHCLKFreq</STRONG> (Thumb, 52 bytes, Stack size 12 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_GetHCLKFreq))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = HAL_RCC_GetHCLKFreq &rArr; HAL_RCC_GetSysClockFreq
 </UL>
-<BR>[Calls]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
+<BR>[Calls]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_GetD3PCLK1Freq
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK2Freq
-<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK1Freq
+<BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK2Freq
+<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_GetD3PCLK1Freq
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK1Freq
 </UL>
 
-<P><STRONG><a name="[d9]"></a>HAL_RCC_GetPCLK1Freq</STRONG> (Thumb, 26 bytes, Stack size 4 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_GetPCLK1Freq))
+<P><STRONG><a name="[dc]"></a>HAL_RCC_GetPCLK1Freq</STRONG> (Thumb, 26 bytes, Stack size 4 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_GetPCLK1Freq))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = HAL_RCC_GetPCLK1Freq &rArr; HAL_RCC_GetHCLKFreq &rArr; HAL_RCC_GetSysClockFreq
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
+<BR>[Calls]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
+<BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 
-<P><STRONG><a name="[da]"></a>HAL_RCC_GetPCLK2Freq</STRONG> (Thumb, 26 bytes, Stack size 4 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_GetPCLK2Freq))
+<P><STRONG><a name="[dd]"></a>HAL_RCC_GetPCLK2Freq</STRONG> (Thumb, 26 bytes, Stack size 4 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_GetPCLK2Freq))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = HAL_RCC_GetPCLK2Freq &rArr; HAL_RCC_GetHCLKFreq &rArr; HAL_RCC_GetSysClockFreq
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
+<BR>[Calls]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
+<BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_Init
+<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 
-<P><STRONG><a name="[cc]"></a>HAL_RCC_GetSysClockFreq</STRONG> (Thumb, 278 bytes, Stack size 16 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_GetSysClockFreq))
+<P><STRONG><a name="[cf]"></a>HAL_RCC_GetSysClockFreq</STRONG> (Thumb, 278 bytes, Stack size 16 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_GetSysClockFreq))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_RCC_GetSysClockFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
-<LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
+<BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
 </UL>
 
-<P><STRONG><a name="[db]"></a>HAL_RCC_OscConfig</STRONG> (Thumb, 1318 bytes, Stack size 40 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_OscConfig))
+<P><STRONG><a name="[de]"></a>HAL_RCC_OscConfig</STRONG> (Thumb, 1318 bytes, Stack size 40 bytes, stm32h7xx_hal_rcc.o(i.HAL_RCC_OscConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HAL_RCC_OscConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
+<BR>[Called By]<UL><LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
 
-<P><STRONG><a name="[cf]"></a>HAL_SYSTICK_Config</STRONG> (Thumb, 38 bytes, Stack size 8 bytes, stm32h7xx_hal_cortex.o(i.HAL_SYSTICK_Config))
+<P><STRONG><a name="[d2]"></a>HAL_SYSTICK_Config</STRONG> (Thumb, 38 bytes, Stack size 8 bytes, stm32h7xx_hal_cortex.o(i.HAL_SYSTICK_Config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = HAL_SYSTICK_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SetPriority
+<BR>[Calls]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SetPriority
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
+<BR>[Called By]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
 </UL>
 
-<P><STRONG><a name="[102]"></a>HAL_TIMEx_MasterConfigSynchronization</STRONG> (Thumb, 146 bytes, Stack size 20 bytes, stm32h7xx_hal_tim_ex.o(i.HAL_TIMEx_MasterConfigSynchronization))
+<P><STRONG><a name="[e5]"></a>HAL_TIMEx_Break2Callback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_tim_ex.o(i.HAL_TIMEx_Break2Callback))
+<BR><BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
+</UL>
+
+<P><STRONG><a name="[e4]"></a>HAL_TIMEx_BreakCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_tim_ex.o(i.HAL_TIMEx_BreakCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
+</UL>
+
+<P><STRONG><a name="[e7]"></a>HAL_TIMEx_CommutCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_tim_ex.o(i.HAL_TIMEx_CommutCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
+</UL>
+
+<P><STRONG><a name="[113]"></a>HAL_TIMEx_ConfigBreakDeadTime</STRONG> (Thumb, 150 bytes, Stack size 20 bytes, stm32h7xx_hal_tim_ex.o(i.HAL_TIMEx_ConfigBreakDeadTime))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = HAL_TIMEx_ConfigBreakDeadTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM8_Init
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM1_Init
+</UL>
+
+<P><STRONG><a name="[112]"></a>HAL_TIMEx_MasterConfigSynchronization</STRONG> (Thumb, 146 bytes, Stack size 20 bytes, stm32h7xx_hal_tim_ex.o(i.HAL_TIMEx_MasterConfigSynchronization))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = HAL_TIMEx_MasterConfigSynchronization
 </UL>
-<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM8_Init
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM1_Init
 </UL>
 
-<P><STRONG><a name="[dc]"></a>HAL_TIM_MspPostInit</STRONG> (Thumb, 170 bytes, Stack size 40 bytes, tim.o(i.HAL_TIM_MspPostInit))
+<P><STRONG><a name="[123]"></a>HAL_TIM_GenerateEvent</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_GenerateEvent))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = HAL_TIM_GenerateEvent
+</UL>
+<BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_Init
+</UL>
+
+<P><STRONG><a name="[e0]"></a>HAL_TIM_IC_CaptureCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_IC_CaptureCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
+</UL>
+
+<P><STRONG><a name="[df]"></a>HAL_TIM_IRQHandler</STRONG> (Thumb, 328 bytes, Stack size 24 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_IRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; StepperDebug_ServiceTim1Axes
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PeriodElapsedCallback
+<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_TriggerCallback
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_PulseFinishedCallback
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_DelayElapsedCallback
+<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IC_CaptureCallback
+<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_CommutCallback
+<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_BreakCallback
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_Break2Callback
+</UL>
+<BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM1_UP_IRQHandler
+</UL>
+
+<P><STRONG><a name="[e8]"></a>HAL_TIM_MspPostInit</STRONG> (Thumb, 260 bytes, Stack size 40 bytes, tim.o(i.HAL_TIM_MspPostInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = HAL_TIM_MspPostInit &rArr; HAL_GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM8_Init
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM1_Init
 </UL>
 
-<P><STRONG><a name="[df]"></a>HAL_TIM_PWM_ConfigChannel</STRONG> (Thumb, 292 bytes, Stack size 16 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_PWM_ConfigChannel))
+<P><STRONG><a name="[e1]"></a>HAL_TIM_OC_DelayElapsedCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_OC_DelayElapsedCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
+</UL>
+
+<P><STRONG><a name="[eb]"></a>HAL_TIM_PWM_ConfigChannel</STRONG> (Thumb, 292 bytes, Stack size 16 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_PWM_ConfigChannel))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = HAL_TIM_PWM_ConfigChannel &rArr; TIM_OC1_SetConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC2_SetConfig
-<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC6_SetConfig
-<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC5_SetConfig
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC4_SetConfig
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC3_SetConfig
-<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1_SetConfig
+<BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC2_SetConfig
+<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC6_SetConfig
+<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC5_SetConfig
+<LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC4_SetConfig
+<LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC3_SetConfig
+<LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM8_Init
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM1_Init
 </UL>
 
-<P><STRONG><a name="[e6]"></a>HAL_TIM_PWM_Init</STRONG> (Thumb, 98 bytes, Stack size 8 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_PWM_Init))
+<P><STRONG><a name="[f2]"></a>HAL_TIM_PWM_Init</STRONG> (Thumb, 98 bytes, Stack size 8 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_PWM_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HAL_TIM_PWM_Init &rArr; TIM_Base_SetConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_MspInit
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Base_SetConfig
+<BR>[Calls]<UL><LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_MspInit
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Base_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
-</UL>
-
-<P><STRONG><a name="[e7]"></a>HAL_TIM_PWM_MspInit</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, tim.o(i.HAL_TIM_PWM_MspInit))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = HAL_TIM_PWM_MspInit
-</UL>
-<BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
+<BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM8_Init
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM1_Init
 </UL>
 
-<P><STRONG><a name="[c0]"></a>HAL_TIM_PWM_Start</STRONG> (Thumb, 244 bytes, Stack size 12 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_PWM_Start))
+<P><STRONG><a name="[f3]"></a>HAL_TIM_PWM_MspInit</STRONG> (Thumb, 136 bytes, Stack size 8 bytes, tim.o(i.HAL_TIM_PWM_MspInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = HAL_TIM_PWM_MspInit &rArr; HAL_NVIC_SetPriority
+</UL>
+<BR>[Calls]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
+</UL>
+<BR>[Called By]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
+</UL>
+
+<P><STRONG><a name="[e2]"></a>HAL_TIM_PWM_PulseFinishedCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_PWM_PulseFinishedCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
+</UL>
+
+<P><STRONG><a name="[f6]"></a>HAL_TIM_PWM_Start</STRONG> (Thumb, 244 bytes, Stack size 12 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_PWM_Start))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = HAL_TIM_PWM_Start &rArr; TIM_CCxChannelCmd
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CCxChannelCmd
+<BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CCxChannelCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
-<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_ApplyCommand
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_StartTim1Axis
+<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
 </UL>
 
-<P><STRONG><a name="[c7]"></a>HAL_TIM_PWM_Stop</STRONG> (Thumb, 154 bytes, Stack size 12 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_PWM_Stop))
+<P><STRONG><a name="[c9]"></a>HAL_TIM_PWM_Stop</STRONG> (Thumb, 154 bytes, Stack size 12 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_PWM_Stop))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CCxChannelCmd
+<BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CCxChannelCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Friction3650B_StopOutput
-<LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Friction3650A_StopOutput
+<BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
+<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FrictionMotor_StopOutput
 </UL>
 
-<P><STRONG><a name="[106]"></a>HAL_UARTEx_DisableFifoMode</STRONG> (Thumb, 64 bytes, Stack size 12 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_DisableFifoMode))
+<P><STRONG><a name="[e3]"></a>HAL_TIM_PeriodElapsedCallback</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, main.o(i.HAL_TIM_PeriodElapsedCallback))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = HAL_TIM_PeriodElapsedCallback &rArr; StepperDebug_ServiceTim1Axes
+</UL>
+<BR>[Calls]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_ServiceTim1Axes
+</UL>
+<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
+</UL>
+
+<P><STRONG><a name="[e6]"></a>HAL_TIM_TriggerCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_tim.o(i.HAL_TIM_TriggerCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
+</UL>
+
+<P><STRONG><a name="[119]"></a>HAL_UARTEx_DisableFifoMode</STRONG> (Thumb, 64 bytes, Stack size 12 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_DisableFifoMode))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = HAL_UARTEx_DisableFifoMode
 </UL>
-<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
+<BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
 </UL>
 
-<P><STRONG><a name="[f1]"></a>HAL_UARTEx_RxEventCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_uart.o(i.HAL_UARTEx_RxEventCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<P><STRONG><a name="[100]"></a>HAL_UARTEx_RxEventCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_uart.o(i.HAL_UARTEx_RxEventCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_8BIT_FIFOEN
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_8BIT
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_16BIT_FIFOEN
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_16BIT
 </UL>
 
-<P><STRONG><a name="[f5]"></a>HAL_UARTEx_RxFifoFullCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_RxFifoFullCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<P><STRONG><a name="[104]"></a>HAL_UARTEx_RxFifoFullCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_RxFifoFullCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
 
-<P><STRONG><a name="[ea]"></a>HAL_UARTEx_SetRxFifoThreshold</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_SetRxFifoThreshold))
+<P><STRONG><a name="[f9]"></a>HAL_UARTEx_SetRxFifoThreshold</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_SetRxFifoThreshold))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = HAL_UARTEx_SetRxFifoThreshold &rArr; UARTEx_SetNbDataToProcess
 </UL>
-<BR>[Calls]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTEx_SetNbDataToProcess
+<BR>[Calls]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTEx_SetNbDataToProcess
 </UL>
-<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
+<BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
 </UL>
 
-<P><STRONG><a name="[ec]"></a>HAL_UARTEx_SetTxFifoThreshold</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_SetTxFifoThreshold))
+<P><STRONG><a name="[fb]"></a>HAL_UARTEx_SetTxFifoThreshold</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_SetTxFifoThreshold))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = HAL_UARTEx_SetTxFifoThreshold &rArr; UARTEx_SetNbDataToProcess
 </UL>
-<BR>[Calls]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTEx_SetNbDataToProcess
+<BR>[Calls]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTEx_SetNbDataToProcess
 </UL>
-<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
-</UL>
-
-<P><STRONG><a name="[f4]"></a>HAL_UARTEx_TxFifoEmptyCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_TxFifoEmptyCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
 </UL>
 
-<P><STRONG><a name="[f2]"></a>HAL_UARTEx_WakeupCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_WakeupCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<P><STRONG><a name="[103]"></a>HAL_UARTEx_TxFifoEmptyCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_TxFifoEmptyCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
 
-<P><STRONG><a name="[ed]"></a>HAL_UART_ErrorCallback</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, main.o(i.HAL_UART_ErrorCallback))
+<P><STRONG><a name="[101]"></a>HAL_UARTEx_WakeupCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_uart_ex.o(i.HAL_UARTEx_WakeupCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+</UL>
+
+<P><STRONG><a name="[fc]"></a>HAL_UART_ErrorCallback</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, main.o(i.HAL_UART_ErrorCallback))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = HAL_UART_ErrorCallback &rArr; BeltDrive_StartUartReceive &rArr; HAL_UART_Receive_IT &rArr; UART_Start_Receive_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_StartUartReceive
+<BR>[Calls]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_StartUartReceive
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_8BIT_FIFOEN
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_16BIT_FIFOEN
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_DMAAbortOnError
 </UL>
 
-<P><STRONG><a name="[ee]"></a>HAL_UART_IRQHandler</STRONG> (Thumb, 878 bytes, Stack size 24 bytes, stm32h7xx_hal_uart.o(i.HAL_UART_IRQHandler))
+<P><STRONG><a name="[fd]"></a>HAL_UART_IRQHandler</STRONG> (Thumb, 878 bytes, Stack size 24 bytes, stm32h7xx_hal_uart.o(i.HAL_UART_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = HAL_UART_IRQHandler &rArr; HAL_DMA_Abort_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
-<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_TxCpltCallback
-<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
-<LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_WakeupCallback
-<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_TxFifoEmptyCallback
-<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxFifoFullCallback
-<LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_EndRxTransfer
-<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort_IT
-<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort
+<BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
+<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort_IT
+<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort
+<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_TxCpltCallback
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
+<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_WakeupCallback
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_TxFifoEmptyCallback
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxFifoFullCallback
+<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_EndRxTransfer
 </UL>
 <BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
 
-<P><STRONG><a name="[f6]"></a>HAL_UART_Init</STRONG> (Thumb, 106 bytes, Stack size 8 bytes, stm32h7xx_hal_uart.o(i.HAL_UART_Init))
+<P><STRONG><a name="[105]"></a>HAL_UART_Init</STRONG> (Thumb, 106 bytes, Stack size 8 bytes, stm32h7xx_hal_uart.o(i.HAL_UART_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 304<LI>Call Chain = HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
-<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
-<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
-<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_AdvFeatureConfig
+<BR>[Calls]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
+<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
+<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_AdvFeatureConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
+<BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
 </UL>
 
-<P><STRONG><a name="[f7]"></a>HAL_UART_MspInit</STRONG> (Thumb, 138 bytes, Stack size 216 bytes, usart.o(i.HAL_UART_MspInit))
+<P><STRONG><a name="[106]"></a>HAL_UART_MspInit</STRONG> (Thumb, 138 bytes, Stack size 216 bytes, usart.o(i.HAL_UART_MspInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 296<LI>Call Chain = HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
-<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
-<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
-<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
+<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
+<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
+<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
 </UL>
 
-<P><STRONG><a name="[c5]"></a>HAL_UART_Receive_IT</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, stm32h7xx_hal_uart.o(i.HAL_UART_Receive_IT))
+<P><STRONG><a name="[c4]"></a>HAL_UART_Receive_IT</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, stm32h7xx_hal_uart.o(i.HAL_UART_Receive_IT))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = HAL_UART_Receive_IT &rArr; UART_Start_Receive_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Start_Receive_IT
+<BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Start_Receive_IT
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_StartUartReceive
+<BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_StartUartReceive
 </UL>
 
-<P><STRONG><a name="[fe]"></a>HAL_UART_RxCpltCallback</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, main.o(i.HAL_UART_RxCpltCallback))
-<BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = HAL_UART_RxCpltCallback &rArr; BeltDrive_ApplyCommand &rArr; Friction3650B_StopOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
+<P><STRONG><a name="[10c]"></a>HAL_UART_RxCpltCallback</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, main.o(i.HAL_UART_RxCpltCallback))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HAL_UART_RxCpltCallback &rArr; BeltDrive_StartUartReceive &rArr; HAL_UART_Receive_IT &rArr; UART_Start_Receive_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_StartUartReceive
-<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_ApplyCommand
+<BR>[Calls]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart1_EnqueueRxByte
+<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_StartUartReceive
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_8BIT_FIFOEN
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_8BIT
@@ -1311,17 +1452,17 @@ Global Symbols
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_16BIT
 </UL>
 
-<P><STRONG><a name="[c3]"></a>HAL_UART_Transmit</STRONG> (Thumb, 176 bytes, Stack size 32 bytes, stm32h7xx_hal_uart.o(i.HAL_UART_Transmit))
+<P><STRONG><a name="[10e]"></a>HAL_UART_Transmit</STRONG> (Thumb, 176 bytes, Stack size 32 bytes, stm32h7xx_hal_uart.o(i.HAL_UART_Transmit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout &rArr; UART_EndRxTransfer
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_ReportRpmIfReady
+<BR>[Called By]<UL><LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart1_SendPendingAck
 </UL>
 
-<P><STRONG><a name="[f3]"></a>HAL_UART_TxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_uart.o(i.HAL_UART_TxCpltCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<P><STRONG><a name="[102]"></a>HAL_UART_TxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_hal_uart.o(i.HAL_UART_TxCpltCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
 
 <P><STRONG><a name="[5]"></a>HardFault_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_it.o(i.HardFault_Handler))
@@ -1331,67 +1472,95 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[100]"></a>MX_GPIO_Init</STRONG> (Thumb, 278 bytes, Stack size 56 bytes, gpio.o(i.MX_GPIO_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = MX_GPIO_Init &rArr; HAL_GPIO_Init
+<P><STRONG><a name="[110]"></a>MX_GPIO_Init</STRONG> (Thumb, 250 bytes, Stack size 48 bytes, gpio.o(i.MX_GPIO_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = MX_GPIO_Init &rArr; HAL_GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
-<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
-<LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
+<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
+<LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[101]"></a>MX_TIM2_Init</STRONG> (Thumb, 110 bytes, Stack size 56 bytes, tim.o(i.MX_TIM2_Init))
+<P><STRONG><a name="[111]"></a>MX_TIM1_Init</STRONG> (Thumb, 182 bytes, Stack size 104 bytes, tim.o(i.MX_TIM1_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = MX_TIM1_Init &rArr; HAL_TIM_MspPostInit &rArr; HAL_GPIO_Init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
+<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
+<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_ConfigBreakDeadTime
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[114]"></a>MX_TIM2_Init</STRONG> (Thumb, 110 bytes, Stack size 56 bytes, tim.o(i.MX_TIM2_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = MX_TIM2_Init &rArr; HAL_TIM_MspPostInit &rArr; HAL_GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
-<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
-<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
+<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[103]"></a>MX_TIM3_Init</STRONG> (Thumb, 156 bytes, Stack size 56 bytes, tim.o(i.MX_TIM3_Init))
+<P><STRONG><a name="[115]"></a>MX_TIM3_Init</STRONG> (Thumb, 156 bytes, Stack size 56 bytes, tim.o(i.MX_TIM3_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = MX_TIM3_Init &rArr; HAL_TIM_MspPostInit &rArr; HAL_GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
-<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
-<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
+<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[104]"></a>MX_TIM4_Init</STRONG> (Thumb, 108 bytes, Stack size 56 bytes, tim.o(i.MX_TIM4_Init))
+<P><STRONG><a name="[116]"></a>MX_TIM4_Init</STRONG> (Thumb, 108 bytes, Stack size 56 bytes, tim.o(i.MX_TIM4_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = MX_TIM4_Init &rArr; HAL_TIM_MspPostInit &rArr; HAL_GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
-<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
-<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
+<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[105]"></a>MX_USART1_UART_Init</STRONG> (Thumb, 94 bytes, Stack size 8 bytes, usart.o(i.MX_USART1_UART_Init))
+<P><STRONG><a name="[117]"></a>MX_TIM8_Init</STRONG> (Thumb, 172 bytes, Stack size 104 bytes, tim.o(i.MX_TIM8_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = MX_TIM8_Init &rArr; HAL_TIM_MspPostInit &rArr; HAL_GPIO_Init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
+<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_MasterConfigSynchronization
+<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIMEx_ConfigBreakDeadTime
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[118]"></a>MX_USART1_UART_Init</STRONG> (Thumb, 94 bytes, Stack size 8 bytes, usart.o(i.MX_USART1_UART_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = MX_USART1_UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
-<LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_SetTxFifoThreshold
-<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_SetRxFifoThreshold
-<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_DisableFifoMode
-<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
+<BR>[Calls]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
+<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_SetTxFifoThreshold
+<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_SetRxFifoThreshold
+<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_DisableFifoMode
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[6]"></a>MemManage_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_it.o(i.MemManage_Handler))
@@ -1415,19 +1584,19 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
 <P><STRONG><a name="[c]"></a>SysTick_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32h7xx_it.o(i.SysTick_Handler))
-<BR><BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_IncTick
+<BR><BR>[Calls]<UL><LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_IncTick
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[10c]"></a>SystemClock_Config</STRONG> (Thumb, 146 bytes, Stack size 136 bytes, main.o(i.SystemClock_Config))
+<P><STRONG><a name="[12e]"></a>SystemClock_Config</STRONG> (Thumb, 146 bytes, Stack size 136 bytes, main.o(i.SystemClock_Config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = SystemClock_Config &rArr; HAL_RCC_ClockConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
-<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
-<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_PWREx_ConfigSupply
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
+<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
+<LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_PWREx_ConfigSupply
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[96]"></a>SystemInit</STRONG> (Thumb, 158 bytes, Stack size 20 bytes, system_stm32h7xx.o(i.SystemInit))
@@ -1435,71 +1604,78 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(.text)
 </UL>
-<P><STRONG><a name="[e8]"></a>TIM_Base_SetConfig</STRONG> (Thumb, 188 bytes, Stack size 32 bytes, stm32h7xx_hal_tim.o(i.TIM_Base_SetConfig))
+<P><STRONG><a name="[26]"></a>TIM1_UP_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32h7xx_it.o(i.TIM1_UP_IRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = TIM1_UP_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; StepperDebug_ServiceTim1Axes
+</UL>
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
+</UL>
+<P><STRONG><a name="[f4]"></a>TIM_Base_SetConfig</STRONG> (Thumb, 188 bytes, Stack size 32 bytes, stm32h7xx_hal_tim.o(i.TIM_Base_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = TIM_Base_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
+<BR>[Called By]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Init
 </UL>
 
-<P><STRONG><a name="[e9]"></a>TIM_CCxChannelCmd</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, stm32h7xx_hal_tim.o(i.TIM_CCxChannelCmd))
+<P><STRONG><a name="[f7]"></a>TIM_CCxChannelCmd</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, stm32h7xx_hal_tim.o(i.TIM_CCxChannelCmd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = TIM_CCxChannelCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Stop
-<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
+<BR>[Called By]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Stop
+<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
 </UL>
 
-<P><STRONG><a name="[e1]"></a>TIM_OC2_SetConfig</STRONG> (Thumb, 126 bytes, Stack size 20 bytes, stm32h7xx_hal_tim.o(i.TIM_OC2_SetConfig))
+<P><STRONG><a name="[ed]"></a>TIM_OC2_SetConfig</STRONG> (Thumb, 126 bytes, Stack size 20 bytes, stm32h7xx_hal_tim.o(i.TIM_OC2_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM_OC2_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
-<P><STRONG><a name="[f8]"></a>UART_AdvFeatureConfig</STRONG> (Thumb, 200 bytes, Stack size 0 bytes, stm32h7xx_hal_uart.o(i.UART_AdvFeatureConfig))
-<BR><BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
+<P><STRONG><a name="[107]"></a>UART_AdvFeatureConfig</STRONG> (Thumb, 200 bytes, Stack size 0 bytes, stm32h7xx_hal_uart.o(i.UART_AdvFeatureConfig))
+<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
 </UL>
 
-<P><STRONG><a name="[fa]"></a>UART_CheckIdleState</STRONG> (Thumb, 170 bytes, Stack size 32 bytes, stm32h7xx_hal_uart.o(i.UART_CheckIdleState))
+<P><STRONG><a name="[109]"></a>UART_CheckIdleState</STRONG> (Thumb, 170 bytes, Stack size 32 bytes, stm32h7xx_hal_uart.o(i.UART_CheckIdleState))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = UART_CheckIdleState &rArr; UART_WaitOnFlagUntilTimeout &rArr; UART_EndRxTransfer
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
+<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
 </UL>
 
-<P><STRONG><a name="[f9]"></a>UART_SetConfig</STRONG> (Thumb, 914 bytes, Stack size 56 bytes, stm32h7xx_hal_uart.o(i.UART_SetConfig))
+<P><STRONG><a name="[108]"></a>UART_SetConfig</STRONG> (Thumb, 914 bytes, Stack size 56 bytes, stm32h7xx_hal_uart.o(i.UART_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = UART_SetConfig &rArr; __aeabi_uldivmod
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
-<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_GetPLL3ClockFreq
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_GetPLL2ClockFreq
-<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_GetD3PCLK1Freq
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK2Freq
-<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK1Freq
+<BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK2Freq
+<LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_GetPLL3ClockFreq
+<LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_GetPLL2ClockFreq
+<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_GetD3PCLK1Freq
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK1Freq
+<LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
+<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
 </UL>
 
-<P><STRONG><a name="[fd]"></a>UART_Start_Receive_IT</STRONG> (Thumb, 256 bytes, Stack size 16 bytes, stm32h7xx_hal_uart.o(i.UART_Start_Receive_IT))
+<P><STRONG><a name="[10b]"></a>UART_Start_Receive_IT</STRONG> (Thumb, 256 bytes, Stack size 16 bytes, stm32h7xx_hal_uart.o(i.UART_Start_Receive_IT))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = UART_Start_Receive_IT
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Receive_IT
+<BR>[Called By]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Receive_IT
 </UL>
 
-<P><STRONG><a name="[ff]"></a>UART_WaitOnFlagUntilTimeout</STRONG> (Thumb, 148 bytes, Stack size 32 bytes, stm32h7xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout))
+<P><STRONG><a name="[10f]"></a>UART_WaitOnFlagUntilTimeout</STRONG> (Thumb, 148 bytes, Stack size 32 bytes, stm32h7xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = UART_WaitOnFlagUntilTimeout &rArr; UART_EndRxTransfer
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_EndRxTransfer
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_EndRxTransfer
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
-<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
+<BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
 </UL>
 
 <P><STRONG><a name="[32]"></a>USART1_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32h7xx_it.o(i.USART1_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = USART1_IRQHandler &rArr; HAL_UART_IRQHandler &rArr; HAL_DMA_Abort_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
@@ -1510,235 +1686,352 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[ad]"></a>main</STRONG> (Thumb, 190 bytes, Stack size 24 bytes, main.o(i.main))
+<P><STRONG><a name="[bc]"></a>_is_digit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, __printf_wp.o(i._is_digit))
+<BR><BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+</UL>
+
+<P><STRONG><a name="[ae]"></a>main</STRONG> (Thumb, 284 bytes, Stack size 24 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 336 + Unknown Stack Size
 <LI>Call Chain = main &rArr; MX_USART1_UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
-<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
-<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
-<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MPU_Enable
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MPU_Disable
-<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MPU_ConfigRegion
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
-<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
-<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_StopAllWheels
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_RunDemoInMainLoop
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Friction3650B_StopOutput
-<LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Friction3650A_StopOutput
-<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_StartUartReceive
-<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_ReportRpmIfReady
+<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM8_Init
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM1_Init
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
+<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MPU_Enable
+<LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MPU_Disable
+<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MPU_ConfigRegion
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
+<LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart1_SendPendingAck
+<LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart1_ProcessPendingRxCommands
+<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_UpdatePhase
+<LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_UpdateAxisSpeeds
+<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_ServiceSoftwareAxis
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_Init
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_EnterManualMode
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Servo_SetAngleDegrees
+<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
+<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FrictionMotor_InitStopped
+<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_StartUartReceive
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
+<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[a7]"></a>_fp_init</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fpinit.o(x$fpl$fpinit))
-<BR><BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init_fp_1
+<P><STRONG><a name="[a8]"></a>_fp_init</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fpinit.o(x$fpl$fpinit))
+<BR><BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init_fp_1
 </UL>
 
-<P><STRONG><a name="[143]"></a>__fplib_config_fpu_vfp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
+<P><STRONG><a name="[16a]"></a>__fplib_config_fpu_vfp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
 
-<P><STRONG><a name="[144]"></a>__fplib_config_pureend_doubles</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
+<P><STRONG><a name="[16b]"></a>__fplib_config_pureend_doubles</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
 <P>
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[bc]"></a>BeltDrive_ApplyCommand</STRONG> (Thumb, 182 bytes, Stack size 32 bytes, main.o(i.BeltDrive_ApplyCommand))
-<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = BeltDrive_ApplyCommand &rArr; Friction3650B_StopOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
-</UL>
-<BR>[Calls]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
-<LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Friction3650B_StopOutput
-<LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Friction3650A_StopOutput
-</UL>
-<BR>[Called By]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
-</UL>
-
-<P><STRONG><a name="[c1]"></a>BeltDrive_ReportRpmIfReady</STRONG> (Thumb, 102 bytes, Stack size 24 bytes, main.o(i.BeltDrive_ReportRpmIfReady))
-<BR><BR>[Stack]<UL><LI>Max Depth = 152 + Unknown Stack Size
-<LI>Call Chain = BeltDrive_ReportRpmIfReady &rArr; __2snprintf &rArr; _printf_char_common &rArr; __printf
-</UL>
-<BR>[Calls]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
-<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
-</UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
-<P><STRONG><a name="[c4]"></a>BeltDrive_StartUartReceive</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, main.o(i.BeltDrive_StartUartReceive))
+<P><STRONG><a name="[c3]"></a>BeltDrive_StartUartReceive</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, main.o(i.BeltDrive_StartUartReceive))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = BeltDrive_StartUartReceive &rArr; HAL_UART_Receive_IT &rArr; UART_Start_Receive_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Receive_IT
+<BR>[Calls]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Receive_IT
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
-<LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
-</UL>
-
-<P><STRONG><a name="[be]"></a>Friction3650A_StopOutput</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, main.o(i.Friction3650A_StopOutput))
-<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = Friction3650A_StopOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
-</UL>
-<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Stop
-</UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_ApplyCommand
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
+<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
 </UL>
 
-<P><STRONG><a name="[bf]"></a>Friction3650B_StopOutput</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, main.o(i.Friction3650B_StopOutput))
-<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = Friction3650B_StopOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
+<P><STRONG><a name="[c6]"></a>FrictionMotor_InitStopped</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, main.o(i.FrictionMotor_InitStopped))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = FrictionMotor_InitStopped
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Stop
+<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeltDrive_ApplyCommand
-</UL>
-
-<P><STRONG><a name="[10a]"></a>Mecanum_GetPwmCompareFromDuty</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, main.o(i.Mecanum_GetPwmCompareFromDuty))
-<BR><BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[107]"></a>Mecanum_RunDemoInMainLoop</STRONG> (Thumb, 164 bytes, Stack size 24 bytes, main.o(i.Mecanum_RunDemoInMainLoop))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = Mecanum_RunDemoInMainLoop &rArr; Mecanum_StopAllWheels &rArr; Mecanum_SetWheelOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
-</UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_StopAllWheels
-<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
-</UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<P><STRONG><a name="[c8]"></a>FrictionMotor_StopOutput</STRONG> (Thumb, 80 bytes, Stack size 16 bytes, main.o(i.FrictionMotor_StopOutput), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Stop
 </UL>
 
-<P><STRONG><a name="[108]"></a>Mecanum_SetWheelOutput</STRONG> (Thumb, 282 bytes, Stack size 24 bytes, main.o(i.Mecanum_SetWheelOutput))
-<BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = Mecanum_SetWheelOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
-</UL>
-<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Stop
-<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
-<LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_GetPwmCompareFromDuty
-</UL>
-<BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_StopAllWheels
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_RunDemoInMainLoop
+<P><STRONG><a name="[11b]"></a>Mecanum_GetPwmCompareFromDuty</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, main.o(i.Mecanum_GetPwmCompareFromDuty))
+<BR><BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
 </UL>
 
-<P><STRONG><a name="[109]"></a>Mecanum_StopAllWheels</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, main.o(i.Mecanum_StopAllWheels))
-<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = Mecanum_StopAllWheels &rArr; Mecanum_SetWheelOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
+<P><STRONG><a name="[11a]"></a>Mecanum_SetWheelOutput</STRONG> (Thumb, 276 bytes, Stack size 16 bytes, main.o(i.Mecanum_SetWheelOutput))
+<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = Mecanum_SetWheelOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_SetWheelOutput
+<BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Stop
+<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
+<LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_GetPwmCompareFromDuty
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mecanum_RunDemoInMainLoop
-</UL>
-
-<P><STRONG><a name="[d1]"></a>__NVIC_SetPriority</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, stm32h7xx_hal_cortex.o(i.__NVIC_SetPriority))
-<BR><BR>[Called By]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
-<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SYSTICK_Config
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[d6]"></a>RCCEx_PLL2_Config</STRONG> (Thumb, 284 bytes, Stack size 32 bytes, stm32h7xx_hal_rcc_ex.o(i.RCCEx_PLL2_Config))
+<P><STRONG><a name="[11d]"></a>Servo_ClampAngleDeg</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, main.o(i.Servo_ClampAngleDeg))
+<BR><BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Servo_SetAngleDegrees
+</UL>
+
+<P><STRONG><a name="[11c]"></a>Servo_SetAngleDegrees</STRONG> (Thumb, 134 bytes, Stack size 8 bytes, main.o(i.Servo_SetAngleDegrees))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Servo_SetAngleDegrees
+</UL>
+<BR>[Calls]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Servo_ClampAngleDeg
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart1_ProcessPendingRxCommands
+</UL>
+
+<P><STRONG><a name="[12b]"></a>StepperDebug_AllAxesStopped</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, main.o(i.StepperDebug_AllAxesStopped))
+<BR><BR>[Called By]<UL><LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_UpdatePhase
+</UL>
+
+<P><STRONG><a name="[11e]"></a>StepperDebug_CommandAxis</STRONG> (Thumb, 70 bytes, Stack size 24 bytes, main.o(i.StepperDebug_CommandAxis))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = StepperDebug_CommandAxis &rArr; StepperDebug_EnterManualMode
+</UL>
+<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_SetAxisDirection
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_EnterManualMode
+</UL>
+<BR>[Called By]<UL><LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stepper_ProcessUartCommand
+</UL>
+
+<P><STRONG><a name="[127]"></a>StepperDebug_DelayUs</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, main.o(i.StepperDebug_DelayUs))
+<BR><BR>[Called By]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_ServiceSoftwareAxis
+</UL>
+
+<P><STRONG><a name="[11f]"></a>StepperDebug_EnterManualMode</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, main.o(i.StepperDebug_EnterManualMode))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = StepperDebug_EnterManualMode
+</UL>
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stepper_ProcessUartCommand
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_CommandAxis
+</UL>
+
+<P><STRONG><a name="[128]"></a>StepperDebug_ForceTim1ChannelLow</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, main.o(i.StepperDebug_ForceTim1ChannelLow))
+<BR><BR>[Called By]<UL><LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_UpdateAxisSpeeds
+<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_StartTim1Axis
+<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_ServiceTim1Axes
+</UL>
+
+<P><STRONG><a name="[121]"></a>StepperDebug_Init</STRONG> (Thumb, 296 bytes, Stack size 64 bytes, main.o(i.StepperDebug_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = StepperDebug_Init &rArr; HAL_RCC_GetPCLK2Freq &rArr; HAL_RCC_GetHCLKFreq &rArr; HAL_RCC_GetSysClockFreq
+</UL>
+<BR>[Calls]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_GenerateEvent
+<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK2Freq
+<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetClockConfig
+<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_StartTim1Axis
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_SetTargetsToCurrentPhase
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[126]"></a>StepperDebug_ServiceSoftwareAxis</STRONG> (Thumb, 110 bytes, Stack size 16 bytes, main.o(i.StepperDebug_ServiceSoftwareAxis))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = StepperDebug_ServiceSoftwareAxis
+</UL>
+<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
+<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_DelayUs
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[f8]"></a>StepperDebug_ServiceTim1Axes</STRONG> (Thumb, 182 bytes, Stack size 32 bytes, main.o(i.StepperDebug_ServiceTim1Axes))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = StepperDebug_ServiceTim1Axes
+</UL>
+<BR>[Calls]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_ForceTim1ChannelLow
+</UL>
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PeriodElapsedCallback
+</UL>
+
+<P><STRONG><a name="[120]"></a>StepperDebug_SetAxisDirection</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, main.o(i.StepperDebug_SetAxisDirection))
+<BR><BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
+</UL>
+<BR>[Called By]<UL><LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_SetTargetsToCurrentPhase
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_CommandAxis
+</UL>
+
+<P><STRONG><a name="[125]"></a>StepperDebug_SetTargetsToCurrentPhase</STRONG> (Thumb, 86 bytes, Stack size 32 bytes, main.o(i.StepperDebug_SetTargetsToCurrentPhase))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = StepperDebug_SetTargetsToCurrentPhase
+</UL>
+<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_SetAxisDirection
+</UL>
+<BR>[Called By]<UL><LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_UpdatePhase
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_Init
+</UL>
+
+<P><STRONG><a name="[124]"></a>StepperDebug_StartTim1Axis</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, main.o(i.StepperDebug_StartTim1Axis))
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = StepperDebug_StartTim1Axis &rArr; HAL_TIM_PWM_Start &rArr; TIM_CCxChannelCmd
+</UL>
+<BR>[Calls]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
+<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_ForceTim1ChannelLow
+</UL>
+<BR>[Called By]<UL><LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_UpdateAxisSpeeds
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_Init
+</UL>
+
+<P><STRONG><a name="[129]"></a>StepperDebug_UpdateAxisSpeeds</STRONG> (Thumb, 198 bytes, Stack size 24 bytes, main.o(i.StepperDebug_UpdateAxisSpeeds))
+<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = StepperDebug_UpdateAxisSpeeds &rArr; StepperDebug_StartTim1Axis &rArr; HAL_TIM_PWM_Start &rArr; TIM_CCxChannelCmd
+</UL>
+<BR>[Calls]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_StartTim1Axis
+<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_ForceTim1ChannelLow
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[12a]"></a>StepperDebug_UpdatePhase</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, main.o(i.StepperDebug_UpdatePhase))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = StepperDebug_UpdatePhase &rArr; StepperDebug_SetTargetsToCurrentPhase
+</UL>
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_SetTargetsToCurrentPhase
+<LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_AllAxesStopped
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[12c]"></a>Stepper_ProcessUartCommand</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, main.o(i.Stepper_ProcessUartCommand))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = Stepper_ProcessUartCommand &rArr; StepperDebug_CommandAxis &rArr; StepperDebug_EnterManualMode
+</UL>
+<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_EnterManualMode
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StepperDebug_CommandAxis
+</UL>
+<BR>[Called By]<UL><LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart1_ProcessPendingRxCommands
+</UL>
+
+<P><STRONG><a name="[10d]"></a>Uart1_EnqueueRxByte</STRONG> (Thumb, 64 bytes, Stack size 8 bytes, main.o(i.Uart1_EnqueueRxByte))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Uart1_EnqueueRxByte
+</UL>
+<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
+</UL>
+
+<P><STRONG><a name="[132]"></a>Uart1_ProcessPendingRxCommands</STRONG> (Thumb, 92 bytes, Stack size 16 bytes, main.o(i.Uart1_ProcessPendingRxCommands))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = Uart1_ProcessPendingRxCommands &rArr; Stepper_ProcessUartCommand &rArr; StepperDebug_CommandAxis &rArr; StepperDebug_EnterManualMode
+</UL>
+<BR>[Calls]<UL><LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stepper_ProcessUartCommand
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Servo_SetAngleDegrees
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[133]"></a>Uart1_SendPendingAck</STRONG> (Thumb, 64 bytes, Stack size 8 bytes, main.o(i.Uart1_SendPendingAck))
+<BR><BR>[Stack]<UL><LI>Max Depth = 152 + Unknown Stack Size
+<LI>Call Chain = Uart1_SendPendingAck &rArr; __2snprintf &rArr; _printf_char_common &rArr; __printf
+</UL>
+<BR>[Calls]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[d4]"></a>__NVIC_SetPriority</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, stm32h7xx_hal_cortex.o(i.__NVIC_SetPriority))
+<BR><BR>[Called By]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
+<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SYSTICK_Config
+</UL>
+
+<P><STRONG><a name="[d9]"></a>RCCEx_PLL2_Config</STRONG> (Thumb, 284 bytes, Stack size 32 bytes, stm32h7xx_hal_rcc_ex.o(i.RCCEx_PLL2_Config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = RCCEx_PLL2_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
+<BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
 </UL>
 
-<P><STRONG><a name="[d7]"></a>RCCEx_PLL3_Config</STRONG> (Thumb, 284 bytes, Stack size 32 bytes, stm32h7xx_hal_rcc_ex.o(i.RCCEx_PLL3_Config))
+<P><STRONG><a name="[da]"></a>RCCEx_PLL3_Config</STRONG> (Thumb, 284 bytes, Stack size 32 bytes, stm32h7xx_hal_rcc_ex.o(i.RCCEx_PLL3_Config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = RCCEx_PLL3_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
+<BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
 </UL>
 
-<P><STRONG><a name="[e0]"></a>TIM_OC1_SetConfig</STRONG> (Thumb, 140 bytes, Stack size 36 bytes, stm32h7xx_hal_tim.o(i.TIM_OC1_SetConfig))
+<P><STRONG><a name="[ec]"></a>TIM_OC1_SetConfig</STRONG> (Thumb, 140 bytes, Stack size 36 bytes, stm32h7xx_hal_tim.o(i.TIM_OC1_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = TIM_OC1_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
-<P><STRONG><a name="[e2]"></a>TIM_OC3_SetConfig</STRONG> (Thumb, 126 bytes, Stack size 20 bytes, stm32h7xx_hal_tim.o(i.TIM_OC3_SetConfig))
+<P><STRONG><a name="[ee]"></a>TIM_OC3_SetConfig</STRONG> (Thumb, 126 bytes, Stack size 20 bytes, stm32h7xx_hal_tim.o(i.TIM_OC3_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM_OC3_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
-<P><STRONG><a name="[e3]"></a>TIM_OC4_SetConfig</STRONG> (Thumb, 96 bytes, Stack size 20 bytes, stm32h7xx_hal_tim.o(i.TIM_OC4_SetConfig))
+<P><STRONG><a name="[ef]"></a>TIM_OC4_SetConfig</STRONG> (Thumb, 96 bytes, Stack size 20 bytes, stm32h7xx_hal_tim.o(i.TIM_OC4_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM_OC4_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
-<P><STRONG><a name="[e4]"></a>TIM_OC5_SetConfig</STRONG> (Thumb, 90 bytes, Stack size 20 bytes, stm32h7xx_hal_tim.o(i.TIM_OC5_SetConfig))
+<P><STRONG><a name="[f0]"></a>TIM_OC5_SetConfig</STRONG> (Thumb, 90 bytes, Stack size 20 bytes, stm32h7xx_hal_tim.o(i.TIM_OC5_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM_OC5_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
-<P><STRONG><a name="[e5]"></a>TIM_OC6_SetConfig</STRONG> (Thumb, 90 bytes, Stack size 20 bytes, stm32h7xx_hal_tim.o(i.TIM_OC6_SetConfig))
+<P><STRONG><a name="[f1]"></a>TIM_OC6_SetConfig</STRONG> (Thumb, 90 bytes, Stack size 20 bytes, stm32h7xx_hal_tim.o(i.TIM_OC6_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM_OC6_SetConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
+<BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
 <P><STRONG><a name="[9a]"></a>UART_DMAAbortOnError</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, stm32h7xx_hal_uart.o(i.UART_DMAAbortOnError))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = UART_DMAAbortOnError &rArr; HAL_UART_ErrorCallback &rArr; BeltDrive_StartUartReceive &rArr; HAL_UART_Receive_IT &rArr; UART_Start_Receive_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
+<BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> stm32h7xx_hal_uart.o(i.HAL_UART_IRQHandler)
 </UL>
-<P><STRONG><a name="[ef]"></a>UART_EndRxTransfer</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, stm32h7xx_hal_uart.o(i.UART_EndRxTransfer))
+<P><STRONG><a name="[fe]"></a>UART_EndRxTransfer</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, stm32h7xx_hal_uart.o(i.UART_EndRxTransfer))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = UART_EndRxTransfer
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
+<BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 </UL>
 
 <P><STRONG><a name="[9b]"></a>UART_RxISR_16BIT</STRONG> (Thumb, 196 bytes, Stack size 8 bytes, stm32h7xx_hal_uart.o(i.UART_RxISR_16BIT))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = UART_RxISR_16BIT &rArr; HAL_UART_RxCpltCallback &rArr; BeltDrive_ApplyCommand &rArr; Friction3650B_StopOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = UART_RxISR_16BIT &rArr; HAL_UART_RxCpltCallback &rArr; BeltDrive_StartUartReceive &rArr; HAL_UART_Receive_IT &rArr; UART_Start_Receive_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
-<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
+<BR>[Calls]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
 </UL>
 <BR>[Address Reference Count : 2]<UL><LI> stm32h7xx_hal_uart.o(i.UART_RxISR_16BIT_FIFOEN)
 <LI> stm32h7xx_hal_uart.o(i.UART_Start_Receive_IT)
 </UL>
 <P><STRONG><a name="[9e]"></a>UART_RxISR_16BIT_FIFOEN</STRONG> (Thumb, 404 bytes, Stack size 32 bytes, stm32h7xx_hal_uart.o(i.UART_RxISR_16BIT_FIFOEN))
-<BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = UART_RxISR_16BIT_FIFOEN &rArr; HAL_UART_RxCpltCallback &rArr; BeltDrive_ApplyCommand &rArr; Friction3650B_StopOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = UART_RxISR_16BIT_FIFOEN &rArr; HAL_UART_RxCpltCallback &rArr; BeltDrive_StartUartReceive &rArr; HAL_UART_Receive_IT &rArr; UART_Start_Receive_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
-<LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
-<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
+<BR>[Calls]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
+<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> stm32h7xx_hal_uart.o(i.UART_Start_Receive_IT)
 </UL>
 <P><STRONG><a name="[9c]"></a>UART_RxISR_8BIT</STRONG> (Thumb, 196 bytes, Stack size 8 bytes, stm32h7xx_hal_uart.o(i.UART_RxISR_8BIT))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = UART_RxISR_8BIT &rArr; HAL_UART_RxCpltCallback &rArr; BeltDrive_ApplyCommand &rArr; Friction3650B_StopOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = UART_RxISR_8BIT &rArr; HAL_UART_RxCpltCallback &rArr; BeltDrive_StartUartReceive &rArr; HAL_UART_Receive_IT &rArr; UART_Start_Receive_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
-<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
+<BR>[Calls]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
 </UL>
 <BR>[Address Reference Count : 2]<UL><LI> stm32h7xx_hal_uart.o(i.UART_RxISR_8BIT_FIFOEN)
 <LI> stm32h7xx_hal_uart.o(i.UART_Start_Receive_IT)
 </UL>
 <P><STRONG><a name="[9d]"></a>UART_RxISR_8BIT_FIFOEN</STRONG> (Thumb, 404 bytes, Stack size 32 bytes, stm32h7xx_hal_uart.o(i.UART_RxISR_8BIT_FIFOEN))
-<BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = UART_RxISR_8BIT_FIFOEN &rArr; HAL_UART_RxCpltCallback &rArr; BeltDrive_ApplyCommand &rArr; Friction3650B_StopOutput &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = UART_RxISR_8BIT_FIFOEN &rArr; HAL_UART_RxCpltCallback &rArr; BeltDrive_StartUartReceive &rArr; HAL_UART_Receive_IT &rArr; UART_Start_Receive_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
-<LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
-<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
+<BR>[Calls]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_RxCpltCallback
+<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> stm32h7xx_hal_uart.o(i.UART_Start_Receive_IT)
 </UL>
-<P><STRONG><a name="[eb]"></a>UARTEx_SetNbDataToProcess</STRONG> (Thumb, 62 bytes, Stack size 12 bytes, stm32h7xx_hal_uart_ex.o(i.UARTEx_SetNbDataToProcess))
+<P><STRONG><a name="[fa]"></a>UARTEx_SetNbDataToProcess</STRONG> (Thumb, 62 bytes, Stack size 12 bytes, stm32h7xx_hal_uart_ex.o(i.UARTEx_SetNbDataToProcess))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = UARTEx_SetNbDataToProcess
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_SetTxFifoThreshold
-<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_SetRxFifoThreshold
+<BR>[Called By]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_SetTxFifoThreshold
+<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_SetRxFifoThreshold
 </UL>
 
 <P><STRONG><a name="[99]"></a>_printf_input_char</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, _printf_char_common.o(.text))
