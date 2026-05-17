@@ -1,0 +1,72 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.33.0.0
+Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Chen Sirius, SUST, LIC=65ISZ-JB4F2-63SMB-2HXMP-39TML-VBGCM
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.33.0.0
+Toolchain Path:  H:\MDK\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.33.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.8.0
+Dialog DLL:      TCM.DLL V1.48.0.0
+ 
+<h2>Project:</h2>
+D:\Users\Administrator\Documents\26Gongchuang\26Gongchuang\MDK-ARM\26Gongchuang.uvprojx
+Project File Date:  04/21/2026
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'H:\MDK\ARM\ARMCC\Bin'
+Build target '26Gongchuang'
+compiling main.c...
+../Core/Src/main.c(292): warning:  #188-D: enumerated type mixed with another type
+../Core/Src/main.c(309): warning:  #188-D: enumerated type mixed with another type
+../Core/Src/main.c(326): warning:  #188-D: enumerated type mixed with another type
+../Core/Src/main.c(359): warning:  #550-D: variable "chassis_pi_kd_x1000"  was set but never used
+  static uint16_t chassis_pi_kd_x1000[CHASSIS_WHEEL_COUNT] = {0, 0, 0, 0};
+../Core/Src/main.c(960): warning:  #177-D: function "StepperDebug_EnterAutoMode"  was declared but never referenced
+  static void StepperDebug_EnterAutoMode(void)
+../Core/Src/main.c(977): warning:  #177-D: function "StepperDebug_CommandAxis"  was declared but never referenced
+  static void StepperDebug_CommandAxis(StepperAxis_t *axis, uint8_t forward, float speed_sps)
+../Core/Src/main.c(984): warning:  #177-D: function "StepperDebug_RequestStopAllAxes"  was declared but never referenced
+  static void StepperDebug_RequestStopAllAxes(void)
+../Core/Src/main.c: 7 warnings, 0 errors
+linking...
+Program Size: Code=25352 RO-data=828 RW-data=640 ZI-data=2620  
+FromELF: creating hex file...
+"26Gongchuang\26Gongchuang.axf" - 0 Error(s), 7 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.7.0.pack
+                ARM.CMSIS.5.7.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.4.0
+
+Package Vendor: Keil
+                https://www.keil.com/pack/Keil.STM32H7xx_DFP.4.0.0.pack
+                Keil.STM32H7xx_DFP.4.0.0
+                STMicroelectronics STM32H7 Series Device Support
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_26Gongchuang
+  H:\MDK\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.4.0
+      Include file:  CMSIS\Core\Include\tz_context.h
+Build Time Elapsed:  00:00:06
+</pre>
+</body>
+</html>

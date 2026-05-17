@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>26 Gongchuang 串口控制台</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div id="app">
+    <main class="app-layout">
+      <section class="panel logs-panel top-logs">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">26 Gongchuang</p>
+            <h2>实时日志</h2>
+          </div>
+          <div class="header-status">
+            <div class="inline-status">
+              <span class="inline-status-label">连接状态</span>
+              <div class="pill" id="connection-pill">未连接</div>
+            </div>
+            <div class="mini-stats">
+              <span>TX <strong id="tx-count">0</strong></span>
+              <span>RX <strong id="rx-count">0</strong></span>
+            </div>
+            <button id="clear-logs" class="ghost-btn">清空</button>
+          </div>
+        </div>
+
+        <div class="tab-row">
+          <button class="tab active" data-tab="protocol">协议消息</button>
+          <button class="tab" data-tab="chassis-speed">底盘速度</button>
+          <button class="tab" data-tab="raw">原始消息</button>
+        </div>
+
+        <div class="tab-content active" id="tab-protocol">
+          <div class="log-list" id="protocol-log"></div>
+          <button id="protocol-jump-latest" class="jump-latest-btn" type="button" hidden>有新消息，点击跳到底部</button>
+        </div>
+
+        <div class="tab-content" id="tab-chassis-speed">
+          <section class="speed-panel">
+            <div class="speed-panel-header">
+              <div>
+                <h3>底盘速度</h3>
+                <p class="speed-panel-subtitle">实时显示底盘四轮转速，以及闭环目标、实际值和输出占空比。</p>
+              </div>
+              <div class="speed-panel-actions">
+                <div class="time-scale-group" aria-label="时间轴比例">
+                  <span class="time-scale-label">时间轴</span>
+                  <div class="time-scale-slider-wrap">
+                    <span class="time-scale-bound">1 秒</span>
+                    <input
+                      id="time-scale-slider"
+                      class="time-scale-slider"
+                      type="range"
+                      min="1"
+                      max="180"
+                      step="1"
+                      value="10"
+                    >
+                    <span class="time-scale-bound">180 秒</span>
+                  </div>
+                  <strong class="time-scale-value" id="time-scale-value">10 秒</strong>
+                </div>
+                <div class="sampling-pill" id="sample-rate-pill">-- Hz</div>
+                <div class="grid-mode-group" role="group" aria-label="网格模式">
+                  <button id="grid-mode-seconds" class="ghost-btn grid-mode-btn active" type="button">秒级网格</button>
+                  <button id="grid-mode-200ms" class="ghost-btn grid-mode-btn" type="button">200ms 网格</button>
+                </div>
+                <button id="toggle-speed-scroll" class="secondary-btn" type="button">暂停滚动</button>
+                <button id="clear-speed-chart" class="ghost-btn" type="button">清空曲线</button>
+              </div>
+            </div>
+
+            <div class="speed-stats-grid">
+              <article class="speed-stat-card">
+                <span class="speed-stat-label">前左 FL</span>
+                <strong id="rpm-fl">--</strong>
+                <span class="speed-stat-unit">rpm</span>
+              </article>
+              <article class="speed-stat-card">
+                <span class="speed-stat-label">前右 FR</span>
+                <strong id="rpm-fr">--</strong>
+                <span class="speed-stat-unit">rpm</span>
+              </article>
+              <article class="speed-stat-card">
+                <span class="speed-stat-label">后左 RL</span>
+                <strong id="rpm-rl">--</strong>
+                <span class="speed-stat-unit">rpm</span>
+              </article>
+              <article class="speed-stat-card">
+                <span class="speed-stat-label">后右 RR</span>
+                <strong id="rpm-rr">--</strong>
+                <span class="speed-stat-unit">rpm</span>
+              </article>
+            </div>
+
+            <div class="closed-loop-grid">
+              <article class="closed-loop-card">
+                <span class="speed-stat-label">控制模式</span>
+                <strong id="closed-loop-mode">--</strong>
+                <span class="speed-stat-unit" id="closed-loop-status">等待遥测</span>
+              </article>
+              <article class="closed-loop-card">
+                <span class="speed-stat-label">FL 目标 / PWM</span>
+                <strong id="closed-loop-fl">-- / --</strong>
+                <span class="speed-stat-unit">rpm / %</span>
+              </article>
+              <article class="closed-loop-card">
+                <span class="speed-stat-label">FR 目标 / PWM</span>
+                <strong id="closed-loop-fr">-- / --</strong>
+                <span class="speed-stat-unit">rpm / %</span>
+              </article>
+              <article class="closed-loop-card">
+                <span class="speed-stat-label">RL 目标 / PWM</span>
+                <strong id="closed-loop-rl">-- / --</strong>
+                <span class="speed-stat-unit">rpm / %</span>
+              </article>
+              <article class="closed-loop-card">
+                <span class="speed-stat-label">RR 目标 / PWM</span>
+                <strong id="closed-loop-rr">-- / --</strong>
+                <span class="speed-stat-unit">rpm / %</span>
+              </article>
+            </div>
+
+            <div class="chart-shell">
+              <canvas id="chassis-speed-chart" width="960" height="360"></canvas>
+              <div class="chart-tooltip" id="chassis-chart-tooltip" hidden></div>
+            </div>
+
+            <div class="chart-legend">
+              <span class="legend-item fl">FL</span>
+              <span class="legend-item fr">FR</span>
+              <span class="legend-item rl">RL</span>
+              <span class="legend-item rr">RR</span>
+            </div>
+
+            <div class="speed-footnote" id="chassis-speed-footnote">等待底盘转速事件上报。</div>
+          </section>
+        </div>
+
+        <div class="tab-content" id="tab-raw">
+          <div class="log-list" id="raw-log"></div>
+          <button id="raw-jump-latest" class="jump-latest-btn" type="button" hidden>有新消息，点击跳到底部</button>
+        </div>
+      </section>
+
+      <section class="panel control-panel">
+        <div class="panel-header">
+          <h2>设备控制</h2>
+          <div class="button-row tight">
+            <button data-command="ping" class="secondary-btn">连通测试</button>
+            <button data-command="estop" class="danger-btn">急停</button>
+            <button data-command="clear-estop" class="secondary-btn">解除急停</button>
+          </div>
+        </div>
+
+        <div class="mode-nav-row">
+          <button class="control-nav" data-mode-nav="keyboard">键盘模式</button>
+          <button class="control-nav active" data-mode-nav="serial">串口连接</button>
+          <button class="control-nav" data-mode-nav="command">指令模式</button>
+          <button class="control-nav" data-mode-nav="debug">手动模式</button>
+        </div>
+
+        <div class="control-panes">
+          <article class="control-card control-pane active" id="control-pane-serial">
+            <div class="control-card-header">
+              <h3>串口连接</h3>
+              <button id="refresh-ports" class="ghost-btn">刷新串口</button>
+            </div>
+            <div class="form-grid compact">
+              <label>
+                <span>串口</span>
+                <select id="port-select"></select>
+              </label>
+              <label>
+                <span>波特率 (bps)</span>
+                <select id="baudrate">
+                  <option value="9600">9600</option>
+                  <option value="19200">19200</option>
+                  <option value="38400">38400</option>
+                  <option value="57600">57600</option>
+                  <option value="115200" selected>115200</option>
+                  <option value="230400">230400</option>
+                  <option value="460800">460800</option>
+                  <option value="921600">921600</option>
+                </select>
+              </label>
+              <label>
+                <span>数据位 (bit)</span>
+                <select id="data-bits">
+                  <option value="8" selected>8</option>
+                  <option value="7">7</option>
+                </select>
+              </label>
+              <label>
+                <span>停止位 (bit)</span>
+                <select id="stop-bits">
+                  <option value="1" selected>1</option>
+                  <option value="2">2</option>
+                </select>
+              </label>
+              <label>
+                <span>校验位</span>
+                <select id="parity">
+                  <option value="N" selected>None</option>
+                  <option value="E">Even</option>
+                  <option value="O">Odd</option>
+                </select>
+              </label>
+            </div>
+            <div class="button-row">
+              <button id="connect-btn" class="primary-btn">打开串口</button>
+              <button id="disconnect-btn" class="secondary-btn">关闭串口</button>
+            </div>
+            <div class="device-meta" id="device-meta">尚未选择串口</div>
+          </article>
+
+          <section class="control-card control-pane" id="control-pane-command">
+            <div class="control-card-header">
+              <h3>指令模式</h3>
+              <button id="copy-command-hex-btn" class="ghost-btn">复制 HEX 指令</button>
+            </div>
+            <div class="command-nav-row">
+              <button class="control-nav active" data-command-panel="chassis">底盘</button>
+              <button class="control-nav" data-command-panel="stepper">步进</button>
+              <button class="control-nav" data-command-panel="servo">舵机</button>
+              <button class="control-nav" data-command-panel="vacuum">抽气</button>
+              <button class="control-nav" data-command-panel="friction">摩擦带</button>
+              <button class="control-nav" data-command-panel="conveyor">运送电机</button>
+            </div>
+
+            <div class="command-pane active" id="command-pane-chassis">
+              <h3>底盘</h3>
+              <div class="form-grid compact">
+                <label>
+                  <span>控制模式</span>
+                  <select id="chassis-control-mode">
+                    <option value="0">开环 vx/vy/wz</option>
+                    <option value="1">闭环 轮速 rpm</option>
+                  </select>
+                </label>
+                <label><span>前进速度系数 (0~1)</span><input id="chassis-vx" type="text" inputmode="decimal" data-number-input value="0.20" min="0" max="1" step="0.01"></label>
+                <label><span>横移速度系数 (0~1)</span><input id="chassis-vy" type="text" inputmode="decimal" data-number-input value="0" min="0" max="1" step="0.01"></label>
+                <label><span>旋转速度系数 (0~1)</span><input id="chassis-wz" type="text" inputmode="decimal" data-number-input value="0" min="0" max="1" step="0.01"></label>
+                <label><span>运行时长 (ms)</span><input id="chassis-timeout" type="number" value="200" min="0" max="65535" step="1"></label>
+              </div>
+              <div class="chassis-trim-summary" id="chassis-trim-summary">纠偏模式：倍率 | FL 1.00 / FR 1.00 / RL 1.00 / RR 1.00</div>
+              <div class="form-grid compact chassis-closed-loop-grid">
+                <label><span>FL 目标 rpm</span><input id="chassis-fl-target" type="number" value="120" min="-500" max="500" step="1"></label>
+                <label><span>FR 目标 rpm</span><input id="chassis-fr-target" type="number" value="120" min="-500" max="500" step="1"></label>
+                <label><span>RL 目标 rpm</span><input id="chassis-rl-target" type="number" value="120" min="-500" max="500" step="1"></label>
+                <label><span>RR 目标 rpm</span><input id="chassis-rr-target" type="number" value="120" min="-500" max="500" step="1"></label>
+              </div>
+              <div class="form-grid compact chassis-closed-loop-grid">
+                <label>
+                  <span>PI 轮组掩码</span>
+                  <select id="chassis-pid-mask">
+                    <option value="15">全轮</option>
+                    <option value="1">仅 FL</option>
+                    <option value="2">仅 FR</option>
+                    <option value="4">仅 RL</option>
+                    <option value="8">仅 RR</option>
+                  </select>
+                </label>
+                <label><span>Kp x1000</span><input id="chassis-kp" type="number" value="180" min="0" max="5000" step="1"></label>
+                <label><span>Ki x1000</span><input id="chassis-ki" type="number" value="20" min="0" max="5000" step="1"></label>
+                <label><span>Kd x1000</span><input id="chassis-kd" type="number" value="0" min="0" max="5000" step="1"></label>
+              </div>
+              <div class="button-row tight">
+                <button id="chassis-send" class="primary-btn">执行</button>
+                <button id="chassis-open-trim" class="secondary-btn">纠偏</button>
+                <button id="chassis-apply-mode" class="secondary-btn">应用模式</button>
+                <button id="chassis-apply-pid" class="secondary-btn">应用 PI</button>
+                <button id="chassis-stop" class="secondary-btn">停止</button>
+              </div>
+            </div>
+
+            <div class="command-pane" id="command-pane-stepper">
+              <h3>步进</h3>
+              <div class="preset-row">
+                <span class="preset-label">速度预设</span>
+                <button type="button" class="ghost-btn preset-btn" data-stepper-preset="low">低速</button>
+                <button type="button" class="ghost-btn preset-btn" data-stepper-preset="medium">中速</button>
+                <button type="button" class="ghost-btn preset-btn" data-stepper-preset="high">高速</button>
+              </div>
+              <div class="form-grid compact">
+                <label>
+                  <span>轴选择</span>
+                  <select id="stepper-axis">
+                    <option value="1" selected>Y轴</option>
+                    <option value="2">Z轴</option>
+                    <option value="3">Y + Z</option>
+                  </select>
+                </label>
+                <label><span>方向</span><select id="stepper-direction"><option value="1">正向</option><option value="0">反向</option></select></label>
+                <label><span>速度 (steps/s)</span><input id="stepper-speed" type="number" value="1200" min="0" max="65535" step="1"></label>
+                <label><span>加速度 (steps/s²)</span><input id="stepper-accel" type="number" value="2500" min="0" max="65535" step="1"></label>
+              </div>
+              <div class="button-row tight">
+                <button id="stepper-send" class="primary-btn">执行</button>
+                <button id="stepper-stop" class="secondary-btn">停止</button>
+              </div>
+            </div>
+
+            <div class="command-pane" id="command-pane-servo">
+              <h3>舵机</h3>
+              <div class="form-grid compact">
+                <label>
+                  <span>舵机选择</span>
+                  <select id="servo-id">
+                    <option value="1">肘部</option>
+                    <option value="2">运输</option>
+                    <option value="3" selected>放置</option>
+                  </select>
+                </label>
+                <label>
+                  <span>角度 (°)</span>
+                  <input id="servo-angle" type="number" value="45" min="-90" max="90" step="0.1">
+                </label>
+                <label>
+                  <span>运动时长 (ms)</span>
+                  <input id="servo-duration" type="number" value="300" min="0" max="65535" step="1">
+                </label>
+              </div>
+              <div class="preset-row">
+                <span class="preset-label">角度预设</span>
+                <button type="button" class="secondary-btn preset-btn" data-servo-preset="home">0°：归位</button>
+                <button type="button" class="secondary-btn preset-btn" data-servo-preset="elbow-strike">-135°：肘击</button>
+              </div>
+              <div class="button-row tight">
+                <button id="servo-send" class="primary-btn">执行</button>
+              </div>
+            </div>
+
+            <div class="command-pane" id="command-pane-vacuum">
+              <h3>抽气</h3>
+              <div class="form-grid compact">
+                <label><span>气泵</span><select id="vacuum-pump"><option value="1">开</option><option value="0">关</option></select></label>
+                <label><span>电磁阀</span><select id="vacuum-valve"><option value="0">关</option><option value="1">开</option></select></label>
+                <label><span>超时保护 (ms)</span><input id="vacuum-timeout" type="number" value="1500" min="0" max="65535" step="1"></label>
+              </div>
+              <div class="button-row tight">
+                <button id="vacuum-send" class="primary-btn">执行</button>
+                <button id="vacuum-stop" class="secondary-btn">关闭抽气</button>
+              </div>
+            </div>
+
+            <div class="command-pane" id="command-pane-friction">
+              <h3>摩擦带</h3>
+              <div class="form-grid compact">
+                <label>
+                  <span>运动方向</span>
+                  <select id="friction-direction">
+                    <option value="1">正转</option>
+                    <option value="0">反转</option>
+                    <option value="-1">停止</option>
+                  </select>
+                </label>
+                <label><span>速度系数 (0~1)</span><input id="friction-pwm" type="text" inputmode="decimal" data-number-input value="0.40" min="0" max="1" step="0.01"></label>
+              </div>
+              <div class="button-row tight">
+                <button id="friction-send" class="primary-btn">执行</button>
+                <button id="friction-stop" class="secondary-btn">停止摩擦带</button>
+              </div>
+            </div>
+
+            <div class="command-pane" id="command-pane-conveyor">
+              <h3>运送电机</h3>
+              <div class="form-grid compact">
+                <label><span>方向</span><select id="conveyor-direction"><option value="1">正向</option><option value="0">反向</option></select></label>
+                <label><span>速度系数 (0~1)</span><input id="conveyor-pwm" type="text" inputmode="decimal" data-number-input value="0.50" min="0" max="1" step="0.01"></label>
+                <label><span>超时保护 (ms)</span><input id="conveyor-timeout" type="number" value="1200" min="0" max="65535" step="1"></label>
+              </div>
+              <div class="button-row tight">
+                <button id="conveyor-send" class="primary-btn">执行</button>
+                <button id="conveyor-stop" class="secondary-btn">停止运送</button>
+              </div>
+            </div>
+          </section>
+
+          <article class="control-card control-pane" id="control-pane-keyboard">
+            <div class="control-card-header">
+              <h3>键盘模式</h3>
+              <button id="keyboard-toggle-btn" class="primary-btn" type="button">启用键盘控制</button>
+            </div>
+            <div class="keyboard-status-row">
+              <div class="pill" id="keyboard-status-pill">未启用</div>
+              <div class="keyboard-active-text" id="keyboard-active-text">底盘：停止 / 步进：停止 / 舵机：停止</div>
+            </div>
+            <p class="keyboard-help">
+              启用后，W / A / S / D 控制底盘前进 / 左移 / 后退 / 右移，方向键控制步进。
+              Q / E 微调舵机，松手自动停止，窗口失焦也会自动停止。
+            </p>
+            <div class="keyboard-trim-row">
+              <div class="chassis-trim-summary keyboard-trim-summary" id="keyboard-trim-summary">纠偏模式：倍率 | FL 1.00 / FR 1.00 / RL 1.00 / RR 1.00</div>
+              <button id="keyboard-open-trim" class="secondary-btn" type="button">纠偏</button>
+            </div>
+            <div class="form-grid compact keyboard-config-grid">
+              <label>
+                <span>底盘速度系数 (0~1)</span>
+                <input id="keyboard-chassis-factor" type="text" inputmode="decimal" data-number-input value="0.20" min="0" max="1" step="0.01">
+              </label>
+              <label>
+                <span>步进速度 (steps/s)</span>
+                <input id="keyboard-stepper-speed" type="number" value="1200" min="0" max="65535" step="1">
+              </label>
+              <label>
+                <span>步进加速度 (steps/s²)</span>
+                <input id="keyboard-stepper-accel" type="number" value="2500" min="0" max="65535" step="1">
+              </label>
+              <label>
+                <span>舵机微调角度 (°/次)</span>
+                <input id="keyboard-servo-step" type="number" value="5" min="0.1" max="30" step="0.1">
+              </label>
+              <div class="keyboard-keymap full-width">
+                <span class="keyboard-key key-q" data-key-indicator="q">Q</span>
+                <span class="keyboard-key key-w" data-key-indicator="w">W</span>
+                <span class="keyboard-key key-e" data-key-indicator="e">E</span>
+                <span class="keyboard-key key-a" data-key-indicator="a">A</span>
+                <span class="keyboard-key key-s" data-key-indicator="s">S</span>
+                <span class="keyboard-key key-d" data-key-indicator="d">D</span>
+                <span class="keyboard-key key-arrow-up" data-key-indicator="ArrowUp">↑</span>
+                <span class="keyboard-key key-arrow-left" data-key-indicator="ArrowLeft">←</span>
+                <span class="keyboard-key key-arrow-down" data-key-indicator="ArrowDown">↓</span>
+                <span class="keyboard-key key-arrow-right" data-key-indicator="ArrowRight">→</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="control-card control-pane" id="control-pane-debug">
+            <h3>手动模式</h3>
+            <div class="debug-box">
+              <label>
+                <span>发送模式</span>
+                <select id="raw-mode">
+                  <option value="hex">HEX</option>
+                  <option value="text">文本</option>
+                </select>
+              </label>
+              <label class="full-width">
+                <span>发送内容</span>
+                <textarea id="raw-data" rows="6" placeholder="HEX 示例: AA 55 01 00 00 01 00 21 D0"></textarea>
+              </label>
+              <div class="button-row">
+                <button id="raw-send-btn" class="primary-btn">发送原始数据</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="true"></div>
+
+  <div id="chassis-trim-modal" class="modal-shell" hidden>
+    <div class="modal-backdrop" data-modal-close="chassis-trim"></div>
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="chassis-trim-title">
+      <div class="modal-header">
+        <div>
+          <h3 id="chassis-trim-title">底盘纠偏</h3>
+          <p class="modal-subtitle" id="chassis-trim-subtitle">倍率模式下 1.00 表示不补偿；固定数值模式下 0 表示不补偿。</p>
+        </div>
+        <button type="button" id="chassis-trim-close" class="ghost-btn">关闭</button>
+      </div>
+      <div class="form-grid compact">
+        <label>
+          <span>纠偏模式</span>
+          <select id="chassis-trim-mode">
+            <option value="scale">倍率</option>
+            <option value="offset">固定数值</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-grid compact">
+        <label><span id="chassis-trim-fl-label">FL 比例</span><input id="chassis-trim-fl" type="text" inputmode="decimal" data-number-input value="1.00" min="0" max="2" step="0.01"></label>
+        <label><span id="chassis-trim-fr-label">FR 比例</span><input id="chassis-trim-fr" type="text" inputmode="decimal" data-number-input value="1.00" min="0" max="2" step="0.01"></label>
+        <label><span id="chassis-trim-rl-label">RL 比例</span><input id="chassis-trim-rl" type="text" inputmode="decimal" data-number-input value="1.00" min="0" max="2" step="0.01"></label>
+        <label><span id="chassis-trim-rr-label">RR 比例</span><input id="chassis-trim-rr" type="text" inputmode="decimal" data-number-input value="1.00" min="0" max="2" step="0.01"></label>
+      </div>
+      <div class="button-row">
+        <button type="button" id="chassis-trim-save" class="primary-btn">保存并应用</button>
+        <button type="button" id="chassis-trim-reset" class="secondary-btn">恢复默认</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

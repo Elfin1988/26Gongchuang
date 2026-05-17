@@ -1,1 +1,37 @@
 /prompts
+
+# Cache/bytecode
+__pycache__/
+*.py[cod]
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+ws/.venv/
+
+# Keil/MDK build outputs
+*.axf
+*.hex
+*.bin
+*.map
+*.lst
+*.lnp
+*.dep
+*.crf
+*.d
+*.o
+*.obj
+*.lib
+*.uvgui*
+*.uvoptx
+*.uvprojx
+MDK-ARM/**/Objects/
+MDK-ARM/**/Listings/
+MDK-ARM/**/RTE/
+MDK-ARM/**/DebugConfig/
